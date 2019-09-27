@@ -15,7 +15,7 @@
 <!DOCTYPE html>
 	<html lang="en">
 		<head>
-			<meta charset="UTF-8">
+			<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 			<title>Welcome</title>
 			<link rel="stylesheet" href="/css/bootstrap.css">
 			<style type="text/css">body{ font: 14px sans-serif; text-align: center; }</style>
@@ -36,7 +36,9 @@
 			}
 		?>
 
-		more data
+		<h4>Here's some links to work-in-progress pages:</h4>
+		<a href=""></a>
+		<a href="clients.php">clients.php</a>
 
 	</body>
 </html>

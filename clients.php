@@ -10,47 +10,94 @@
     
     updatePermissions();
 
-	// Include config file
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/login.php';
-
-    require_once "databases/accounting.php"; 
-        $sql = "SELECT ClientID, FullName, PhoneNumber, Street, City, State, ZIP, Balance FROM clients";
-        if($stmt = mysqli_prepare($acclink, $sql)){
-            //mysqli_stmt_bind_param($stmt, "s", $_SESSION["username"]);
-            if(mysqli_stmt_execute($stmt)){
-                mysqli_stmt_store_result($stmt);
-                if(mysqli_stmt_num_rows($stmt) > 1){
-                    mysqli_stmt_bind_result($stmt, $ClientID, $FullName, $PhoneNumber, $Street, $City, $State, $ZIP, $Balance);
-
-                    echo "<pre>" . "<br>"
-                        . str_pad("ClientID",10)
-                        . str_pad("Name", 32)
-                        . str_pad("Phone Number", 16)
-                        . str_pad("Street", 32)
-                        . str_pad("City", 16)
-                        . str_pad("State", 6)
-                        . str_pad("ZIP", 6)
-                        . str_pad("Balance", 7)
-                        . "<br>"; 
-                    
-                    while (mysqli_stmt_fetch($stmt)){
-                        echo "<br>" 
-                        . str_pad($ClientID,10)
-                        . str_pad($FullName, 32)
-                        . str_pad($PhoneNumber, 16)
-                        . str_pad($Street, 32)
-                        . str_pad($City, 16)
-                        . str_pad($State, 6)
-                        . str_pad($ZIP, 6)
-                        . str_pad($Balance, 7);
-                    }
-
-                    echo "</pre>";
-
-
-                }
-            }
-        }
-        mysqli_stmt_close($stmt);
-        mysqli_close($acclink);
 ?>
+
+<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+			<title>Welcome</title>
+			<link rel="stylesheet" href="/css/bootstrap.css">
+            <style type="text/css">
+            body{ font: 14px sans-serif; text-align: center; }
+            * {box-sizing: border-box;}
+
+			/* Create three unequal columns that floats next to each other */
+			.column {
+                float: left;
+                padding: 10px;
+                
+			}
+
+			.left, .right {
+			    width: 15%;
+			}
+
+			.middle {
+			    width: 70%;
+			}
+
+			/* Clear floats after the columns */
+			.row:after {
+                content: "";
+                display: table;
+                clear: both;
+			}
+
+            </style>
+		</head>
+	<body>
+        <div class="row">
+            <div class="column left"></div>
+            <div class="column middle">
+                <?php 
+                    if ($_SESSION["permlevel"] < 1) {
+                        print "<pre class=\"alert-warning\"><h1> You do not have permission to read data yet!</h1></pre>";
+                        exit;
+                    }
+                    
+                    // Include config file
+                    require_once "databases/accounting.php"; 
+                    $sql = "SELECT ClientID, FullName, PhoneNumber, Street, City, State, ZIP, Balance FROM clients";
+                    if($stmt = mysqli_prepare($acclink, $sql)){
+                        if(mysqli_stmt_execute($stmt)){
+                            mysqli_stmt_store_result($stmt);
+                            if(mysqli_stmt_num_rows($stmt) > 1){
+                                mysqli_stmt_bind_result($stmt, $ClientID, $FullName, $PhoneNumber, $Street, $City, $State, $ZIP, $Balance);
+
+                                echo "<br><br><pre>" . "<br><p><b>"
+                                    . str_pad("ClientID",10)
+                                    . str_pad("Name", 32)
+                                    . str_pad("Phone Number", 16)
+                                    . str_pad("Street", 32)
+                                    . str_pad("City", 16)
+                                    . str_pad("State", 8)
+                                    . str_pad("ZIP", 8)
+                                    . str_pad("Balance", 7)
+                                    . "</b></p>"; 
+                                
+                                while (mysqli_stmt_fetch($stmt)){
+                                    echo "<p>" ;
+                                    echo str_pad($ClientID,10)
+                                        . str_pad($FullName, 32)
+                                        . str_pad($PhoneNumber, 16)
+                                        . str_pad($Street, 32)
+                                        . str_pad($City, 16)
+                                        . str_pad($State, 8)
+                                        . str_pad($ZIP, 8)
+                                        . str_pad($Balance, 7);
+                                    echo "</p>";
+                                }
+
+                                echo "</pre>";
+                            }
+                        }
+                    }
+                    mysqli_stmt_close($stmt);
+                    mysqli_close($acclink);
+                ?>
+            </div>
+            <div class="column right"></div>
+        </div>
+	</body>
+</html>
