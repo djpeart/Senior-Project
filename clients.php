@@ -26,15 +26,17 @@
 			.column {
                 float: left;
                 padding: 10px;
-                
+                height: 1000px
 			}
 
 			.left, .right {
-			    width: 15%;
+                width: 15%;
+                background-color:#aaa;
 			}
 
 			.middle {
-			    width: 70%;
+                width: 70%;
+                background-color:#eee;
 			}
 
 			/* Clear floats after the columns */
@@ -42,14 +44,24 @@
                 content: "";
                 display: table;
                 clear: both;
-			}
+            }
+            
+            @media screen and (max-width: 600px) {
+                .left, .right {
+                    width: 10%;
+                }
+                .middle {
+                    width: 80%;
+                }
+
+            }
 
             </style>
 		</head>
 	<body>
         <div class="row">
             <div class="column left"></div>
-            <div class="column middle">
+            <div class="column middle" style=> 
                 <?php 
                     if ($_SESSION["permlevel"] < 1) {
                         print "<pre class=\"alert-warning\"><h1> You do not have permission to read data yet!</h1></pre>";
