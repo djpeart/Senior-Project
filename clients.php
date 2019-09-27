@@ -18,49 +18,11 @@
 			<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 			<title>Welcome</title>
 			<link rel="stylesheet" href="/css/bootstrap.css">
-            <style type="text/css">
-            body{ font: 14px sans-serif; text-align: center; }
-            * {box-sizing: border-box;}
-
-			/* Create three unequal columns that floats next to each other */
-			.column {
-                float: left;
-                padding: 10px;
-                height: 1000px
-			}
-
-			.left, .right {
-                width: 15%;
-                background-color:#aaa;
-			}
-
-			.middle {
-                width: 70%;
-                background-color:#eee;
-			}
-
-			/* Clear floats after the columns */
-			.row:after {
-                content: "";
-                display: table;
-                clear: both;
-            }
-            
-            @media screen and (max-width: 600px) {
-                .left, .right {
-                    width: 10%;
-                }
-                .middle {
-                    width: 80%;
-                }
-
-            }
-
-            </style>
+            <style type="text/css">body{ font: 14px sans-serif; text-align: center; }</style>
 		</head>
 	<body>
         <div class="row">
-            <div class="column left"></div>
+            <div class="column side"></div>
             <div class="column middle" style=> 
                 <?php 
                     if ($_SESSION["permlevel"] < 1) {
@@ -111,7 +73,7 @@
 
                 
             </div>
-            <div class="column right"></div>
+            <div class="column side"></div>
         </div>
 	</body>
 </html>

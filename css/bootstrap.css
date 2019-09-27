@@ -2,7 +2,46 @@
 The following CSS lines were created by me
 */
 
+* {box-sizing: border-box;}
 
+.column {
+  float: left;
+  padding: 10px;
+  height: 1000px
+}
+
+.side {
+  width: 15%;
+  background-color:#aaa;
+}
+
+.middle {
+  width: 70%;
+  background-color:#eee;
+}
+
+.left .right {
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+      
+@media screen and (max-width: 600px) {
+  .side {
+    width: 10%;
+  }
+  .middle {
+      width: 80%;
+  }
+  .left, .right {
+    width: 100%;
+  }
+}
 
 
 /*!
