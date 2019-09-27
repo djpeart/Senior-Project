@@ -1,12 +1,12 @@
 <?php
 	/* Database credentials. */
-	define('DB_SERVER', 'localhost');
-	define('DB_USERNAME', 'php');
-	define('DB_PASSWORD', 'whatsapassword');
-	define('DB_NAME', 'accounting');
+	define('ACC_DB_SERVER', 'localhost');
+	define('ACC_DB_USERNAME', 'php');
+	define('ACC_DB_PASSWORD', 'whatsapassword');
+	define('ACC_DB_NAME', 'accounting');
 
 	/* Attempt to connect to MySQL database */
-	$acclink = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+	$acclink = mysqli_connect(ACC_DB_SERVER, ACC_DB_USERNAME, ACC_DB_PASSWORD, ACC_DB_NAME);
 
 	// Check connection
 	if($acclink === false){

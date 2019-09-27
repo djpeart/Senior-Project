@@ -1,12 +1,12 @@
 <?php
 	/* Database credentials. */
-	define('DB_SERVER', 'localhost');
-	define('DB_USERNAME', 'php');
-	define('DB_PASSWORD', 'whatsapassword');
-	define('DB_NAME', 'logins');
+	define('LG_DB_SERVER', 'localhost');
+	define('LG_DB_USERNAME', 'php');
+	define('LG_DB_PASSWORD', 'whatsapassword');
+	define('LG_DB_NAME', 'logins');
 
 	/* Attempt to connect to MySQL database */
-	$loginlink = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+	$loginlink = mysqli_connect(LG_DB_SERVER, LG_DB_USERNAME, LG_DB_PASSWORD, LG_DB_NAME);
 
 	// Check connection
 	if($loginlink === false){
