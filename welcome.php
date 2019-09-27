@@ -2,6 +2,8 @@
 	// Initialize the session
 	session_start();
 
+	//testing
+
 	// Check if the user is logged in, if not then redirect him to login page
 	include "account/accountActions.php";
 	if( !isLoggedIn() ){
