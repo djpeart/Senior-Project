@@ -43,6 +43,5 @@
 		<br><br><b>Todo:</b><br>
 		Make a button that lets you add a client. That would be cool. <br>
         Oh, and a global header pls.<br>
-		wha
 	</body>
 </html>
