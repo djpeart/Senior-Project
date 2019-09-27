@@ -39,6 +39,9 @@
 		<h4>Here's some links to work-in-progress pages:</h4>
 		<a href=""></a>
 		<a href="clients.php">clients.php</a>
-
+		
+		<br><br><b>Todo:</b><br>
+		Make a button that lets you add a client. That would be cool. <br>
+        Oh, and a global header pls.<br>
 	</body>
 </html>

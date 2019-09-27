@@ -108,6 +108,8 @@
                     mysqli_stmt_close($stmt);
                     mysqli_close($acclink);
                 ?>
+
+                
             </div>
             <div class="column right"></div>
         </div>
