@@ -10,7 +10,7 @@ The following CSS lines were created by me
   height: 1000px
 }
 
-.side {
+.edge {
   width: 15%;
   background-color:#aaa;
 }
@@ -32,7 +32,7 @@ The following CSS lines were created by me
 }
       
 @media screen and (max-width: 600px) {
-  .side {
+  .edge {
     width: 10%;
   }
   .middle {

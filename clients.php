@@ -22,7 +22,7 @@
 		</head>
 	<body>
         <div class="row">
-            <div class="column side"></div>
+            <div class="column edge"></div>
             <div class="column middle" style=> 
                 <?php 
                     if ($_SESSION["permlevel"] < 1) {
@@ -73,7 +73,7 @@
 
                 
             </div>
-            <div class="column side"></div>
+            <div class="column edge"></div>
         </div>
 	</body>
 </html>

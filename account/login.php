@@ -93,7 +93,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8">
+		<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 		<title>Login</title>
 		<link rel="stylesheet" href="/css/bootstrap.css">
 		<style type="text/css">
@@ -102,26 +102,50 @@
 		</style>
 	</head>
 	<body>
-		<div class="wrapper" >
-			<h2>Login</h2>
-			<p>Please fill in your credentials to login.</p>
-			<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-			<div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-				<label>Username</label>
-				<input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
-				<span class="help-block"><?php echo $username_err; ?></span>
-			</div> 
-			<div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-				<label>Password</label>
-				<input type="password" name="password" class="form-control">
-				<span class="help-block"><?php echo $password_err; ?></span>
+		<div class="row">
+			<div class="column left">
+				<h1>Welcome to my site!</h1>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br>
+					Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. <br>
+					Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. <br>
+					Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br>
+				</p>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br>
+					Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. <br>
+					Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. <br>
+					Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br>
+				</p>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br>
+					Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. <br>
+					Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. <br>
+					Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br>
+				</p>
+
 			</div>
-			<div class="form-group">
-				<input type="submit" class="btn btn-primary btn-block" value="Login">
+			<div class="column right" >
+				<h2>Login</h2>
+				<p>Please fill in your credentials to login.</p>
+				<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+				<div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
+					<label>Username</label>
+					<input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
+					<span class="help-block"><?php echo $username_err; ?></span>
+				</div> 
+				<div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+					<label>Password</label>
+					<input type="password" name="password" class="form-control">
+					<span class="help-block"><?php echo $password_err; ?></span>
+				</div>
+				<div class="form-group">
+					<input type="submit" class="btn btn-primary btn-block" value="Login">
+				</div>
+				<p>Want to see my project? <a href="register.php">Request access</a>.</p>
+				<?php //echo $_SERVER['DOCUMENT_ROOT'];?>
+				</form>
 			</div>
-			<p>Want to see my project? <a href="register.php">Request access</a>.</p>
-			<?php echo $_SERVER['DOCUMENT_ROOT'];?>
-			</form>
-		</div> 
+		</div>
 	</body>
 </html>
