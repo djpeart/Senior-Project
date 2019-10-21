@@ -98,12 +98,12 @@
 		<link rel="stylesheet" href="/css/bootstrap.css">
 		<style type="text/css">
 			body{ font: 14px sans-serif; }
-			.wrapper{ width: 350px; padding: 20px; margin:0 auto}
+			.wrapper{ width: 350px; padding: 50px; margin:0 auto}
 		</style>
 	</head>
 	<body>
 		<div class="row">
-			<div class="column left">
+			<div class="column left" style="padding: 50px">
 				<h1>Welcome to my site!</h1>
 				<p>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br>
@@ -125,7 +125,7 @@
 				</p>
 
 			</div>
-			<div class="column right" >
+			<div class="column right wrapper" >
 				<h2>Login</h2>
 				<p>Please fill in your credentials to login.</p>
 				<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
