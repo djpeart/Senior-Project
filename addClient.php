@@ -1,4 +1,4 @@
-<?php ini_set('display_errors',1); error_reporting(E_ALL);
+<?php  ini_set('display_errors',1); error_reporting(E_ALL);
     session_start();
 
 	// Check if the user is already logged in, if yes then redirect him to welcome page
@@ -21,45 +21,45 @@
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 		// Check if nFullName is empty
-		if(empty(trim($_POST["nFullName"]))){
-			$FullName = "Please the full name.";
+		if(empty(trim($_POST["FullName"]))){
+			$FullName_err = "Please the full name.";
 		} else{
-			$FullName_err = trim($_POST["nFullName"]);
+			$FullName = trim($_POST["FullName"]);
 		}
 
 		// Check if nPhoneNumber is empty
-		if(empty(trim($_POST["nPhoneNumber"]))){
+		if(empty(trim($_POST["PhoneNumber"]))){
 			$PhoneNumber_err = "Please enter the phone number.";
 		} else{
-			$PhoneNumber = trim($_POST["nPhoneNumber"]);
+			$PhoneNumber = trim($_POST["PhoneNumber"]);
         }
         
         // Check if nStreet is empty
-		if(empty(trim($_POST["nStreet"]))){
+		if(empty(trim($_POST["Street"]))){
 			$Street_err = "Please enter the street address.";
 		} else{
-			$Street = trim($_POST["nStreet"]);
+			$Street = trim($_POST["Street"]);
         }
         
         // Check if nCity is empty
-		if(empty(trim($_POST["nCity"]))){
+		if(empty(trim($_POST["City"]))){
 			$City_err = "Please enter the city.";
 		} else{
-			$City = trim($_POST["nCity"]);
+			$City = trim($_POST["City"]);
         }
         
         // Check if nState is empty
-		if(empty(trim($_POST["nState"]))){
+		if(empty(trim($_POST["State"]))){
 			$State_err = "Please enter the state.";
 		} else{
-			$State = trim($_POST["nState"]);
+			$State = trim($_POST["State"]);
         }
         
         // Check if nZIP is empty
-		if(empty(trim($_POST["nZIP"]))){
+		if(empty(trim($_POST["ZIP"]))){
 			$ZIP_err = "Please enter the ZIP code.";
 		} else{
-			$ZIP = trim($_POST["nZIP"]);
+			$ZIP = trim($_POST["ZIP"]);
         }
         
 		// Validate entries are in
@@ -69,7 +69,7 @@
             
 			if($stmt = mysqli_prepare($acclink, $sql)){ //This is the line that gives me the error
 				// Bind variables to the prepared statement as parameters
-				mysqli_stmt_bind_param($stmt, "sssssi", $param_formFullName, $param_formPhoneNumber, $param_formStreet, $param_formCity, $param_formState, $param_formZIP, $param_formBalance);
+			mysqli_stmt_bind_param($stmt, "sssssi", $param_formFullName, $param_formPhoneNumber, $param_formStreet, $param_formCity, $param_formState, $param_formZIP/*, $param_formBalance*/);
 
 				// Set parameters
                 $param_formFullName = $FullName;
@@ -82,12 +82,12 @@
 
 				// Attempt to execute the prepared statement
 				if(mysqli_stmt_execute($stmt)){
-                    echo "Successfully saved the record."
+                    echo "Successfully saved the record.";
 				} else{
 					echo "Oops! Something went wrong. Please try again later.";
 				}
 			}
-
+			
 			// Close statement
 			mysqli_stmt_close($stmt);
 		} 
@@ -110,30 +110,65 @@
 		</head>
 	<body>
         <div class="row">
-                <div class="column edge"></div>
-                <div class="column middle"> 
-                
-                <div class="" >
+			<div class="column edge"></div>
+			<div class="column middle"> 
+			
+				<div class="" >
 
-                    <h2>Add Client</h2>
-                    <p>Please fill in client details</p>
-                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                        <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-                            <label>Username</label>
-                            <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
-                            <span class="help-block"><?php echo $username_err; ?></span>
-                        </div> 
-                        <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                            <label>Password</label>
-                            <input type="password" name="password" class="form-control">
-                            <span class="help-block"><?php echo $password_err; ?></span>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-primary btn-block" value="Login">
-                        </div>
-                    </form>
+					<h2>Add Client</h2>
+					<p>Please fill in client details</p>
+					<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
-                </div>
+						<div class="form-group <?php echo (!empty($FullName_err)) ? 'has-error' : ''; ?>">
+							<label>Full Name</label>
+							<input type="text" name="FullName" class="form-control" value="<?php echo $FullName; ?>">
+							<span class="help-block"><?php echo $FullName_err; ?></span>
+						</div> 
+
+						<div class="form-group <?php echo (!empty($PhoneNumber_err)) ? 'has-error' : ''; ?>">
+							<label>Phone Number</label>
+							<input type="text" name="PhoneNumber" class="form-control">
+							<span class="help-block"><?php echo $PhoneNumber_err; ?></span>
+						</div>
+						
+						<div class="form-group <?php echo (!empty($Street_err)) ? 'has-error' : ''; ?>">
+							<label>Street</label>
+							<input type="text" name="Street" class="form-control">
+							<span class="help-block"><?php echo $Street_err; ?></span>
+						</div>
+
+						<div class="form-group <?php echo (!empty($City_err)) ? 'has-error' : ''; ?>">
+							<label>City</label>
+							<input type="text" name="City" class="form-control">
+							<span class="help-block"><?php echo $City_err; ?></span>
+						</div>
+
+						<div class="form-group <?php echo (!empty($State_err)) ? 'has-error' : ''; ?>">
+							<label>State</label>
+							<input type="text" name="State" class="form-control">
+							<span class="help-block"><?php echo $State_err; ?></span>
+						</div>
+
+						<div class="form-group <?php echo (!empty($ZIP_err)) ? 'has-error' : ''; ?>">
+							<label>ZIP</label>
+							<input type="text" name="ZIP" class="form-control">
+							<span class="help-block"><?php echo $ZIP_err; ?></span>
+						</div>
+
+						<div class="form-group <?php echo (!empty($Balance_err)) ? 'has-error' : ''; ?>">
+							<label>Balance</label>
+							<input type="text" name="Balance" class="form-control" value=0>
+							<span class="help-block"><?php echo $Balance_err; ?></span>
+						</div>
+
+						<div class="form-group">
+							<input type="submit" class="btn btn-primary btn-block" value="Submit">
+						</div>
+					</form>
+
+				</div>
+			</div>
+			<div class="column edge"></div>
         </div> 
     </body>
 </html>
