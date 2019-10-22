@@ -32,34 +32,30 @@
                     
                     // Include config file
                     require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
-                    $sql = "SELECT ClientID, FullName, PhoneNumber, Street, City, State, ZIP, Balance FROM clients";
+                    $sql = "SELECT AssetID, Name, Price, Client, StartDate, BillDueBy FROM assets";
                     if($stmt = mysqli_prepare($acclink, $sql)){
                         if(mysqli_stmt_execute($stmt)){
                             mysqli_stmt_store_result($stmt);
-                            if(mysqli_stmt_num_rows($stmt) > 1){
-                                mysqli_stmt_bind_result($stmt, $ClientID, $FullName, $PhoneNumber, $Street, $City, $State, $ZIP, $Balance);
-
+                            if(mysqli_stmt_num_rows($stmt) > 0){
+                                mysqli_stmt_bind_result($stmt, $AssetID, $Name, $Price, $Client, $StartDate, $BillDueBy);
+                                
                                 echo "<br><br><pre>" . "<br><p><b>"
-                                    . str_pad("ClientID",10)
+                                    . str_pad("AssetID",10)
                                     . str_pad("Name", 32)
-                                    . str_pad("Phone Number", 16)
-                                    . str_pad("Street", 32)
-                                    . str_pad("City", 16)
-                                    . str_pad("State", 8)
-                                    . str_pad("ZIP", 8)
-                                    . str_pad("Balance", 7);
+                                    . str_pad("Price", 7)
+                                    . str_pad("Client", 10)
+                                    . str_pad("StartDate", 16)
+                                    . str_pad("BillDueBy", 14);
                                 echo "</b></p>"; 
                                 
                                 while (mysqli_stmt_fetch($stmt)){
                                     echo "<p>" ;
-                                    echo str_pad($ClientID,10)
-                                        . str_pad($FullName, 32)
-                                        . str_pad($PhoneNumber, 16)
-                                        . str_pad($Street, 32)
-                                        . str_pad($City, 16)
-                                        . str_pad($State, 8)
-                                        . str_pad($ZIP, 8)
-                                        . str_pad($Balance, 7);
+                                    echo str_pad($AssetID,10)
+                                        . str_pad($Name, 32)
+                                        . str_pad($Price, 7)
+                                        . str_pad($Client, 10)
+                                        . str_pad($StartDate, 16)
+                                        . str_pad($BillDueBy, 14);
                                     echo "</p>";
                                 }
 
@@ -71,8 +67,8 @@
                     mysqli_close($acclink);
                 ?>
 
-                <a class="btn btn-primary btn-block" href="add.php">Add a client</a>
-                <a class="btn btn-primary btn-block" href="remove.php">Remove a client</a>
+                <a class="btn btn-primary btn-block" href="add.php">Add an asset</a>
+                <a class="btn btn-primary btn-block" href="remove.php">Remove an asset</a>
                 <a class="btn btn-primary btn-block" href="../welcome.php">Back</a>
                 
             </div>

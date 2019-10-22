@@ -38,7 +38,8 @@
 
 		<h4>Here's some links to work-in-progress pages:</h4>
 		<a href=""></a>
-		<a href="client/view.php">client/view.php</a>
+		<a href="client/view.php">client/view.php</a><br>
+		<a href="asset/view.php">asset/view.php</a><br>
 		
 		<br><br><b>Todo:</b><br>
 		a global header<br>
