@@ -94,6 +94,7 @@
 
 		// Close connection
 		mysqli_close($acclink);
+		header("location: /account/login.php");
     }
     
 
@@ -165,7 +166,7 @@
 							<input type="submit" class="btn btn-primary btn-block" value="Submit">
 						</div>
 					</form>
-
+					<a class="btn btn-primary btn-block" href="clients.php">Back</a>
 				</div>
 			</div>
 			<div class="column edge"></div>
