@@ -71,7 +71,8 @@
                     mysqli_close($acclink);
                 ?>
 
-                
+                <a class="btn btn-primary btn-block" href="addClient.php">Add a client</a>
+                <a class="btn btn-primary btn-block" href="delClient.php">Remove a client</a>
             </div>
             <div class="column edge"></div>
         </div>
