@@ -4,7 +4,7 @@
     }
 
     function updatePermissions() {   
-        require_once "databases/login.php"; 
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/login.php'; 
         $sql = "SELECT permlevel FROM users WHERE username = ?";
         if($stmt = mysqli_prepare($loginlink, $sql)){
             mysqli_stmt_bind_param($stmt, "s", $_SESSION["username"]);

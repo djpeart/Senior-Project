@@ -31,7 +31,7 @@
                     }
                     
                     // Include config file
-                    require_once "databases/accounting.php"; 
+                    require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
                     $sql = "SELECT ClientID, FullName, PhoneNumber, Street, City, State, ZIP, Balance FROM clients";
                     if($stmt = mysqli_prepare($acclink, $sql)){
                         if(mysqli_stmt_execute($stmt)){

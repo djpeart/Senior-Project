@@ -3,7 +3,7 @@
 	session_start();
 
 	// Check if the user is logged in, if not then redirect him to login page
-	include "account/accountActions.php";
+	include $_SERVER['DOCUMENT_ROOT'] . '/account/accountActions.php';
 	if( !isLoggedIn() ){
 		header("location: account/login.php");
 		exit;
@@ -38,11 +38,10 @@
 
 		<h4>Here's some links to work-in-progress pages:</h4>
 		<a href=""></a>
-		<a href="clients.php">clients.php</a>
+		<a href="client/view.php">client/view.php</a>
 		
 		<br><br><b>Todo:</b><br>
-		Make a button that lets you add a client. That would be cool. <br>
-		Oh, and a global header pls.<br>
+		a global header<br>
 		
 	</body>
 </html>

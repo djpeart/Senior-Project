@@ -10,7 +10,7 @@
 	}
 
 	// Include config file
-	require_once "../databases/login.php";
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/login.php';
 
 	// Define variables and initialize with empty values
 	$new_password = $confirm_password = "";
