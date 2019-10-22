@@ -11,7 +11,7 @@
     updatePermissions();
 
     // Include config file
-    require_once "databases/accounting.php"; 
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
 
     // Define variables and initialize with empty values
 	$ClientID = "";
@@ -88,7 +88,7 @@
 							<input type="submit" class="btn btn-primary btn-block" value="Submit">
 						</div>
 					</form>
-					<a class="btn btn-primary btn-block" href="clients.php">Back</a>
+					<a class="btn btn-primary btn-block" href="view.php">Back</a>
 				</div>
 			</div>
 			<div class="column edge"></div>
