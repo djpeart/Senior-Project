@@ -8,7 +8,9 @@
 		exit;
     }
     
-    updatePermissions();
+	updatePermissions();
+	
+	//include $_SERVER['DOCUMENT_ROOT'] . '/log/logActions.php';
 
     // Include config file
     require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
@@ -41,7 +43,8 @@
 
 				// Attempt to execute the prepared statement
 				if(mysqli_stmt_execute($stmt)){
-                    echo "Successfully deleted the record.";
+					echo "Successfully deleted the record.";
+					//logprint("deleted client" . $ClientID);
 				} else{
 					echo "Oops! Something went wrong. Please try again later.";
 				}

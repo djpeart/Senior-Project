@@ -1,6 +1,7 @@
 <?php
 	// Initialize the session
 	session_start();
+	
 
 	// Check if the user is already logged in, if yes then redirect him to welcome page
 	include $_SERVER['DOCUMENT_ROOT'] . '/account/accountActions.php';
@@ -9,6 +10,8 @@
 		exit;
 	}
 
+	//include $_SERVER['DOCUMENT_ROOT'] . '/log/logActions.php';
+	
 	// Include config file
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/login.php';
 

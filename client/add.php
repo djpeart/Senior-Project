@@ -10,6 +10,8 @@
     
     updatePermissions();
 
+	//include $_SERVER['DOCUMENT_ROOT'] . '/log/logActions.php';
+
     // Include config file
     require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
 
@@ -82,7 +84,8 @@
 
 				// Attempt to execute the prepared statement
 				if(mysqli_stmt_execute($stmt)){
-                    echo "Successfully saved the record.";
+					echo "Successfully saved the record.";
+					//logprint("added client" . $FullName);
 				} else{
 					echo "Oops! Something went wrong. Please try again later.";
 				}
