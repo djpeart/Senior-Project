@@ -18,8 +18,17 @@
                 }
             }
         }
+
         mysqli_stmt_close($stmt);
         mysqli_close($loginlink);
+    }
+
+    function requirePermissionLevel($n) {
+        updatePermissions();
+        if ($_SESSION["permlevel"] <$n) {
+            print "<pre class=\"alert-warning\"><h1> You do not have permission to read data yet!</h1></pre>";
+            exit;
+        }
     }
 
 ?>

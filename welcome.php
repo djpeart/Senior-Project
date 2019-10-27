@@ -29,12 +29,7 @@
 		</p>
 		</div>
 
-		<?php 
-			if ($_SESSION["permlevel"] < 1) {
-				print "<pre class=\"alert-warning\"><h1> You do not have permission to read data yet!</h1></pre>";
-				exit;
-			}
-		?>
+		<?php requirePermissionLevel(1); ?>
 
 		<h4>Here's some links to work-in-progress pages:</h4>
 		<a href=""></a>

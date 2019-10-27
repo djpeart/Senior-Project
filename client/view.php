@@ -46,7 +46,7 @@
                                     . str_pad("Street", 32)
                                     . str_pad("City", 16)
                                     . str_pad("State", 8)
-                                    . str_pad("ZIP", 8)
+                                    . str_pad("ZIP", 8);
                                 echo "</b></p>"; 
                                 
                                 while (mysqli_stmt_fetch($stmt)){
@@ -57,7 +57,7 @@
                                         . str_pad($Street, 32)
                                         . str_pad($City, 16)
                                         . str_pad($State, 8)
-                                        . str_pad($ZIP, 8)
+                                        . str_pad($ZIP, 8);
                                     echo "</p>";
                                 }
 
@@ -66,7 +66,7 @@
                         }
                     }
                     mysqli_stmt_close($stmt);
-                    mysqli_close($acclink);
+                    mysqli_close($acclink); 
                 ?>
 
                 <a class="btn btn-primary btn-block" href="add.php">Add a client</a>
