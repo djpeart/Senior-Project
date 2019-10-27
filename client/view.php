@@ -32,12 +32,12 @@
                     
                     // Include config file
                     require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
-                    $sql = "SELECT ClientID, FullName, PhoneNumber, Street, City, State, ZIP, Balance FROM clients";
+                    $sql = "SELECT ClientID, FullName, PhoneNumber, Street, City, State, ZIP FROM clients";
                     if($stmt = mysqli_prepare($acclink, $sql)){
                         if(mysqli_stmt_execute($stmt)){
                             mysqli_stmt_store_result($stmt);
                             if(mysqli_stmt_num_rows($stmt) > 1){
-                                mysqli_stmt_bind_result($stmt, $ClientID, $FullName, $PhoneNumber, $Street, $City, $State, $ZIP, $Balance);
+                                mysqli_stmt_bind_result($stmt, $ClientID, $FullName, $PhoneNumber, $Street, $City, $State, $ZIP);
 
                                 echo "<br><br><pre>" . "<br><p><b>"
                                     . str_pad("ClientID",10)
@@ -47,7 +47,6 @@
                                     . str_pad("City", 16)
                                     . str_pad("State", 8)
                                     . str_pad("ZIP", 8)
-                                    . str_pad("Balance", 7);
                                 echo "</b></p>"; 
                                 
                                 while (mysqli_stmt_fetch($stmt)){
@@ -59,7 +58,6 @@
                                         . str_pad($City, 16)
                                         . str_pad($State, 8)
                                         . str_pad($ZIP, 8)
-                                        . str_pad($Balance, 7);
                                     echo "</p>";
                                 }
 

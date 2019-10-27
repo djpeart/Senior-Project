@@ -71,7 +71,7 @@
             
 			if($stmt = mysqli_prepare($acclink, $sql)){ //This is the line that gives me the error
 				// Bind variables to the prepared statement as parameters
-			mysqli_stmt_bind_param($stmt, "sssssi", $param_formFullName, $param_formPhoneNumber, $param_formStreet, $param_formCity, $param_formState, $param_formZIP/*, $param_formBalance*/);
+			mysqli_stmt_bind_param($stmt, "sssssi", $param_formFullName, $param_formPhoneNumber, $param_formStreet, $param_formCity, $param_formState, $param_formZIP);
 
 				// Set parameters
                 $param_formFullName = $FullName;
@@ -79,8 +79,7 @@
                 $param_formStreet = $Street;
                 $param_formCity = $City;
                 $param_formState = $State;
-                $param_formZIP = $ZIP;
-                $param_formBalance = $Balance;                
+                $param_formZIP = $ZIP;               
 
 				// Attempt to execute the prepared statement
 				if(mysqli_stmt_execute($stmt)){
@@ -97,7 +96,6 @@
 
 		// Close connection
 		mysqli_close($acclink);
-		header("location: /account/login.php");
     }
     
 

@@ -85,7 +85,6 @@
 
 		// Close connection
 		mysqli_close($acclink);
-		header("location: /account/login.php");
     }
     
 
