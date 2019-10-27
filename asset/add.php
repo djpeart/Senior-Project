@@ -117,25 +117,25 @@
 
 						<div class="form-group <?php echo (!empty($Price_err)) ? 'has-error' : ''; ?>">
 							<label>Price Per Month</label>
-							<input type="text" name="Price" class="form-control">
+							<input type="number" min=0 name="Price" class="form-control">
 							<span class="help-block"><?php echo $Price_err; ?></span>
 						</div>
 						
 						<div class="form-group <?php echo (!empty($Client_err)) ? 'has-error' : ''; ?>">
-							<label>ClientID</label>
+							<label>Client</label>
 							<input type="text" name="Client" class="form-control">
 							<span class="help-block"><?php echo $Client_err; ?></span>
 						</div>
 
 						<div class="form-group <?php echo (!empty($StartDate_err)) ? 'has-error' : ''; ?>">
 							<label>StartDate</label>
-							<input type="text" name="StartDate" class="form-control">
+							<input type="date" name="StartDate" class="form-control">
 							<span class="help-block"><?php echo $StartDate_err; ?></span>
 						</div>
 
 						<div class="form-group <?php echo (!empty($BillDueBy_err)) ? 'has-error' : ''; ?>">
 							<label>BillDueBy</label>
-							<input type="text" name="BillDueBy" class="form-control">
+							<input type="date" name="BillDueBy" class="form-control">
 							<span class="help-block"><?php echo $BillDueBy_err; ?></span>
 						</div>
 

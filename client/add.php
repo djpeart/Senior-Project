@@ -129,7 +129,7 @@
 
 						<div class="form-group <?php echo (!empty($PhoneNumber_err)) ? 'has-error' : ''; ?>">
 							<label>Phone Number</label>
-							<input type="text" name="PhoneNumber" class="form-control">
+							<input type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" name="PhoneNumber" class="form-control">
 							<span class="help-block"><?php echo $PhoneNumber_err; ?></span>
 						</div>
 						
