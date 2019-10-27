@@ -80,7 +80,31 @@
 
 						<div class="form-group <?php echo (!empty($FullName_err)) ? 'has-error' : ''; ?>">
 							<label>AssetID</label>
-							<input type="text" name="AssetID" class="form-control" value="<?php echo $AssetID; ?>">
+							<select name="AssetID" class="form-control">
+								<?php
+									 require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
+									 $sql = "SELECT AssetID, Name FROM assets";
+									 if($stmt = mysqli_prepare($acclink, $sql)){
+										 if(mysqli_stmt_execute($stmt)){
+											 mysqli_stmt_store_result($stmt);
+											 if(mysqli_stmt_num_rows($stmt) > 1){
+												 mysqli_stmt_bind_result($stmt, $AssetID, $Name);
+												
+												 echo "\r\n";
+
+												 while (mysqli_stmt_fetch($stmt)){
+													 echo '								<option value=' . $AssetID . '> (' . $AssetID . ') ' . $Name . '</option>';
+													 echo "\r\n";
+												 }
+
+												 echo "\r\n";
+											 }
+										 }
+									 }
+									 mysqli_stmt_close($stmt);
+									 mysqli_close($acclink); 
+								?>
+							</select>
 							<span class="help-block"><?php echo $AssetID_err; ?></span>
 						</div> 
 

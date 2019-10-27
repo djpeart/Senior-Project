@@ -123,7 +123,31 @@
 						
 						<div class="form-group <?php echo (!empty($Client_err)) ? 'has-error' : ''; ?>">
 							<label>Client</label>
-							<input type="text" name="Client" class="form-control">
+							<select name="Client" class="form-control">
+								<?php
+									 require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
+									 $sql = "SELECT ClientID, FullName FROM clients";
+									 if($stmt = mysqli_prepare($acclink, $sql)){
+										 if(mysqli_stmt_execute($stmt)){
+											 mysqli_stmt_store_result($stmt);
+											 if(mysqli_stmt_num_rows($stmt) > 1){
+												 mysqli_stmt_bind_result($stmt, $ClientID, $FullName);
+												
+												 echo "\r\n";
+
+												 while (mysqli_stmt_fetch($stmt)){
+													echo '								<option value=' . $ClientID . '> (' . $ClientID . ') ' . $FullName . '</option>';
+													 echo "\r\n";
+												 }
+
+												 echo "\r\n";
+											 }
+										 }
+									 }
+									 mysqli_stmt_close($stmt);
+									 mysqli_close($acclink); 
+								?>
+							</select>
 							<span class="help-block"><?php echo $Client_err; ?></span>
 						</div>
 
