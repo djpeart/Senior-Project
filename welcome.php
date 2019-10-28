@@ -35,6 +35,7 @@
 		<a href=""></a>
 		<a href="client/view.php">client/view.php</a><br>
 		<a href="asset/view.php">asset/view.php</a><br>
+		<a href="https://www.w3schools.com/tags/tag_datalist.asp">Update to datalist</a><br>
 		
 		<br><br><b>Todo:</b><br>
 		a global header<br>

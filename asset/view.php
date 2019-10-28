@@ -69,7 +69,7 @@
 
                 <a class="btn btn-primary btn-block" href="add.php">Add an asset</a>
                 <a class="btn btn-primary btn-block" href="remove.php">Remove an asset</a>
-                <a class="btn btn-primary btn-block" href="../welcome.php">Back</a>
+                <a class="btn btn-default btn-block" href="../welcome.php">Back</a>
                 
             </div>
             <div class="column edge"></div>

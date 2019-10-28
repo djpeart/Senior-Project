@@ -167,7 +167,7 @@
 							<input type="submit" class="btn btn-primary btn-block" value="Submit">
 						</div>
 					</form>
-					<a class="btn btn-primary btn-block" href="view.php">Back</a>
+					<a class="btn btn-default btn-block" href="view.php">Back</a>
 				</div>
 			</div>
 			<div class="column edge"></div>

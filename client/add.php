@@ -115,7 +115,7 @@
 			<div class="column edge"></div>
 			<div class="column middle"> 
 			
-				<div class="" >
+				<div class="wrapper" >
 
 					<h2>Add Client</h2>
 					<p>Please fill in client details</p>
@@ -167,7 +167,7 @@
 							<input type="submit" class="btn btn-primary btn-block" value="Submit">
 						</div>
 					</form>
-					<a class="btn btn-primary btn-block" href="view.php">Back</a>
+					<a class="btn btn-default btn-block" href="view.php">Back</a>
 				</div>
 			</div>
 			<div class="column edge"></div>

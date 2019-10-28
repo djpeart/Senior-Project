@@ -4,6 +4,12 @@ The following CSS lines were created by me
 
 * {box-sizing: border-box;}
 
+.wrapper{ 
+  width: 350px; 
+  padding: 50px; 
+  margin:0 auto
+}
+
 .column {
   float: left;
   padding: 10px;
