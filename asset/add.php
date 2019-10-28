@@ -62,14 +62,14 @@
             
 			if($stmt = mysqli_prepare($acclink, $sql)){ 
 				// Bind variables to the prepared statement as parameters
-				mysqli_stmt_bind_param($stmt, "siiss", $param_formName, $param_formPrice, $param_formClient, $param_formStartDate, $param_formBillDueBy);
+				mysqli_stmt_bind_param($stmt, "siiss", $param_Name, $param_Price, $param_Client, $param_StartDate, $param_BillDueBy);
 
 				// Set parameters
-                $param_formName = $Name;
-                $param_formPrice = $Price;
-                $param_formClient = $Client;
-                $param_formStartDate = $StartDate;
-                $param_formBillDueBy = $BillDueBy;             
+                $param_Name = $Name;
+                $param_Price = $Price;
+                $param_Client = $Client;
+                $param_StartDate = $StartDate;
+                $param_BillDueBy = $BillDueBy;             
 
 				// Attempt to execute the prepared statement
 				if(mysqli_stmt_execute($stmt)){

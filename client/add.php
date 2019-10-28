@@ -78,16 +78,16 @@
             
 			if($stmt = mysqli_prepare($acclink, $sql)){ //This is the line that gives me the error
 				// Bind variables to the prepared statement as parameters
-			mysqli_stmt_bind_param($stmt, "sssssii", $param_formFullName, $param_formPhoneNumber, $param_formStreet, $param_formCity, $param_formState, $param_formZIP, $param_formBalance);
+			mysqli_stmt_bind_param($stmt, "sssssii", $param_FullName, $param_PhoneNumber, $param_Street, $param_City, $param_State, $param_ZIP, $param_Balance);
 
 				// Set parameters
-                $param_formFullName = $FullName;
-                $param_formPhoneNumber = $PhoneNumber;
-                $param_formStreet = $Street;
-                $param_formCity = $City;
-                $param_formState = $State;
-				$param_formZIP = $ZIP;
-				$param_formBalance = $Balance;          
+                $param_FullName = $FullName;
+                $param_PhoneNumber = $PhoneNumber;
+                $param_Street = $Street;
+                $param_City = $City;
+                $param_State = $State;
+				$param_ZIP = $ZIP;
+				$param_Balance = $Balance;          
 
 				// Attempt to execute the prepared statement
 				if(mysqli_stmt_execute($stmt)){
