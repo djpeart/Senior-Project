@@ -16,7 +16,7 @@
 	<html lang="en">
 		<head>
 			<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-			<title>Welcome</title>
+			<title>View Client</title>
 			<link rel="stylesheet" href="/css/bootstrap.css">
             <style type="text/css">body{ font: 14px sans-serif; text-align: center; }</style>
 		</head>
@@ -32,11 +32,14 @@
                     if($stmt = mysqli_prepare($acclink, $sql)){
                         if(mysqli_stmt_execute($stmt)){
                             mysqli_stmt_store_result($stmt);
-                            if(mysqli_stmt_num_rows($stmt) > 1){
+                            if(mysqli_stmt_num_rows($stmt) > 0){
                                 mysqli_stmt_bind_result($stmt, $ClientID, $FullName, $PhoneNumber, $Street, $City, $State, $ZIP, $Balance);
 
-                                echo "<br><br><pre>" . "<br><p><b>"
-                                    . str_pad("ClientID",10)
+                                echo "<form action=\"/client/edit.php\" method=\"POST\"> \r\n"
+                                    . "<input type=\"hidden\" name=\"action\" value=\"pull\">\r\n";
+
+                                echo "<br><br><pre>" . "<br><b>"
+                                    . str_pad("ClientID",10, " ", STR_PAD_BOTH)
                                     . str_pad("Name", 32)
                                     . str_pad("Phone Number", 16)
                                     . str_pad("Street", 32)
@@ -44,11 +47,12 @@
                                     . str_pad("State", 8)
                                     . str_pad("ZIP", 8)
                                     . str_pad("Balance", 7);
-                                echo "</b></p>"; 
+                                echo "</b>"; 
                                 
+                                echo "<div class=\"form-group\">\r\n";
                                 while (mysqli_stmt_fetch($stmt)){
-                                    echo "<p>" ;
-                                    echo str_pad($ClientID,10)
+                                    echo "<input type=\"radio\" name=\"ClientID\" value=" . $ClientID . ">";
+                                    echo str_pad($ClientID,10, " ", STR_PAD_BOTH)
                                         . str_pad($FullName, 32)
                                         . str_pad($PhoneNumber, 16)
                                         . str_pad($Street, 32)
@@ -56,10 +60,17 @@
                                         . str_pad($State, 8)
                                         . str_pad($ZIP, 8)
                                         . str_pad($Balance, 7);
-                                    echo "</p>";
+                                    echo "<br>\r\n";
                                 }
+                                echo "</div>"
+                                    . "</pre>";
 
-                                echo "</pre>";
+                                echo "<div class=\"form-group\" style=\"text-align: left\">\r\n"
+                                    . "<input type=\"submit\" class=\"btn btn-primary\" value=\"Edit\">\r\n"
+                                    . "</div>";
+                                    
+                                echo "</form>";
+                                
                             }
                         }
                     }

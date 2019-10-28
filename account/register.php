@@ -97,7 +97,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-		<title>Sign Up</title>
+		<title>Register</title>
 		<link rel="stylesheet" href="/css/bootstrap.css">
 		<style type="text/css">
 			body{ font: 14px sans-serif; }
