@@ -26,7 +26,7 @@
     function requirePermissionLevel($n) {
         updatePermissions();
         if ($_SESSION["permlevel"] <$n) {
-            print "<pre class=\"alert-warning\"><h1> You do not have permission to read data yet!</h1></pre>";
+            print "<pre class=\"alert-warning\"><h1> You do not have permission to view this content</h1></pre>";
             exit;
         }
     }

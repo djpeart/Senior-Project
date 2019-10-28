@@ -8,7 +8,7 @@
 		exit;
     }
     
-    updatePermissions();
+	requirePermissionLevel(2);
 
     // Include config file
     require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 

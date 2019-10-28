@@ -8,7 +8,7 @@
 		exit;
     }
     
-    updatePermissions();
+    requirePermissionLevel(1);
 
 ?>
 
@@ -24,11 +24,7 @@
         <div class="row">
             <div class="column edge"></div>
             <div class="column middle"> 
-                <?php 
-                    if ($_SESSION["permlevel"] < 1) {
-                        print "<pre class=\"alert-warning\"><h1> You do not have permission to read data yet!</h1></pre>";
-                        exit;
-                    }
+                <?php                    
                     
                     // Include config file
                     require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
