@@ -62,16 +62,23 @@
 			$ZIP_err = "Please enter the ZIP code.";
 		} else{
 			$ZIP = trim($_POST["ZIP"]);
+		}
+		
+		// Check if nZIP is empty
+		if(empty(trim($_POST["Balance"]))){
+			$Balance_err = "Please enter the Balance.";
+		} else{
+			$Balance = trim($_POST["Balance"]);
         }
         
 		// Validate entries are in
-		if(empty($FullName_err) && empty($PhoneNumber_err) && empty($Street_err) && empty($City_err) && empty($State_err) && empty($ZIP_err)){
+		if(empty($FullName_err) && empty($PhoneNumber_err) && empty($Street_err) && empty($City_err) && empty($State_err) && empty($ZIP_err) && empty($Balance_err)){
 			// Prepare a select statement
-			$sql = "INSERT INTO clients (FullName, PhoneNumber, Street, City, State, ZIP) VALUES (?, ?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO clients (FullName, PhoneNumber, Street, City, State, ZIP, Balance) VALUES (?, ?, ?, ?, ?, ?, ?)";
             
 			if($stmt = mysqli_prepare($acclink, $sql)){ //This is the line that gives me the error
 				// Bind variables to the prepared statement as parameters
-			mysqli_stmt_bind_param($stmt, "sssssi", $param_formFullName, $param_formPhoneNumber, $param_formStreet, $param_formCity, $param_formState, $param_formZIP);
+			mysqli_stmt_bind_param($stmt, "sssssii", $param_formFullName, $param_formPhoneNumber, $param_formStreet, $param_formCity, $param_formState, $param_formZIP, $param_formBalance);
 
 				// Set parameters
                 $param_formFullName = $FullName;
@@ -79,7 +86,8 @@
                 $param_formStreet = $Street;
                 $param_formCity = $City;
                 $param_formState = $State;
-                $param_formZIP = $ZIP;               
+				$param_formZIP = $ZIP;
+				$param_formBalance = $Balance;          
 
 				// Attempt to execute the prepared statement
 				if(mysqli_stmt_execute($stmt)){
@@ -129,7 +137,7 @@
 
 						<div class="form-group <?php echo (!empty($PhoneNumber_err)) ? 'has-error' : ''; ?>">
 							<label>Phone Number</label>
-							<input type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" name="PhoneNumber" class="form-control">
+							<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="PhoneNumber" class="form-control">
 							<span class="help-block"><?php echo $PhoneNumber_err; ?></span>
 						</div>
 						
@@ -159,7 +167,7 @@
 
 						<div class="form-group <?php echo (!empty($Balance_err)) ? 'has-error' : ''; ?>">
 							<label>Balance</label>
-							<input type="text" name="Balance" class="form-control" value=0>
+							<input type="text" name="Balance" class="form-control">
 							<span class="help-block"><?php echo $Balance_err; ?></span>
 						</div>
 
