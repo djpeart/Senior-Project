@@ -23,45 +23,55 @@
 	<body>
         <div class="row">
             <div class="column edge"></div>
-            <div class="column middle"> 
-                <?php                    
-                    
-                    // Include config file
-                    require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
-                    $sql = "SELECT AssetID, Name, Price, Client, StartDate, BillDueBy FROM assets";
-                    if($stmt = mysqli_prepare($acclink, $sql)){
-                        if(mysqli_stmt_execute($stmt)){
-                            mysqli_stmt_store_result($stmt);
-                            if(mysqli_stmt_num_rows($stmt) > 0){
-                                mysqli_stmt_bind_result($stmt, $AssetID, $Name, $Price, $Client, $StartDate, $BillDueBy);
-                                
-                                echo "<br><br><pre>" . "<br><p><b>"
-                                    . str_pad("AssetID",10)
-                                    . str_pad("Name", 32)
-                                    . str_pad("Price", 7)
-                                    . str_pad("Client", 10)
-                                    . str_pad("StartDate", 16)
-                                    . str_pad("BillDueBy", 14);
-                                echo "</b></p>"; 
-                                
-                                while (mysqli_stmt_fetch($stmt)){
-                                    echo "<p>" ;
-                                    echo str_pad($AssetID,10)
-                                        . str_pad($Name, 32)
-                                        . str_pad($Price, 7)
-                                        . str_pad($Client, 10)
-                                        . str_pad($StartDate, 16)
-                                        . str_pad($BillDueBy, 14);
-                                    echo "</p>";
+            <div class="column middle">
+                <form action="/asset/edit.php" method="POST">
+                    <input type="hidden" name="action" value="pull">
+                    <?php                    
+                        
+                        echo "<br><br><pre>" . "<br><p><b>"
+                                        . str_pad("AssetID",10, " ", STR_PAD_BOTH)
+                                        . str_pad("Name", 32)
+                                        . str_pad("Price", 7)
+                                        . str_pad("Client", 10)
+                                        . str_pad("StartDate", 16)
+                                        . str_pad("BillDueBy", 14);
+                                    echo "</b></p>"; 
+                        
+                        // Include config file
+                        require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
+                        $sql = "SELECT AssetID, Name, Price, Client, StartDate, BillDueBy FROM assets";
+                        if($stmt = mysqli_prepare($acclink, $sql)){
+                            if(mysqli_stmt_execute($stmt)){
+                                mysqli_stmt_store_result($stmt);
+                                if(mysqli_stmt_num_rows($stmt) > 0){
+                                    mysqli_stmt_bind_result($stmt, $AssetID, $Name, $Price, $Client, $StartDate, $BillDueBy);
+                                    
+                                    echo "<div class=\"form-group\">\r\n";
+                                    while (mysqli_stmt_fetch($stmt)){
+                                        echo "<input type=\"radio\" name=\"AssetID\" value=" . $AssetID . ">";
+                                        echo str_pad($AssetID,10, " ", STR_PAD_BOTH)
+                                            . str_pad($Name, 32)
+                                            . str_pad($Price, 7)
+                                            . str_pad($Client, 10)
+                                            . str_pad($StartDate, 16)
+                                            . str_pad($BillDueBy, 14);
+                                        echo "<br>\r\n";
+                                    }
+                                    echo "</div>";
                                 }
-
-                                echo "</pre>";
                             }
                         }
-                    }
-                    mysqli_stmt_close($stmt);
-                    mysqli_close($acclink);
-                ?>
+
+                        echo "</pre>";
+
+                        mysqli_stmt_close($stmt);
+                        mysqli_close($acclink);
+                    ?>
+
+                    <div class="form-group" style="text-align: left">
+                        <input type="submit" class="btn btn-primary" name="button" value="Edit">
+                    </div>
+                </form>
 
                 <a class="btn btn-primary btn-block" href="add.php">Add an asset</a>
                 <a class="btn btn-primary btn-block" href="remove.php">Remove an asset</a>

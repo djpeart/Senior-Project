@@ -54,8 +54,6 @@
 
 		if ($_POST["action"] == "update"){
 
-			echo $FullName . $PhoneNumber . $Street . $City . $State . $ZIP . $Balance . $ClientID;
-
 			// Check if nFullName is empty
 			if(empty(trim($_POST["FullName"]))){
 				$FullName_err = "Please the full name.";
@@ -118,7 +116,7 @@
 				
 				if($stmt = mysqli_prepare($acclink, $sql)){ //This is the line that gives me the error
 					// Bind variables to the prepared statement as parameters
-				mysqli_stmt_bind_param($stmt, "sssssidi", $param_FullName, $param_PhoneNumber, $param_Street, $param_City, $param_State, $param_ZIP, $param_Balance, $param_ClientID);
+					mysqli_stmt_bind_param($stmt, "sssssidi", $param_FullName, $param_PhoneNumber, $param_Street, $param_City, $param_State, $param_ZIP, $param_Balance, $param_ClientID);
 				
 
 					// Set parameters
@@ -170,8 +168,8 @@
 				<p>Please fill in client details</p>
 				<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
-				<input type="hidden" name="action" value="update">
-				<input type="hidden" name="ClientID" value="<?php echo $ClientID; ?>">
+					<input type="hidden" name="action" value="update">
+					<input type="hidden" name="ClientID" value="<?php echo $ClientID; ?>">
 
 					<div class="form-group <?php echo (!empty($FullName_err)) ? 'has-error' : ''; ?>">
 						<label>Full Name</label>
@@ -211,7 +209,7 @@
 
 					<div class="form-group <?php echo (!empty($Balance_err)) ? 'has-error' : ''; ?>">
 						<label>Balance</label>
-						<input type="text" name="Balance" class="form-control" value="<?php echo $Balance; ?>">
+						<input type="number" step="any" name="Balance" class="form-control" value="<?php echo $Balance; ?>">
 						<span class="help-block"><?php echo $Balance_err; ?></span>
 					</div>
 

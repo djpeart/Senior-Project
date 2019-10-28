@@ -117,7 +117,7 @@
 
 						<div class="form-group <?php echo (!empty($Price_err)) ? 'has-error' : ''; ?>">
 							<label>Price Per Month</label>
-							<input type="number" min=0 name="Price" class="form-control">
+							<input type="number" step="any" min=0 name="Price" class="form-control">
 							<span class="help-block"><?php echo $Price_err; ?></span>
 						</div>
 						
