@@ -10,6 +10,55 @@
     
     requirePermissionLevel(1);
 
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+        if ($_POST["button"] == "Edit") {
+
+            /*$url = '/client/edit.php';
+            $data = array('ClientID' => $_POST["ClientID"]);
+
+            $options = array(
+                'http' => array(
+                    'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                    'method'  => 'POST',
+                    'content' => http_build_query($data)
+                )
+            );
+            $context  = stream_context_create($options);
+            $result = file_get_contents($url, false, $context);
+            if ($result === FALSE) {  
+                var_dump($result);
+            }*/
+
+            $url = '/client/edit.php';
+
+            //The data you want to send via POST
+            $fields = [
+                'ClientID' => $_POST["ClientID"]
+            ];
+
+            //url-ify the data for the POST
+            $fields_string = http_build_query($fields);
+
+            //open connection
+            $ch = curl_init();
+
+            //set the url, number of POST vars, POST data
+            curl_setopt($ch,CURLOPT_URL, $url);
+            curl_setopt($ch,CURLOPT_POST, true);
+            curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+            //So that curl_exec returns the contents of the cURL; rather than echoing it
+            curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); 
+
+            //execute post
+            $result = curl_exec($ch);
+            echo $result;
+            
+        }
+        
+    
+    }
 ?>
 
 <!DOCTYPE html>
@@ -66,7 +115,7 @@
                                     . "</pre>";
 
                                 echo "<div class=\"form-group\" style=\"text-align: left\">\r\n"
-                                    . "<input type=\"submit\" class=\"btn btn-primary\" value=\"Edit\">\r\n"
+                                    . "<input type=\"submit\" class=\"btn btn-primary\" name=\"button\" value=\"Edit\">\r\n"
                                     . "</div>";
                                     
                                 echo "</form>";
