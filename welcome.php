@@ -21,24 +21,49 @@
 			<style type="text/css">body{ font: 14px sans-serif; text-align: center; }</style>
 		</head>
 	<body>
-		<div class="page-header">
-		<h1>Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Welcome to my Senior Project site.</h1>
-		<p>
-		<a href="account/reset-password.php" class="btn btn-warning">Update Password</a>
-		<a href="account/logout.php" class="btn btn-danger">Sign Out</a>
-		</p>
-		</div>
 
 		<?php requirePermissionLevel(1); ?>
 
-		<h4>Here's some links to work-in-progress pages:</h4>
-		<a href=""></a>
-		<a href="client/view.php">client/view.php</a><br>
-		<a href="asset/view.php">asset/view.php</a><br>
-		<a href="https://www.w3schools.com/tags/tag_datalist.asp">Update to datalist</a><br>
+			
 		
-		<br><br><b>Todo:</b><br>
-		a global header<br>
+		<a href="https://www.w3schools.com/tags/tag_datalist.asp">Update to datalist</a><br><br>
+
+		<div class="row">
+			<div class="col-lg-1">.col-sm-1</div>
+			<div class="col-lg-1">.col-sm-1</div>
+			<div class="col-sm-8">
+			<div class="container">
+				
+				<nav class="navbar navbar-inverse">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<div class="navbar-brand" href="">Dan's Senior Project</div>
+						</div>
+						<ul class="nav navbar-nav">
+							<li class="active"><a href="#">Welcome</a></li>
+							<li><a href="client/view.php">Clients</a></li>
+							<li><a href="asset/view.php">Assets</a></li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="account/reset-password.php"><span class="glyphicon glyphicon-user"></span> Change Password</a></li>
+							<li><a href="account/logout.php"><span class="glyphicon glyphicon-log-in"></span> Sign Out</a></li>
+						</ul>
+					</div>
+				</nav>
+
+				<div class="jumbotron">
+					<h1><h1>Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Welcome to my Senior Project site.</h1></h1>
+					<p>Bootstrap is the most popular HTML, CSS, and JS framework for developing
+					responsive, mobile-first projects on the web.</p>
+				</div>
+					<p>This is some text.</p>
+					<p>This is another text.</p>
+				</div>
+			</div>
+			<div class="col-lg-1">.col-sm-1</div>
+			<div class="col-lg-1">.col-sm-1</div>
+		</div>
+
 		
 	</body>
 </html>

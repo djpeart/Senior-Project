@@ -168,7 +168,7 @@
 
 						<div class="form-group <?php echo (!empty($Balance_err)) ? 'has-error' : ''; ?>">
 							<label>Balance</label>
-							<input type="text" name="Balance" class="form-control">
+							<input type="number" step="any" min=0 name="Balance" class="form-control">
 							<span class="help-block"><?php echo $Balance_err; ?></span>
 						</div>
 

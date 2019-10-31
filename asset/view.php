@@ -32,19 +32,19 @@
                                         . str_pad("AssetID",10, " ", STR_PAD_BOTH)
                                         . str_pad("Name", 32)
                                         . str_pad("Price", 7)
-                                        . str_pad("Client", 10)
+                                        . str_pad("Client", 32)
                                         . str_pad("StartDate", 16)
                                         . str_pad("BillDueBy", 14);
                                     echo "</b></p>"; 
                         
                         // Include config file
                         require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
-                        $sql = "SELECT AssetID, Name, Price, Client, StartDate, BillDueBy FROM assets";
+                        $sql = "SELECT AssetID, Name, Price, FullName, StartDate, BillDueBy FROM assets INNER JOIN clients ON Client=ClientID";
                         if($stmt = mysqli_prepare($acclink, $sql)){
                             if(mysqli_stmt_execute($stmt)){
                                 mysqli_stmt_store_result($stmt);
                                 if(mysqli_stmt_num_rows($stmt) > 0){
-                                    mysqli_stmt_bind_result($stmt, $AssetID, $Name, $Price, $Client, $StartDate, $BillDueBy);
+                                    mysqli_stmt_bind_result($stmt, $AssetID, $Name, $Price, $FullName, $StartDate, $BillDueBy);
                                     
                                     echo "<div class=\"form-group\">\r\n";
                                     while (mysqli_stmt_fetch($stmt)){
@@ -52,7 +52,7 @@
                                         echo str_pad($AssetID,10, " ", STR_PAD_BOTH)
                                             . str_pad($Name, 32)
                                             . str_pad($Price, 7)
-                                            . str_pad($Client, 10)
+                                            . str_pad($FullName, 32)
                                             . str_pad($StartDate, 16)
                                             . str_pad($BillDueBy, 14);
                                         echo "<br>\r\n";
