@@ -24,6 +24,13 @@
             <div class="column edge"></div>
             <div class="column middle"> 
 
+                <h1>Accounts Receivable</h1>
+                <ul>
+                    <li>Add Amount due</li>
+                    <li>Subtract the amount instead of add</li>
+                    <li></li>
+                </ul>
+
                 <form action="/client/edit.php" method="POST">
                     <input type="hidden" name="action" value="pull">
                     <?php 
@@ -36,8 +43,8 @@
                             . str_pad("City", 16)
                             . str_pad("State", 7)
                             . str_pad("ZIP", 8)
-                            . str_pad("Balance", 9)
-                            . str_pad("Past Due", 8);
+                            . str_pad("Amount Due", 11)
+                            . str_pad("Due Date", 9);
                         echo "</b>\r\n"; 
 
                         // Include config file
@@ -61,8 +68,8 @@
                                             . str_pad($City, 16)
                                             . str_pad($State, 7)
                                             . str_pad($ZIP, 8)
-                                            . str_pad($Balance, 9)
-                                            . str_pad($total, 8);
+                                            . str_pad($Balance, 11)
+                                            . str_pad($total, 9);
                                         echo "<br>\r\n";
                                     }
                                     echo "</div>";
