@@ -8,8 +8,6 @@
 		exit;
     }
     
-    requirePermissionLevel(1);
-
 ?>
 
 <!DOCTYPE html>
@@ -19,66 +17,90 @@
 			<title>Assets</title>
 			<link rel="stylesheet" href="/css/bootstrap.css">
             <style type="text/css">body{ font: 14px sans-serif; text-align: center; }</style>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		</head>
 	<body>
-        <div class="row">
-            <div class="column edge"></div>
-            <div class="column middle">
-                <form action="/asset/edit.php" method="POST">
-                    <input type="hidden" name="action" value="pull">
-                    <?php                    
-                        
-                        echo "<br><br><pre>" . "<br><p><b>"
-                                        . str_pad("AssetID",10, " ", STR_PAD_BOTH)
-                                        . str_pad("Name", 32)
-                                        . str_pad("Price", 7)
-                                        . str_pad("Client", 32)
-                                        . str_pad("StartDate", 16)
-                                        . str_pad("BillDueBy", 14);
-                                    echo "</b></p>"; 
-                        
-                        // Include config file
+        <?php requirePermissionLevel(1); ?>
+        <div class="container"><br>
+            
+            <nav class="navbar navbar-inverse">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<div class="navbar-brand" href="">Dan's Senior Project</div>
+					</div>
+					<ul class="nav navbar-nav">
+						<li><a href="/welcome.php">Welcome</a></li>
+						<li><a href="/client/view.php">Clients</a></li>
+						<li class="active"><a href="/asset/view.php">Assets</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="account/reset-password.php"><span class="glyphicon glyphicon-user"></span> Change Password</a></li>
+						<li><a href="account/logout.php"><span class="glyphicon glyphicon-log-in"></span> Sign Out</a></li>
+					</ul>
+				</div>
+			</nav>
+
+            
+            <h1>Assets View</h1>
+            <input class="form-control" id="myInput" type="text" placeholder="Search..">
+            <table class="table table-striped table-responsive ">
+                <thead>
+                    <tr>
+                        <th class="text-center">AssetID</th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Renter Name</th>
+                        <th class="text-center">Rent Start Date</th>
+                        <th class="text-center">Bill Due By</th>
+                    </tr>
+                </thead>
+                <tbody id="myTable">
+                    <?php              
+
                         require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
-                        $sql = "SELECT AssetID, Name, Price, FullName, StartDate, BillDueBy FROM assets INNER JOIN clients ON Client=ClientID";
+                        $sql = "SELECT AssetID, Name, Price, FullName, StartDate, BillDueBy FROM assets LEFT JOIN clients ON Client=ClientID";
                         if($stmt = mysqli_prepare($acclink, $sql)){
                             if(mysqli_stmt_execute($stmt)){
                                 mysqli_stmt_store_result($stmt);
                                 if(mysqli_stmt_num_rows($stmt) > 0){
                                     mysqli_stmt_bind_result($stmt, $AssetID, $Name, $Price, $FullName, $StartDate, $BillDueBy);
                                     
-                                    echo "<div class=\"form-group\">\r\n";
                                     while (mysqli_stmt_fetch($stmt)){
-                                        echo "<input type=\"radio\" name=\"AssetID\" value=" . $AssetID . ">";
-                                        echo str_pad($AssetID,10, " ", STR_PAD_BOTH)
-                                            . str_pad($Name, 32)
-                                            . str_pad($Price, 7)
-                                            . str_pad($FullName, 32)
-                                            . str_pad($StartDate, 16)
-                                            . str_pad($BillDueBy, 14);
-                                        echo "<br>\r\n";
+                                        print "                         <tr class=\"";
+                                        print ($BillDueBy <= date('Y-m-d')) ? "danger" : "";
+                                        print  "\">\r\n";
+                                            print "                             <td>" . $AssetID . "</td>\r\n";
+                                            print "                             <td><a class=\"display: block\" href=\"edit.php?id=" . $AssetID . "\">" . $Name . "</a></td>\r\n";
+                                            print "                             <td>" . $Price . "</td>\r\n";
+                                            print "                             <td>" . $FullName . "</td>\r\n";
+                                            print "                             <td>" . $StartDate . "</td>\r\n";
+                                            print "                             <td>" . $BillDueBy . "</td>\r\n";
+                                        print "                         </tr>\r\n";
                                     }
-                                    echo "</div>";
                                 }
                             }
                         }
 
-                        echo "</pre>";
-
                         mysqli_stmt_close($stmt);
                         mysqli_close($acclink);
                     ?>
+                </tbody>
+            </table>
 
-                    <div class="form-group" style="text-align: left">
-                        <input type="submit" class="btn btn-primary" name="button" value="Edit">
-                    </div>
-                </form>
-
-                <a class="btn btn-primary btn-block" href="add.php">Add an asset</a>
-                <a class="btn btn-primary btn-block" href="remove.php">Remove an asset</a>
-                <a class="btn btn-default btn-block" href="../welcome.php">Back</a>
+            <a class="btn btn-primary btn-block" href="add.php">Add an asset</a>
+            <a class="btn btn-primary btn-block" href="remove.php">Remove an asset</a>
                 
-            </div>
-            <div class="column edge"></div>
         </div>
+        <script>
+            $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+            });
+        </script>
 	</body>
 </html>

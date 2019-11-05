@@ -117,69 +117,83 @@
 			<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 			<title>Add Client</title>
 			<link rel="stylesheet" href="/css/bootstrap.css">
-            <style type="text/css">body{ font: 14px sans-serif; text-align: center; }</style>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		</head>
 	<body>
-        <div class="row">
-			<div class="column edge"></div>
-			<div class="column middle"> 
-			
-				<div class="wrapper" >
+        <div class="container">
 
-					<h2>Add Client</h2>
-					<p>Please fill in client details</p>
-					<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-
-						<div class="form-group <?php echo (!empty($FullName_err)) ? 'has-error' : ''; ?>">
-							<label>Full Name</label>
-							<input type="text" name="FullName" class="form-control" value="<?php echo $FullName; ?>">
-							<span class="help-block"><?php echo $FullName_err; ?></span>
-						</div> 
-
-						<div class="form-group <?php echo (!empty($PhoneNumber_err)) ? 'has-error' : ''; ?>">
-							<label>Phone Number</label>
-							<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="PhoneNumber" class="form-control">
-							<span class="help-block"><?php echo $PhoneNumber_err; ?></span>
-						</div>
-						
-						<div class="form-group <?php echo (!empty($Street_err)) ? 'has-error' : ''; ?>">
-							<label>Street</label>
-							<input type="text" name="Street" class="form-control">
-							<span class="help-block"><?php echo $Street_err; ?></span>
-						</div>
-
-						<div class="form-group <?php echo (!empty($City_err)) ? 'has-error' : ''; ?>">
-							<label>City</label>
-							<input type="text" name="City" class="form-control">
-							<span class="help-block"><?php echo $City_err; ?></span>
-						</div>
-
-						<div class="form-group <?php echo (!empty($State_err)) ? 'has-error' : ''; ?>">
-							<label>State</label>
-							<input type="text" name="State" class="form-control">
-							<span class="help-block"><?php echo $State_err; ?></span>
-						</div>
-
-						<div class="form-group <?php echo (!empty($ZIP_err)) ? 'has-error' : ''; ?>">
-							<label>ZIP</label>
-							<input type="text" name="ZIP" class="form-control">
-							<span class="help-block"><?php echo $ZIP_err; ?></span>
-						</div>
-
-						<div class="form-group <?php echo (!empty($Balance_err)) ? 'has-error' : ''; ?>">
-							<label>Balance</label>
-							<input type="number" step="any" min=0 name="Balance" class="form-control">
-							<span class="help-block"><?php echo $Balance_err; ?></span>
-						</div>
-
-						<div class="form-group">
-							<input type="submit" class="btn btn-primary btn-block" value="Submit">
-						</div>
-					</form>
-					<a class="btn btn-default btn-block" href="view.php">Back</a>
-				</div>
+			<div class="text-center">
+				<h2>Add Client</h2>
+				<p>Please fill in client details</p>
 			</div>
-			<div class="column edge"></div>
+			<form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+
+				<div class="form-group <?php echo (!empty($FullName_err)) ? 'has-error' : ''; ?>">
+					<label class="control-label col-sm-2">Full Name</label>
+					<div class="col-sm-offset-2 col-sm-10">
+						<input type="text" name="FullName" class="form-control" value="<?php echo $FullName; ?>">
+						<span class="help-block"><?php echo $FullName_err; ?></span>
+					</div>
+				</div> 
+
+				<div class="form-group <?php echo (!empty($PhoneNumber_err)) ? 'has-error' : ''; ?>">
+					<label class="control-label col-sm-2">Phone Number</label>
+					<div class="col-sm-offset-2 col-sm-10">
+						<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="PhoneNumber" class="form-control">
+						<span class="help-block"><?php echo $PhoneNumber_err; ?></span>
+					</div>
+				</div>
+				
+				<div class="form-group <?php echo (!empty($Street_err)) ? 'has-error' : ''; ?>">
+					<label class="control-label col-sm-2">Street</label>
+					<div class="col-sm-offset-2 col-sm-10">
+						<input type="text" name="Street" class="form-control">
+						<span class="help-block"><?php echo $Street_err; ?></span>
+					</div>
+				</div>
+
+				<div class="form-group <?php echo (!empty($City_err)) ? 'has-error' : ''; ?>">
+					<label class="control-label col-sm-2">City</label>
+					<div class="col-sm-offset-2 col-sm-10">
+						<input type="text" name="City" class="form-control">
+						<span class="help-block"><?php echo $City_err; ?></span>
+					</div>
+				</div>
+
+				<div class="form-group <?php echo (!empty($State_err)) ? 'has-error' : ''; ?>">
+					<label class="control-label col-sm-2">State</label>
+					<div class="col-sm-offset-2 col-sm-10">
+						<input type="text" name="State" class="form-control">
+						<span class="help-block"><?php echo $State_err; ?></span>
+					</div>
+				</div>
+
+				<div class="form-group <?php echo (!empty($ZIP_err)) ? 'has-error' : ''; ?>">
+					<label class="control-label col-sm-2">ZIP</label>
+					<div class="col-sm-offset-2 col-sm-10">
+						<input type="text" name="ZIP" class="form-control">
+						<span class="help-block"><?php echo $ZIP_err; ?></span>
+					</div>
+				</div>
+
+				<div class="form-group <?php echo (!empty($Balance_err)) ? 'has-error' : ''; ?>">
+					<label class="control-label col-sm-2">Balance</label>
+					<div class="col-sm-offset-2 col-sm-10">
+						<input type="number" step="any" min=0 name="Balance" class="form-control">
+						<span class="help-block"><?php echo $Balance_err; ?></span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<input type="submit" class="btn btn-primary " value="Submit">
+						<a class="btn btn-default" href="view.php">Back</a>
+					</div>
+				</div>
+			</form>
+			
+			
         </div> 
     </body>
 </html>

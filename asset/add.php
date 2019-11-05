@@ -96,81 +96,91 @@
 			<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 			<title>Add Asset</title>
 			<link rel="stylesheet" href="/css/bootstrap.css">
-            <style type="text/css">body{ font: 14px sans-serif; text-align: center; }</style>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		</head>
 	<body>
-        <div class="row">
-			<div class="column edge"></div>
-			<div class="column middle"> 
-			
-				<div class="" >
+        <div class="container">
 
-					<h2>Add Asset</h2>
-					<p>Please fill in asset details</p>
-					<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-
-						<div class="form-group <?php echo (!empty($Name_err)) ? 'has-error' : ''; ?>">
-							<label>Name</label>
-							<input type="text" name="Name" class="form-control" value="<?php echo $Name; ?>">
-							<span class="help-block"><?php echo $Name_err; ?></span>
-						</div> 
-
-						<div class="form-group <?php echo (!empty($Price_err)) ? 'has-error' : ''; ?>">
-							<label>Price Per Month</label>
-							<input type="number" step="any" min=0 name="Price" class="form-control">
-							<span class="help-block"><?php echo $Price_err; ?></span>
-						</div>
-						
-						<div class="form-group <?php echo (!empty($Client_err)) ? 'has-error' : ''; ?>">
-							<label>Client</label>
-							<select name="Client" class="form-control">
-								<?php
-									 require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
-									 $sql = "SELECT ClientID, FullName FROM clients";
-									 if($stmt = mysqli_prepare($acclink, $sql)){
-										 if(mysqli_stmt_execute($stmt)){
-											 mysqli_stmt_store_result($stmt);
-											 if(mysqli_stmt_num_rows($stmt) > 1){
-												 mysqli_stmt_bind_result($stmt, $ClientID, $FullName);
-												
-												 echo "\r\n";
-
-												 while (mysqli_stmt_fetch($stmt)){
-													echo '								<option value=' . $ClientID . '> (' . $ClientID . ') ' . $FullName . '</option>';
-													 echo "\r\n";
-												 }
-
-												 echo "\r\n";
-											 }
-										 }
-									 }
-									 mysqli_stmt_close($stmt);
-									 mysqli_close($acclink); 
-								?>
-							</select>
-							<span class="help-block"><?php echo $Client_err; ?></span>
-						</div>
-
-						<div class="form-group <?php echo (!empty($StartDate_err)) ? 'has-error' : ''; ?>">
-							<label>StartDate</label>
-							<input type="date" name="StartDate" class="form-control">
-							<span class="help-block"><?php echo $StartDate_err; ?></span>
-						</div>
-
-						<div class="form-group <?php echo (!empty($BillDueBy_err)) ? 'has-error' : ''; ?>">
-							<label>BillDueBy</label>
-							<input type="date" name="BillDueBy" class="form-control">
-							<span class="help-block"><?php echo $BillDueBy_err; ?></span>
-						</div>
-
-						<div class="form-group">
-							<input type="submit" class="btn btn-primary btn-block" value="Submit">
-						</div>
-					</form>
-					<a class="btn btn-default btn-block" href="view.php">Back</a>
-				</div>
+			<div class="text-center">
+				<h2>Add Asset</h2>
+				<p>Please fill in asset details</p>
 			</div>
-			<div class="column edge"></div>
+			
+			<form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+
+				<div class="form-group <?php echo (!empty($Name_err)) ? 'has-error' : ''; ?>">
+					<label class="control-label col-sm-2">Name</label>
+					<div class="col-sm-offset-2 col-sm-10">
+						<input type="text" name="Name" class="form-control" value="<?php echo $Name; ?>">
+						<span class="help-block"><?php echo $Name_err; ?></span>
+					</div>
+				</div> 
+
+				<div class="form-group <?php echo (!empty($Price_err)) ? 'has-error' : ''; ?>">
+					<label class="control-label col-sm-2">Price Per Month</label>
+					<div class="col-sm-offset-2 col-sm-10">
+						<input type="number" step="any" min=0 name="Price" class="form-control">
+						<span class="help-block"><?php echo $Price_err; ?></span>
+					</div>
+				</div>
+				
+				<div class="form-group <?php echo (!empty($Client_err)) ? 'has-error' : ''; ?>">
+					<label class="control-label col-sm-2">Client</label>
+					<div class="col-sm-offset-2 col-sm-10">
+						<select name="Client" class="form-control">
+							<option value=-1>None</option>
+							<?php
+									require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
+									$sql = "SELECT ClientID, FullName FROM clients";
+									if($stmt = mysqli_prepare($acclink, $sql)){
+										if(mysqli_stmt_execute($stmt)){
+											mysqli_stmt_store_result($stmt);
+											if(mysqli_stmt_num_rows($stmt) > 1){
+												mysqli_stmt_bind_result($stmt, $ClientID, $FullName);
+											
+												echo "\r\n";
+
+												while (mysqli_stmt_fetch($stmt)){
+												echo '								<option value=' . $ClientID . '> (' . $ClientID . ') ' . $FullName . '</option>';
+													echo "\r\n";
+												}
+
+												echo "\r\n";
+											}
+										}
+									}
+									mysqli_stmt_close($stmt);
+									mysqli_close($acclink); 
+							?>
+						</select>
+						<span class="help-block"><?php echo $Client_err; ?></span>
+					</div>
+				</div>
+
+				<div class="form-group <?php echo (!empty($StartDate_err)) ? 'has-error' : ''; ?>">
+					<label class="control-label col-sm-2">StartDate</label>
+					<div class="col-sm-offset-2 col-sm-10">
+						<input type="date" name="StartDate" class="form-control">
+						<span class="help-block"><?php echo $StartDate_err; ?></span>
+					</div>
+				</div>
+
+				<div class="form-group <?php echo (!empty($BillDueBy_err)) ? 'has-error' : ''; ?>">
+					<label class="control-label col-sm-2">BillDueBy</label>
+					<div class="col-sm-offset-2 col-sm-10">
+						<input type="date" name="BillDueBy" class="form-control">
+						<span class="help-block"><?php echo $BillDueBy_err; ?></span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<input type="submit" class="btn btn-primary" value="Submit">
+						<a class="btn btn-default" href="view.php">Back</a>
+					</div>
+				</div>
+			</form>
         </div> 
     </body>
 </html>
