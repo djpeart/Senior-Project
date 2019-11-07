@@ -151,26 +151,29 @@
 			<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 			<title>Edit Client</title>
 			<link rel="stylesheet" href="/css/bootstrap.css">
-            <style type="text/css">body{ font: 14px sans-serif; text-align: center; }</style>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		</head>
 	<body>
         <div class="container">
 
-			
-			<h2>Edit Client</h2>
-			<p>Please fill in client details</p>
+			<div class="text-center">
+				<h2>Edit Client</h2>
+				<p>Please fill in client details</p>
+			</div>
 			<form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
 				<div class="form-group <?php echo (!empty($FullName_err)) ? 'has-error' : ''; ?>">
 					<label class="control-label col-sm-2">Full Name</label>
-					<div class="col-sm-offset-2 col-sm-10">
+					<div class="col-sm-10">
 						<input type="text" name="FullName" class="form-control" value="<?php echo $FullName; ?>">
 						<span class="help-block"><?php echo $FullName_err; ?></span>
+					</div>
 				</div> 
 
 				<div class="form-group <?php echo (!empty($PhoneNumber_err)) ? 'has-error' : ''; ?>">
 					<label class="control-label col-sm-2">Phone Number</label>
-					<div class="col-sm-offset-2 col-sm-10">
+					<div class="col-sm-10">
 						<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="PhoneNumber" class="form-control" value="<?php echo $PhoneNumber; ?>">
 						<span class="help-block"><?php echo $PhoneNumber_err; ?></span>
 					</div>
@@ -178,7 +181,7 @@
 				
 				<div class="form-group <?php echo (!empty($Street_err)) ? 'has-error' : ''; ?>">
 					<label class="control-label col-sm-2">Street</label>
-					<div class="col-sm-offset-2 col-sm-10">
+					<div class="col-sm-10">
 						<input type="text" name="Street" class="form-control" value="<?php echo $Street; ?>">
 						<span class="help-block"><?php echo $Street_err; ?></span>
 					</div>
@@ -186,7 +189,7 @@
 
 				<div class="form-group <?php echo (!empty($City_err)) ? 'has-error' : ''; ?>">
 					<label class="control-label col-sm-2">City</label>
-					<div class="col-sm-offset-2 col-sm-10">
+					<div class="col-sm-10">
 						<input type="text" name="City" class="form-control" value="<?php echo $City; ?>">
 						<span class="help-block"><?php echo $City_err; ?></span>
 					</div>
@@ -194,7 +197,7 @@
 
 				<div class="form-group <?php echo (!empty($State_err)) ? 'has-error' : ''; ?>">
 					<label class="control-label col-sm-2">State</label>
-					<div class="col-sm-offset-2 col-sm-10">
+					<div class="col-sm-10">
 						<input type="text" name="State" class="form-control" value="<?php echo $State; ?>">
 						<span class="help-block"><?php echo $State_err; ?></span>
 					</div>
@@ -202,7 +205,7 @@
 
 				<div class="form-group <?php echo (!empty($ZIP_err)) ? 'has-error' : ''; ?>">
 					<label class="control-label col-sm-2">ZIP</label>
-					<div class="col-sm-offset-2 col-sm-10">
+					<div class="col-sm-10">
 						<input type="text" name="ZIP" class="form-control" value="<?php echo $ZIP; ?>">
 						<span class="help-block"><?php echo $ZIP_err; ?></span>
 					</div>
@@ -210,16 +213,16 @@
 
 				<div class="form-group <?php echo (!empty($Balance_err)) ? 'has-error' : ''; ?>">
 					<label class="control-label col-sm-2">Balance</label>
-					<div class="col-sm-offset-2 col-sm-10">
+					<div class="col-sm-10">
 						<input type="number" step="any" name="Balance" class="form-control" value="<?php echo $Balance; ?>">
 						<span class="help-block"><?php echo $Balance_err; ?></span>
 					</div>
 				</div>
 
 				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
+				<label class="control-label col-sm-2"></label>
+					<div class="col-sm-10">
 						<input type="submit" class="btn btn-primary" value="Submit">
-						
 						<a class="btn btn-default" href="view.php">Back</a>
 					</div>
 				</div>

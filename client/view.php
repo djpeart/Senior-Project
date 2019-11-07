@@ -46,56 +46,58 @@
             Add Amount due
             Subtract the amount instead of add
             <input class="form-control" id="myInput" type="text" placeholder="Search..">
-                <table class="table table-striped table-responsive ">
-                    <thead>
-                        <tr>
-                            <th style="text-align: center">ClientID</th>
-                            <th style="text-align: center">Name</th>
-                            <th style="text-align: center">Phone Number</th>
-                            <th style="text-align: center">Street</th>
-                            <th style="text-align: center">City</th>
-                            <th style="text-align: center">State</th>
-                            <th style="text-align: center">ZIP</th>
-                            <th style="text-align: center">Balance</th>
-                            <th style="text-align: center">Due Date</th>
-                        </tr>
-                    </thead>
-                    <tbody id="myTable">
-                        <?php 
-                            
-                            // Include config file
-                            require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
-                            $sql = "SELECT ClientID, FullName, PhoneNumber, Street, City, State, ZIP, clients.Balance, total FROM clients LEFT JOIN billing on ClientID = client";
-                            if($stmt = mysqli_prepare($acclink, $sql)){
-                                if(mysqli_stmt_execute($stmt)){
-                                    mysqli_stmt_store_result($stmt);
-                                    if(mysqli_stmt_num_rows($stmt) > 0){
-                                        mysqli_stmt_bind_result($stmt, $ClientID, $FullName, $PhoneNumber, $Street, $City, $State, $ZIP, $Balance, $total);
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center">ClientID</th>
+                                <th style="text-align: center">Name</th>
+                                <th style="text-align: center">Phone Number</th>
+                                <th style="text-align: center">Street</th>
+                                <th style="text-align: center">City</th>
+                                <th style="text-align: center">State</th>
+                                <th style="text-align: center">ZIP</th>
+                                <th style="text-align: center">Balance</th>
+                                <th style="text-align: center">Due Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="myTable">
+                            <?php 
+                                
+                                // Include config file
+                                require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
+                                $sql = "SELECT ClientID, FullName, PhoneNumber, Street, City, State, ZIP, clients.Balance, total FROM clients LEFT JOIN billing on ClientID = client";
+                                if($stmt = mysqli_prepare($acclink, $sql)){
+                                    if(mysqli_stmt_execute($stmt)){
+                                        mysqli_stmt_store_result($stmt);
+                                        if(mysqli_stmt_num_rows($stmt) > 0){
+                                            mysqli_stmt_bind_result($stmt, $ClientID, $FullName, $PhoneNumber, $Street, $City, $State, $ZIP, $Balance, $total);
 
-                                        while (mysqli_stmt_fetch($stmt)){
-                                            print "                         <tr class=\"";
-                                            print ($total > 0) ? "danger" : "";
-                                            print  "\">\r\n";
-                                                print "                             <td>" . $ClientID . "</td>\r\n";
-                                                print "                             <td><a class=\"display: block\" href=\"edit.php?id=" . $ClientID . "\">" . $FullName . "</a></td>\r\n";
-                                                print "                             <td>" . $PhoneNumber . "</td>\r\n";
-                                                print "                             <td>" . $Street . "</td>\r\n";
-                                                print "                             <td>" . $City . "</td>\r\n";
-                                                print "                             <td>" . $State . "</td>\r\n";
-                                                print "                             <td>" . $ZIP . "</td>\r\n";
-                                                print "                             <td>" . $Balance . "</td>\r\n";
-                                                print "                             <td>" . $total . "</td>\r\n";
-                                            print "                         </tr>\r\n";
+                                            while (mysqli_stmt_fetch($stmt)){
+                                                print "                         <tr class=\"";
+                                                print ($total > 0) ? "danger" : "";
+                                                print  "\">\r\n";
+                                                    print "                             <td>" . $ClientID . "</td>\r\n";
+                                                    print "                             <td><a class=\"display: block\" href=\"edit.php?id=" . $ClientID . "\">" . $FullName . "</a></td>\r\n";
+                                                    print "                             <td>" . $PhoneNumber . "</td>\r\n";
+                                                    print "                             <td>" . $Street . "</td>\r\n";
+                                                    print "                             <td>" . $City . "</td>\r\n";
+                                                    print "                             <td>" . $State . "</td>\r\n";
+                                                    print "                             <td>" . $ZIP . "</td>\r\n";
+                                                    print "                             <td>" . $Balance . "</td>\r\n";
+                                                    print "                             <td>" . $total . "</td>\r\n";
+                                                print "                         </tr>\r\n";
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            
-                            mysqli_stmt_close($stmt);
-                            mysqli_close($acclink); 
-                        ?>
-                    </tbody>
-                </table>
+                                
+                                mysqli_stmt_close($stmt);
+                                mysqli_close($acclink); 
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
              <a class="btn btn-primary btn-block" href="add.php">Add a client</a>
             <a class="btn btn-primary btn-block" href="remove.php">Remove a client</a>
             <a class="btn btn-primary btn-block" href="payment.php">Make Payment</a>

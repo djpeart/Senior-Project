@@ -1,6 +1,7 @@
 <?php  ini_set('display_errors',1); error_reporting(E_ALL);
     session_start();
 
+	include $_SERVER['DOCUMENT_ROOT'] . '/alerts.php';
 	// Check if the user is already logged in, if yes then redirect him to welcome page
 	include $_SERVER['DOCUMENT_ROOT'] . '/account/accountActions.php';
 	if( !isLoggedIn() ){
@@ -16,8 +17,8 @@
     require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
 
     // Define variables and initialize with empty values
-	$FullName = $PhoneNumber = $Street = $City = $State = $ZIP = $Balance  = "";
-	$FullName_err = $PhoneNumber_err = $Street_err = $City_err = $State_err = $ZIP_err = $Balance_err  = "";
+	$FullName = $PhoneNumber = $Street = $City = $State = $ZIP = "";
+	$FullName_err = $PhoneNumber_err = $Street_err = $City_err = $State_err = $ZIP_err = "";
     
 	// Processing form data when form is submitted
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -64,21 +65,15 @@
 			$ZIP = trim($_POST["ZIP"]);
 		}
 		
-		// Check if nZIP is empty
-		if(empty(trim($_POST["Balance"]))){
-			$Balance_err = "Please enter the Balance.";
-		} else{
-			$Balance = trim($_POST["Balance"]);
-        }
         
 		// Validate entries are in
-		if(empty($FullName_err) && empty($PhoneNumber_err) && empty($Street_err) && empty($City_err) && empty($State_err) && empty($ZIP_err) && empty($Balance_err)){
+		if(empty($FullName_err) && empty($PhoneNumber_err) && empty($Street_err) && empty($City_err) && empty($State_err) && empty($ZIP_err)){
 			// Prepare a select statement
-			$sql = "INSERT INTO clients (FullName, PhoneNumber, Street, City, State, ZIP, Balance) VALUES (?, ?, ?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO clients (FullName, PhoneNumber, Street, City, State, ZIP) VALUES (?, ?, ?, ?, ?, ?)";
             
 			if($stmt = mysqli_prepare($acclink, $sql)){ //This is the line that gives me the error
 				// Bind variables to the prepared statement as parameters
-			mysqli_stmt_bind_param($stmt, "sssssid", $param_FullName, $param_PhoneNumber, $param_Street, $param_City, $param_State, $param_ZIP, $param_Balance);
+			mysqli_stmt_bind_param($stmt, "sssssi", $param_FullName, $param_PhoneNumber, $param_Street, $param_City, $param_State, $param_ZIP);
 			
 
 				// Set parameters
@@ -87,15 +82,13 @@
                 $param_Street = $Street;
                 $param_City = $City;
                 $param_State = $State;
-				$param_ZIP = $ZIP;
-				$param_Balance = $Balance;          
+				$param_ZIP = $ZIP;      
 
 				// Attempt to execute the prepared statement
 				if(mysqli_stmt_execute($stmt)){
-					echo "Successfully saved the record.";
-					//logprint("added client" . $FullName);
+					alert("alert-success","Success!", "The record has been saved.");
 				} else{
-					echo "Oops! Something went wrong. Please try again later.";
+					alert("alert-danger","Error!", "An error has occured and your record has not been saved.");
 				}
 			}
 			
@@ -140,7 +133,7 @@
 				<div class="form-group <?php echo (!empty($PhoneNumber_err)) ? 'has-error' : ''; ?>">
 					<label class="control-label col-sm-2">Phone Number</label>
 					<div class="col-sm-offset-2 col-sm-10">
-						<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="PhoneNumber" class="form-control">
+						<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="PhoneNumber" class="form-control" placeholder="012-345-6789">
 						<span class="help-block"><?php echo $PhoneNumber_err; ?></span>
 					</div>
 				</div>
@@ -172,16 +165,8 @@
 				<div class="form-group <?php echo (!empty($ZIP_err)) ? 'has-error' : ''; ?>">
 					<label class="control-label col-sm-2">ZIP</label>
 					<div class="col-sm-offset-2 col-sm-10">
-						<input type="text" name="ZIP" class="form-control">
+						<input type="text" name="ZIP" class="form-control" placeholder="12345">
 						<span class="help-block"><?php echo $ZIP_err; ?></span>
-					</div>
-				</div>
-
-				<div class="form-group <?php echo (!empty($Balance_err)) ? 'has-error' : ''; ?>">
-					<label class="control-label col-sm-2">Balance</label>
-					<div class="col-sm-offset-2 col-sm-10">
-						<input type="number" step="any" min=0 name="Balance" class="form-control">
-						<span class="help-block"><?php echo $Balance_err; ?></span>
 					</div>
 				</div>
 
