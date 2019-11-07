@@ -125,7 +125,7 @@
 
 					<div class="form-group <?php echo (!empty($Name_err)) ? 'has-error' : ''; ?>">
 						<label class="control-label col-sm-2">Name</label>
-						<div class="col-sm-offset-2 col-sm-10">
+						<div class="col-sm-10">
 							<input type="text" name="Name" class="form-control" value="<?php echo $Name; ?>">
 							<span class="help-block"><?php echo $Name_err; ?></span>
 						</div> 
@@ -133,14 +133,15 @@
 
 					<div class="form-group <?php echo (!empty($Price_err)) ? 'has-error' : ''; ?>">
 						<label class="control-label col-sm-2">Price Per Month</label>
-						<div class="col-sm-offset-2 col-sm-10">
+						<div class="col-sm-10">
 							<input type="number" step="any" min=0 name="Price" class="form-control" value="<?php echo $Price; ?>">
 							<span class="help-block"><?php echo $Price_err; ?></span>
 						</div> 
 					</div>
 
 				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
+					<label class="control-label col-sm-2"></label>
+					<div class="col-sm-10">
 						<input type="submit" class="btn btn-primary" value="Submit">
 						<a class="btn btn-default" href="view.php">Back</a>
 					</div> 

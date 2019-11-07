@@ -124,7 +124,7 @@
 
 				<div class="form-group <?php echo (!empty($FullName_err)) ? 'has-error' : ''; ?>">
 					<label class="control-label col-sm-2">Full Name</label>
-					<div class="col-sm-offset-2 col-sm-10">
+					<div class="col-sm-10">
 						<input type="text" name="FullName" class="form-control" value="<?php echo $FullName; ?>">
 						<span class="help-block"><?php echo $FullName_err; ?></span>
 					</div>
@@ -132,7 +132,7 @@
 
 				<div class="form-group <?php echo (!empty($PhoneNumber_err)) ? 'has-error' : ''; ?>">
 					<label class="control-label col-sm-2">Phone Number</label>
-					<div class="col-sm-offset-2 col-sm-10">
+					<div class="col-sm-10">
 						<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="PhoneNumber" class="form-control" placeholder="012-345-6789">
 						<span class="help-block"><?php echo $PhoneNumber_err; ?></span>
 					</div>
@@ -140,7 +140,7 @@
 				
 				<div class="form-group <?php echo (!empty($Street_err)) ? 'has-error' : ''; ?>">
 					<label class="control-label col-sm-2">Street</label>
-					<div class="col-sm-offset-2 col-sm-10">
+					<div class="col-sm-10">
 						<input type="text" name="Street" class="form-control">
 						<span class="help-block"><?php echo $Street_err; ?></span>
 					</div>
@@ -148,7 +148,7 @@
 
 				<div class="form-group <?php echo (!empty($City_err)) ? 'has-error' : ''; ?>">
 					<label class="control-label col-sm-2">City</label>
-					<div class="col-sm-offset-2 col-sm-10">
+					<div class="col-sm-10">
 						<input type="text" name="City" class="form-control">
 						<span class="help-block"><?php echo $City_err; ?></span>
 					</div>
@@ -156,7 +156,7 @@
 
 				<div class="form-group <?php echo (!empty($State_err)) ? 'has-error' : ''; ?>">
 					<label class="control-label col-sm-2">State</label>
-					<div class="col-sm-offset-2 col-sm-10">
+					<div class="col-sm-10">
 						<input type="text" name="State" class="form-control">
 						<span class="help-block"><?php echo $State_err; ?></span>
 					</div>
@@ -164,14 +164,15 @@
 
 				<div class="form-group <?php echo (!empty($ZIP_err)) ? 'has-error' : ''; ?>">
 					<label class="control-label col-sm-2">ZIP</label>
-					<div class="col-sm-offset-2 col-sm-10">
+					<div class="col-sm-10">
 						<input type="text" name="ZIP" class="form-control" placeholder="12345">
 						<span class="help-block"><?php echo $ZIP_err; ?></span>
 					</div>
 				</div>
 
 				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
+				<label class="control-label col-sm-2"></label>
+					<div class="col-sm-10">
 						<input type="submit" class="btn btn-primary " value="Submit">
 						<a class="btn btn-default" href="view.php">Back</a>
 					</div>

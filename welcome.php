@@ -17,24 +17,25 @@
 			<title>Welcome!</title>
 			<link rel="stylesheet" href="/css/bootstrap.css">
 			<style type="text/css">body{ font: 14px sans-serif; text-align: center; }</style>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		</head>
 	<body>
-
 		<?php requirePermissionLevel(1); ?>		
-		<div class="container"><br>
-			<nav class="navbar navbar-inverse">
+		<div class="container">
+			<br><nav class="navbar navbar-inverse">
 				<div class="container-fluid">
 					<div class="navbar-header">
 						<div class="navbar-brand" href="">Dan's Senior Project</div>
 					</div>
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="#">Welcome</a></li>
-						<li><a href="client/view.php">Clients</a></li>
-						<li><a href="asset/view.php">Assets</a></li>
+						<li><a href="/client/view.php">Clients</a></li>
+						<li><a href="/asset/view.php">Assets</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="account/reset-password.php"><span class="glyphicon glyphicon-user"></span> Change Password</a></li>
-						<li><a href="account/logout.php"><span class="glyphicon glyphicon-log-in"></span> Sign Out</a></li>
+						<li><a href="/account/reset-password.php"><span class="glyphicon glyphicon-user"></span> Change Password</a></li>
+						<li><a href="/account/logout.php"><span class="glyphicon glyphicon-log-in"></span> Sign Out</a></li>
 					</ul>
 				</div>
 			</nav>
