@@ -7,8 +7,6 @@
 		header("location: /account/login.php");
 		exit;
     }
-    
-    requirePermissionLevel(2);
 
 	//include $_SERVER['DOCUMENT_ROOT'] . '/log/logActions.php';
 
@@ -151,109 +149,137 @@
 			<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 			<title>Edit Client</title>
 			<link rel="stylesheet" href="/css/bootstrap.css">
+			<style type="text/css">body{ font: 14px sans-serif; }</style>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		</head>
 	<body>
+		<?php requirePermissionLevel(2); ?>
         <div class="container">
+            <br><nav class="navbar navbar-inverse">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<div class="navbar-brand" href="">Dan's Senior Project</div>
+					</div>
+					<ul class="nav navbar-nav">
+						<li><a href="/welcome.php">Welcome</a></li>
+						<li><a href="/client/view.php">Clients</a></li>
+						<li><a href="/asset/view.php">Assets</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="/account/reset-password.php"><span class="glyphicon glyphicon-user"></span> Change Password</a></li>
+						<li><a href="/account/logout.php"><span class="glyphicon glyphicon-log-in"></span> Sign Out</a></li>
+					</ul>
+				</div>
+			</nav>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="text-center">
+						<h2>Edit Client</h2>
+						<p>Please fill in client details</p>
+					</div>
+					<form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
-			<div class="text-center">
-				<h2>Edit Client</h2>
-				<p>Please fill in client details</p>
+						<div class="form-group <?php echo (!empty($FullName_err)) ? 'has-error' : ''; ?>">
+							<label class="control-label col-sm-2">Full Name</label>
+							<div class="col-sm-10">
+								<input type="text" name="FullName" class="form-control" value="<?php echo $FullName; ?>">
+								<span class="help-block"><?php echo $FullName_err; ?></span>
+							</div>
+						</div> 
+
+						<div class="form-group <?php echo (!empty($PhoneNumber_err)) ? 'has-error' : ''; ?>">
+							<label class="control-label col-sm-2">Phone Number</label>
+							<div class="col-sm-10">
+								<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="PhoneNumber" class="form-control" value="<?php echo $PhoneNumber; ?>">
+								<span class="help-block"><?php echo $PhoneNumber_err; ?></span>
+							</div>
+						</div>
+						
+						<div class="form-group <?php echo (!empty($Street_err)) ? 'has-error' : ''; ?>">
+							<label class="control-label col-sm-2">Street</label>
+							<div class="col-sm-10">
+								<input type="text" name="Street" class="form-control" value="<?php echo $Street; ?>">
+								<span class="help-block"><?php echo $Street_err; ?></span>
+							</div>
+						</div>
+
+						<div class="form-group <?php echo (!empty($City_err)) ? 'has-error' : ''; ?>">
+							<label class="control-label col-sm-2">City</label>
+							<div class="col-sm-10">
+								<input type="text" name="City" class="form-control" value="<?php echo $City; ?>">
+								<span class="help-block"><?php echo $City_err; ?></span>
+							</div>
+						</div>
+
+						<div class="form-group <?php echo (!empty($State_err)) ? 'has-error' : ''; ?>">
+							<label class="control-label col-sm-2">State</label>
+							<div class="col-sm-10">
+								<input type="text" name="State" class="form-control" value="<?php echo $State; ?>">
+								<span class="help-block"><?php echo $State_err; ?></span>
+							</div>
+						</div>
+
+						<div class="form-group <?php echo (!empty($ZIP_err)) ? 'has-error' : ''; ?>">
+							<label class="control-label col-sm-2">ZIP</label>
+							<div class="col-sm-10">
+								<input type="text" name="ZIP" class="form-control" value="<?php echo $ZIP; ?>">
+								<span class="help-block"><?php echo $ZIP_err; ?></span>
+							</div>
+						</div>
+
+						<div class="form-group <?php echo (!empty($Balance_err)) ? 'has-error' : ''; ?>">
+							<label class="control-label col-sm-2">Balance</label>
+							<div class="col-sm-10">
+								<input type="number" step="any" name="Balance" class="form-control" value="<?php echo $Balance; ?>">
+								<span class="help-block"><?php echo $Balance_err; ?></span>
+							</div>
+						</div>
+
+						<div class="form-group">
+						<label class="control-label col-sm-2"></label>
+							<div class="col-sm-10">
+								<input type="submit" class="btn btn-primary" value="Update">
+								<a class="btn btn-danger" data-toggle="modal" data-target="#myModal">Delete</a>
+								<a class="btn btn-default" href="view.php">Back</a>
+							</div>
+						</div>
+
+						<input type="hidden" name="ClientID" value="<?php echo $ClientID; ?>">
+
+					</form>
+
+
+					<div class="modal fade" id="myModal" role="dialog">
+						<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h2 class="modal-title"><strong>Are you sure?</strong></h2>
+							</div>
+							<div class="modal-body">
+								<h4>
+									This will peremenenantly remove <strong><?php echo $FullName; ?></strong> from the system.
+									<br><br>
+									<strong>This cannot be undone.</strong>
+								</h4>
+							</div>
+							<div class="modal-footer">
+								<a class="btn btn-danger" href="remove.php?id=<?php echo $ClientID; ?>">Delete</a>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<br>Another column
+				</div>
 			</div>
-			<form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-
-				<div class="form-group <?php echo (!empty($FullName_err)) ? 'has-error' : ''; ?>">
-					<label class="control-label col-sm-2">Full Name</label>
-					<div class="col-sm-10">
-						<input type="text" name="FullName" class="form-control" value="<?php echo $FullName; ?>">
-						<span class="help-block"><?php echo $FullName_err; ?></span>
-					</div>
-				</div> 
-
-				<div class="form-group <?php echo (!empty($PhoneNumber_err)) ? 'has-error' : ''; ?>">
-					<label class="control-label col-sm-2">Phone Number</label>
-					<div class="col-sm-10">
-						<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="PhoneNumber" class="form-control" value="<?php echo $PhoneNumber; ?>">
-						<span class="help-block"><?php echo $PhoneNumber_err; ?></span>
-					</div>
-				</div>
-				
-				<div class="form-group <?php echo (!empty($Street_err)) ? 'has-error' : ''; ?>">
-					<label class="control-label col-sm-2">Street</label>
-					<div class="col-sm-10">
-						<input type="text" name="Street" class="form-control" value="<?php echo $Street; ?>">
-						<span class="help-block"><?php echo $Street_err; ?></span>
-					</div>
-				</div>
-
-				<div class="form-group <?php echo (!empty($City_err)) ? 'has-error' : ''; ?>">
-					<label class="control-label col-sm-2">City</label>
-					<div class="col-sm-10">
-						<input type="text" name="City" class="form-control" value="<?php echo $City; ?>">
-						<span class="help-block"><?php echo $City_err; ?></span>
-					</div>
-				</div>
-
-				<div class="form-group <?php echo (!empty($State_err)) ? 'has-error' : ''; ?>">
-					<label class="control-label col-sm-2">State</label>
-					<div class="col-sm-10">
-						<input type="text" name="State" class="form-control" value="<?php echo $State; ?>">
-						<span class="help-block"><?php echo $State_err; ?></span>
-					</div>
-				</div>
-
-				<div class="form-group <?php echo (!empty($ZIP_err)) ? 'has-error' : ''; ?>">
-					<label class="control-label col-sm-2">ZIP</label>
-					<div class="col-sm-10">
-						<input type="text" name="ZIP" class="form-control" value="<?php echo $ZIP; ?>">
-						<span class="help-block"><?php echo $ZIP_err; ?></span>
-					</div>
-				</div>
-
-				<div class="form-group <?php echo (!empty($Balance_err)) ? 'has-error' : ''; ?>">
-					<label class="control-label col-sm-2">Balance</label>
-					<div class="col-sm-10">
-						<input type="number" step="any" name="Balance" class="form-control" value="<?php echo $Balance; ?>">
-						<span class="help-block"><?php echo $Balance_err; ?></span>
-					</div>
-				</div>
-
-				<div class="form-group">
-				<label class="control-label col-sm-2"></label>
-					<div class="col-sm-10">
-						<input type="submit" class="btn btn-primary" value="Update">
-						<a class="btn btn-danger" data-toggle="modal" data-target="#myModal">Delete</a>
-						<a class="btn btn-default" href="view.php">Back</a>
-					</div>
-				</div>
-
-				<input type="hidden" name="ClientID" value="<?php echo $ClientID; ?>">
-
-			</form>
-
-
-			<div class="modal fade" id="myModal" role="dialog">
-				<div class="modal-dialog">
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h2 class="modal-title"><strong>Are you sure?</strong></h2>
-					</div>
-					<div class="modal-body">
-						<h4>
-							This will peremenenantly remove <strong><?php echo $FullName; ?></strong> from the system.
-							<br><br>
-							<strong>This cannot be undone.</strong>
-						</h4>
-					</div>
-					<div class="modal-footer">
-						<a class="btn btn-danger" href="remove.php?id=<?php echo $ClientID; ?>">Delete</a>
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					</div>
-				</div>
-			
+			<div class="row">
+				<div class="col-sm-4">.col-sm-4</div>
+				<div class="col-sm-4">.col-sm-4</div>
+				<div class="col-sm-4">.col-sm-4</div>
 			</div>
         </div> 
     </body>

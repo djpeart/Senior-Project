@@ -8,8 +8,6 @@
 		header("location: /account/login.php");
 		exit;
     }
-    
-    requirePermissionLevel(2);
 
 	//include $_SERVER['DOCUMENT_ROOT'] . '/log/logActions.php';
 
@@ -110,12 +108,29 @@
 			<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 			<title>Add Client</title>
 			<link rel="stylesheet" href="/css/bootstrap.css">
+			<style type="text/css">body{ font: 14px sans-serif; }</style>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		</head>
 	<body>
+		<?php requirePermissionLevel(2); ?>
         <div class="container">
-
+            <br><nav class="navbar navbar-inverse">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<div class="navbar-brand" href="">Dan's Senior Project</div>
+					</div>
+					<ul class="nav navbar-nav">
+						<li><a href="/welcome.php">Welcome</a></li>
+						<li><a href="/client/view.php">Clients</a></li>
+						<li><a href="/asset/view.php">Assets</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="/account/reset-password.php"><span class="glyphicon glyphicon-user"></span> Change Password</a></li>
+						<li><a href="/account/logout.php"><span class="glyphicon glyphicon-log-in"></span> Sign Out</a></li>
+					</ul>
+				</div>
+			</nav>
 			<div class="text-center">
 				<h2>Add Client</h2>
 				<p>Please fill in client details</p>
