@@ -50,31 +50,33 @@
                         <th class="text-center">Name</th>
                         <th class="text-center">Price</th>
                         <th class="text-center">Renter Name</th>
-                        <th class="text-center">Rent Start Date</th>
-                        <th class="text-center">Bill Due By</th>
+                        <th class="text-center">Start Date</th>
+                        <th class="text-center">End Date</th>
+                        <th class="text-center">Rented</th>
                     </tr>
                 </thead>
                 <tbody id="myTable">
                     <?php              
 
                         require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
-                        $sql = "SELECT AssetID, Name, Price, FullName, StartDate, BillDueBy FROM assets LEFT JOIN clients ON Client=ClientID";
+                        $sql = "SELECT assets.AssetID, Name, Price, FullName, StartDate, EndDate, Active FROM assets LEFT JOIN (assignments LEFT JOIN clients ON clients.ClientID = assignments.ClientID) ON assets.AssetID = assignments.AssetID";
                         if($stmt = mysqli_prepare($acclink, $sql)){
                             if(mysqli_stmt_execute($stmt)){
                                 mysqli_stmt_store_result($stmt);
                                 if(mysqli_stmt_num_rows($stmt) > 0){
-                                    mysqli_stmt_bind_result($stmt, $AssetID, $Name, $Price, $FullName, $StartDate, $BillDueBy);
+                                    mysqli_stmt_bind_result($stmt, $AssetID, $Name, $Price, $FullName, $StartDate, $EndDate, $Active);
                                     
                                     while (mysqli_stmt_fetch($stmt)){
                                         print "                         <tr class=\"";
-                                        print ($BillDueBy <= date('Y-m-d')) ? "danger" : "";
+                                        //print ($BillDueBy <= date('Y-m-d')) ? "danger" : "";
                                         print  "\">\r\n";
                                             print "                             <td>" . $AssetID . "</td>\r\n";
                                             print "                             <td><a class=\"display: block\" href=\"edit.php?id=" . $AssetID . "\">" . $Name . "</a></td>\r\n";
                                             print "                             <td>" . $Price . "</td>\r\n";
                                             print "                             <td>" . $FullName . "</td>\r\n";
                                             print "                             <td>" . $StartDate . "</td>\r\n";
-                                            print "                             <td>" . $BillDueBy . "</td>\r\n";
+                                            print "                             <td>" . $EndDate . "</td>\r\n";
+                                            print "                             <td>" . $Active . "</td>\r\n";
                                         print "                         </tr>\r\n";
                                     }
                                 }

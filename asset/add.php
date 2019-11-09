@@ -35,22 +35,30 @@
         }
         
         // Check if nClient is empty
-		if(empty(trim($_POST["Client"]))){
-			$Client_err = "Please enter the Client address.";
-		} else{
-			$Client = trim($_POST["Client"]);
-        }
+		if($_POST["Client"] > 0) {
+			$Client = $_POST["Client"];
+		} else {
+			$Client = NULL;
+		}   
         
         // Check if nStartDate is empty
 		if(empty(trim($_POST["StartDate"]))){
-			$StartDate_err = "Please enter the StartDate.";
+			if (isset($Client)) {
+				$StartDate_err = "Please enter the StartDate.";
+			} else {
+				$StartDate = NULL;
+			}
 		} else{
 			$StartDate = trim($_POST["StartDate"]);
         }
         
         // Check if nBillDueBy is empty
 		if(empty(trim($_POST["BillDueBy"]))){
-			$BillDueBy_err = "Please enter the BillDueBy.";
+			if (isset($Client)) {
+				$BillDueBy_err = "Please enter the BillDueBy.";
+			} else {
+				$BillDueBy = NULL;
+			}
 		} else{
 			$BillDueBy = trim($_POST["BillDueBy"]);
         }

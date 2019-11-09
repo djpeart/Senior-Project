@@ -222,7 +222,8 @@
 				<div class="form-group">
 				<label class="control-label col-sm-2"></label>
 					<div class="col-sm-10">
-						<input type="submit" class="btn btn-primary" value="Submit">
+						<input type="submit" class="btn btn-primary" value="Update">
+						<a class="btn btn-danger" data-toggle="modal" data-target="#myModal">Delete</a>
 						<a class="btn btn-default" href="view.php">Back</a>
 					</div>
 				</div>
@@ -230,7 +231,30 @@
 				<input type="hidden" name="ClientID" value="<?php echo $ClientID; ?>">
 
 			</form>
+
+
+			<div class="modal fade" id="myModal" role="dialog">
+				<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h2 class="modal-title"><strong>Are you sure?</strong></h2>
+					</div>
+					<div class="modal-body">
+						<h4>
+							This will peremenenantly remove <strong><?php echo $FullName; ?></strong> from the system.
+							<br><br>
+							<strong>This cannot be undone.</strong>
+						</h4>
+					</div>
+					<div class="modal-footer">
+						<a class="btn btn-danger" href="remove.php?id=<?php echo $ClientID; ?>">Delete</a>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
 			
+			</div>
         </div> 
     </body>
 </html>
