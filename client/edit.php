@@ -11,27 +11,24 @@
 	//include $_SERVER['DOCUMENT_ROOT'] . '/log/logActions.php';
 
     // Include config file
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
+    include $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
 
 	
     // Define variables and initialize with empty values
 	$FullName = $PhoneNumber = $Street = $City = $State = $ZIP = $Balance = $ClientID = "";
 	$FullName_err = $PhoneNumber_err = $Street_err = $City_err = $State_err = $ZIP_err = $Balance_err  = "";
+	$assignments = array();
 
 	// Processing form data when form is submitted
 	if($_SERVER["REQUEST_METHOD"] == "GET"){
-
-		// Prepare a select statement
+		
 		$sql = "SELECT ClientID, FullName, PhoneNumber, Street, City, State, ZIP, Balance FROM clients WHERE ClientID = ?";
 		
 		if($stmt = mysqli_prepare($acclink, $sql)){ 
-			// Bind variables to the prepared statement as parameters
 			mysqli_stmt_bind_param($stmt, "i", $param_ClientID);
 
-			// Set parameters
 			$param_ClientID = $_GET["id"];           
 
-			// Attempt to execute the prepared statement
 			if(mysqli_stmt_execute($stmt)){
 				mysqli_stmt_store_result($stmt);
 				if(mysqli_stmt_num_rows($stmt) == 1){
@@ -43,10 +40,43 @@
 			} else{
 				echo "Oops! Something went wrong. Please try again later.";
 			}
-		
+
 			mysqli_stmt_close($stmt);
-			mysqli_close($acclink);
 		}
+
+		
+		$sql = "SELECT assets.AssetID, Name, Price, StartDate, EndDate, Active FROM assignments INNER JOIN assets ON assignments.AssetID=assets.AssetID WHERE ClientID=?";
+		
+		if($stmt = mysqli_prepare($acclink, $sql)){ 
+			mysqli_stmt_bind_param($stmt, "i", $param_ClientID);
+			
+			$param_ClientID = $_GET["id"];           
+
+			if(mysqli_stmt_execute($stmt)){
+				mysqli_stmt_store_result($stmt);
+				if(mysqli_stmt_num_rows($stmt) > 0){
+					mysqli_stmt_bind_result($stmt, $AssetID, $Name, $Price, $StartDate, $EndDate, $Active);
+					while(mysqli_stmt_fetch($stmt)){
+						$assignments[count($assignments)+1] = array (
+							"AssetID" => $AssetID,
+							"Name" => $Name,
+							"Price" => $Price,
+							"StartDate" => $StartDate,
+							"EndDate" => $EndDate,
+							"Active" => $Active
+						);	
+					}
+				}
+			} else{
+				echo "Oops! Couldn't pull data. Please try again later.";
+			}
+
+			mysqli_stmt_close($stmt);
+		}else{
+			echo "Oops! Couldn't connect. Please try again later.";
+		}
+
+		mysqli_close($acclink);
 	}
 
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -154,30 +184,38 @@
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		</head>
 	<body>
-		<?php requirePermissionLevel(2); ?>
-        <div class="container">
-            <br><nav class="navbar navbar-inverse">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<div class="navbar-brand" href="">Dan's Senior Project</div>
-					</div>
-					<ul class="nav navbar-nav">
+
+		<nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>                        
+                    </button>
+                    <div class="navbar-brand" href="">Dan's Senior Project</div>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
 						<li><a href="/welcome.php">Welcome</a></li>
-						<li><a href="/client/view.php">Clients</a></li>
+						<li class="active"><a href="/client/view.php">Clients</a></li>
 						<li><a href="/asset/view.php">Assets</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="/account/reset-password.php"><span class="glyphicon glyphicon-user"></span> Change Password</a></li>
 						<li><a href="/account/logout.php"><span class="glyphicon glyphicon-log-in"></span> Sign Out</a></li>
 					</ul>
+                </div>
+            </div>
+        </nav>
+		<?php requirePermissionLevel(2); ?>
+        <div class="container">
+				<div class="text-center">
+					<h2>Client View</h2>
 				</div>
-			</nav>
 			<div class="row">
-				<div class="col-sm-6">
-					<div class="text-center">
-						<h2>Edit Client</h2>
-						<p>Please fill in client details</p>
-					</div>
+				<div class="col-md-6">
+					<h3 class="text-center"><strong>Client Details</strong></h3>
 					<form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
 						<div class="form-group <?php echo (!empty($FullName_err)) ? 'has-error' : ''; ?>">
@@ -250,38 +288,66 @@
 					</form>
 
 
-					<div class="modal fade" id="myModal" role="dialog">
-						<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h2 class="modal-title"><strong>Are you sure?</strong></h2>
-							</div>
-							<div class="modal-body">
-								<h4>
-									This will peremenenantly remove <strong><?php echo $FullName; ?></strong> from the system.
-									<br><br>
-									<strong>This cannot be undone.</strong>
-								</h4>
-							</div>
-							<div class="modal-footer">
-								<a class="btn btn-danger" href="remove.php?id=<?php echo $ClientID; ?>">Delete</a>
-								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							</div>
-						</div>
+				</div>
+				<div class="col-md-6">
+					<h3 class="text-center"><strong>Client's Assets</strong></h3>
+					<div class="table-responsive">
+						<table class="table table-striped ">
+							<thead>
+								<tr>
+									<th style="text-align: center">AssetID</th>
+									<th style="text-align: center">Name</th>
+									<th style="text-align: center">Price</th>
+									<th style="text-align: center">StartDate</th>
+									<th style="text-align: center">EndDate</th>
+									<th style="text-align: center">Active</th>
+								</tr>
+							</thead>
+							<tbody id="myTable">
+								<?php 
+									foreach ($assignments as $assignment) {
+										print "\r\n                         <tr class=\"";
+										//print ($total > 0) ? "danger" : "";
+										print  "\">\r\n";
+											print "                             <td>" . $assignment["AssetID"] . "</td>\r\n";
+											print "                             <td>" . $assignment["Name"] . "</td>\r\n";
+											print "                             <td>" . $assignment["Price"] . "</td>\r\n";
+											print "                             <td>" . $assignment["StartDate"] . "</td>\r\n";
+											print "                             <td>" . $assignment["EndDate"] . "</td>\r\n";
+											print "                             <td>" . $assignment["Active"] . "</td>\r\n";
+										print "                         </tr>\r\n";
+									}
+									
+								?>
+							</tbody>
+						</table>
 					</div>
 				</div>
-				<div class="col-sm-6">
-					<br>Another column
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-4">.col-sm-4</div>
-				<div class="col-sm-4">.col-sm-4</div>
-				<div class="col-sm-4">.col-sm-4</div>
 			</div>
         </div> 
+
+		<div class="modal fade" id="myModal" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h2 class="modal-title"><strong>Are you sure?</strong></h2>
+					</div>
+					<div class="modal-body">
+						<h4>
+							This will peremenenantly remove <strong><?php echo $FullName; ?></strong> from the system.
+							<br><br>
+							<strong>This cannot be undone.</strong>
+						</h4>
+					</div>
+					<div class="modal-footer">
+						<a class="btn btn-danger" href="remove.php?id=<?php echo $ClientID; ?>">Delete</a>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
     </body>
 </html>
 
