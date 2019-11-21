@@ -11,18 +11,18 @@
 	//include $_SERVER['DOCUMENT_ROOT'] . '/log/logActions.php';
 
     // Include config file
-    include $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
 
 	
     // Define variables and initialize with empty values
 	$FullName = $PhoneNumber = $Street = $City = $State = $ZIP = $Balance = $ClientID = "";
 	$FullName_err = $PhoneNumber_err = $Street_err = $City_err = $State_err = $ZIP_err = $Balance_err  = "";
-	$assignments = array();
+
 
 	// Processing form data when form is submitted
 	if($_SERVER["REQUEST_METHOD"] == "GET"){
 		
-		$sql = "SELECT ClientID, FullName, PhoneNumber, Street, City, State, ZIP, Balance FROM clients WHERE ClientID = ?";
+		$sql = "SELECT ClientID, FullName, PhoneNumber, Street, City, State, ZIP, MonthlyPrice, Balance, DueDate FROM clients WHERE ClientID = ?";
 		
 		if($stmt = mysqli_prepare($acclink, $sql)){ 
 			mysqli_stmt_bind_param($stmt, "i", $param_ClientID);
@@ -32,9 +32,13 @@
 			if(mysqli_stmt_execute($stmt)){
 				mysqli_stmt_store_result($stmt);
 				if(mysqli_stmt_num_rows($stmt) == 1){
-					mysqli_stmt_bind_result($stmt, $ClientID, $FullName, $PhoneNumber, $Street, $City, $State, $ZIP, $Balance);
+					mysqli_stmt_bind_result($stmt, $ClientID, $FullName, $PhoneNumber, $Street, $City, $State, $ZIP, $MonthlyPrice, $Balance, $DueDate);
 					if (!mysqli_stmt_fetch($stmt)){	
 						echo "Oops! Something went wrong. Please try again later.";			
+					} else {
+						$DaysTillDue = date_diff(date_create($DueDate),date_create(date("Y-m-d")))->format("%a");
+						if ($DueDate > date("Y-m-d")) 
+							$DaysTillDue = -$DaysTillDue;
 					}
 				}
 			} else{
@@ -44,8 +48,9 @@
 			mysqli_stmt_close($stmt);
 		}
 
-		
-		$sql = "SELECT assets.AssetID, Name, Price, StartDate, EndDate, Active FROM assignments INNER JOIN assets ON assignments.AssetID=assets.AssetID WHERE ClientID=?";
+
+		$assignments = array();
+		$sql = "SELECT AssignmentID, assets.AssetID, Name, Price, StartDate, EndDate, Active FROM assignments INNER JOIN assets ON assignments.AssetID=assets.AssetID WHERE ClientID=?";
 		
 		if($stmt = mysqli_prepare($acclink, $sql)){ 
 			mysqli_stmt_bind_param($stmt, "i", $param_ClientID);
@@ -55,9 +60,10 @@
 			if(mysqli_stmt_execute($stmt)){
 				mysqli_stmt_store_result($stmt);
 				if(mysqli_stmt_num_rows($stmt) > 0){
-					mysqli_stmt_bind_result($stmt, $AssetID, $Name, $Price, $StartDate, $EndDate, $Active);
+					mysqli_stmt_bind_result($stmt, $AssignmentID, $AssetID, $Name, $Price, $StartDate, $EndDate, $Active);
 					while(mysqli_stmt_fetch($stmt)){
-						$assignments[count($assignments)+1] = array (
+						$assignments[$AssignmentID] = array (
+							"AssignmentID" => $AssignmentID,
 							"AssetID" => $AssetID,
 							"Name" => $Name,
 							"Price" => $Price,
@@ -72,11 +78,58 @@
 			}
 
 			mysqli_stmt_close($stmt);
-		}else{
-			echo "Oops! Couldn't connect. Please try again later.";
 		}
 
-		mysqli_close($acclink);
+
+		$payments = array();
+		$sql = "SELECT PaymentID, Amount, Date FROM payments WHERE ClientID=?";
+		
+		if($stmt = mysqli_prepare($acclink, $sql)){ 
+			mysqli_stmt_bind_param($stmt, "i", $param_ClientID);
+			
+			$param_ClientID = $_GET["id"];           
+
+			if(mysqli_stmt_execute($stmt)){
+				mysqli_stmt_store_result($stmt);
+				if(mysqli_stmt_num_rows($stmt) > 0){
+					mysqli_stmt_bind_result($stmt, $PaymentID, $Amount, $Date);
+					while(mysqli_stmt_fetch($stmt)){
+						$payments[$PaymentID] = array (
+							"PaymentID" => $PaymentID,
+							"Amount" => $Amount,
+							"Date" => $Date
+						);	
+					}
+				}
+			} else{
+				echo "Oops! Couldn't pull data. Please try again later.";
+			}
+
+			mysqli_stmt_close($stmt);
+		}
+
+		$assets = array();
+		$sql = "SELECT assets.AssetID, Name FROM assets LEFT JOIN assignments ON assets.AssetID = assignments.AssetID WHERE AssignmentID IS NULL";
+		
+		if($stmt = mysqli_prepare($acclink, $sql)){			
+			if(mysqli_stmt_execute($stmt)){
+				mysqli_stmt_store_result($stmt);
+				if(mysqli_stmt_num_rows($stmt) > 0){
+					mysqli_stmt_bind_result($stmt, $AssetID, $Name);
+					while (mysqli_stmt_fetch($stmt)){
+						$assets[count($assets)+1] = array (
+							"AssetID" => $AssetID,
+							"Name" => $Name
+						);
+					}
+				}
+			}
+			mysqli_stmt_close($stmt);
+		}
+		
+
+
+		//mysqli_close($acclink);
 	}
 
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -122,14 +175,7 @@
 		} else{
 			$ZIP = trim($_POST["ZIP"]);
 		}
-		
-		// Check if nZIP is empty
-		if(empty(trim($_POST["Balance"]))){
-			$Balance_err = "Please enter the Balance.";
-		} else{
-			$Balance = trim($_POST["Balance"]);
-		}
-		
+				
 		if(empty($_POST["ClientID"])){
 			echo "Didn't receive ClientID, please go back and try again";
 		} else {
@@ -137,13 +183,13 @@
 		}
 
 		// Validate entries are in
-		if(empty($FullName_err) && empty($PhoneNumber_err) && empty($Street_err) && empty($City_err) && empty($State_err) && empty($ZIP_err) && empty($Balance_err)){
+		if(empty($FullName_err) && empty($PhoneNumber_err) && empty($Street_err) && empty($City_err) && empty($State_err) && empty($ZIP_err)){
 			// Prepare a select statement
-			$sql = "UPDATE clients SET FullName = ?, PhoneNumber = ?, Street = ?, City = ?, State = ?, ZIP = ?, Balance = ? WHERE ClientID = ?";
+			$sql = "UPDATE clients SET FullName = ?, PhoneNumber = ?, Street = ?, City = ?, State = ?, ZIP = ? WHERE ClientID = ?";
 			
 			if($stmt = mysqli_prepare($acclink, $sql)){ //This is the line that gives me the error
 				// Bind variables to the prepared statement as parameters
-				mysqli_stmt_bind_param($stmt, "sssssidi", $param_FullName, $param_PhoneNumber, $param_Street, $param_City, $param_State, $param_ZIP, $param_Balance, $param_ClientID);
+				mysqli_stmt_bind_param($stmt, "sssssidi", $param_FullName, $param_PhoneNumber, $param_Street, $param_City, $param_State, $param_ZIP, $param_ClientID);
 			
 
 				// Set parameters
@@ -153,7 +199,6 @@
 				$param_City = $City;
 				$param_State = $State;
 				$param_ZIP = $ZIP;
-				$param_Balance = $Balance;   
 				$param_ClientID = $ClientID;   
 
 				// Attempt to execute the prepared statement
@@ -167,7 +212,7 @@
 			
 			// Close statement
 			mysqli_stmt_close($stmt);
-			mysqli_close($acclink);
+			//mysqli_close($acclink);
 		} 
 	}
 
@@ -184,37 +229,51 @@
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		</head>
 	<body>
-
-		<nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>                        
-                    </button>
-                    <div class="navbar-brand" href="">Dan's Senior Project</div>
-                </div>
-                <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav">
-						<li><a href="/welcome.php">Welcome</a></li>
-						<li class="active"><a href="/client/view.php">Clients</a></li>
-						<li><a href="/asset/view.php">Assets</a></li>
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="/account/reset-password.php"><span class="glyphicon glyphicon-user"></span> Change Password</a></li>
-						<li><a href="/account/logout.php"><span class="glyphicon glyphicon-log-in"></span> Sign Out</a></li>
-					</ul>
-                </div>
-            </div>
-        </nav>
 		<?php requirePermissionLevel(2); ?>
-        <div class="container">
-				<div class="text-center">
-					<h2>Client View</h2>
+
+		<div class="container">
+
+			<br><nav class="navbar navbar-inverse">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>                        
+						</button>
+						<div class="navbar-brand" href="">Dan's Senior Project</div>
+					</div>
+					<div class="collapse navbar-collapse" id="myNavbar">
+					<ul class="nav navbar-nav">
+							<li><a href="/welcome.php">Welcome</a></li>
+							<li class="active"><a href="/client/view.php">Clients</a></li>
+							<li><a href="/asset/view.php">Assets</a></li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="/account/reset-password.php"><span class="glyphicon glyphicon-user"></span> Change Password</a></li>
+							<li><a href="/account/logout.php"><span class="glyphicon glyphicon-log-in"></span> Sign Out</a></li>
+						</ul>
+					</div>
 				</div>
+			</nav>
+
+			<div class="text-center">
+				<h1>Client View</h1>
+			</div>
+
 			<div class="row">
 				<div class="col-md-6">
+
+					<h3 class="text-center"><strong>Account Status</strong></h3>
+					<div class="col-sm-offset-2">
+						<strong>Due Date: </strong> <?php echo $DueDate; echo ($DaysTillDue > 0) ? " (" . abs($DaysTillDue) . " days ago)" : " (" . abs($DaysTillDue) . " days from now)";?><br>
+						<strong>Montly Due: </strong> 		$<?php echo $MonthlyPrice; ?><br>
+						<strong>Amount Paid: </strong> 		$<?php echo $Balance; ?><br>
+						<strong>Balance: </strong> $<?php echo $MonthlyPrice - $Balance; ?><br>
+					</div>
+
+					<br />
+
 					<h3 class="text-center"><strong>Client Details</strong></h3>
 					<form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
@@ -266,55 +325,47 @@
 							</div>
 						</div>
 
-						<div class="form-group <?php echo (!empty($Balance_err)) ? 'has-error' : ''; ?>">
-							<label class="control-label col-sm-2">Balance</label>
-							<div class="col-sm-10">
-								<input type="number" step="any" name="Balance" class="form-control" value="<?php echo $Balance; ?>">
-								<span class="help-block"><?php echo $Balance_err; ?></span>
-							</div>
-						</div>
-
 						<div class="form-group">
 						<label class="control-label col-sm-2"></label>
 							<div class="col-sm-10">
-								<input type="submit" class="btn btn-primary" value="Update">
-								<a class="btn btn-danger" data-toggle="modal" data-target="#myModal">Delete</a>
-								<a class="btn btn-default" href="view.php">Back</a>
+								<input type="submit" class="btn btn-primary" value="Save Changes">
 							</div>
 						</div>
 
 						<input type="hidden" name="ClientID" value="<?php echo $ClientID; ?>">
 
 					</form>
-
+					<br />
+				
+					
 
 				</div>
 				<div class="col-md-6">
+
+					
 					<h3 class="text-center"><strong>Client's Assets</strong></h3>
 					<div class="table-responsive">
-						<table class="table table-striped ">
+						<table class="table table-hover ">
 							<thead>
 								<tr>
-									<th style="text-align: center">AssetID</th>
-									<th style="text-align: center">Name</th>
-									<th style="text-align: center">Price</th>
-									<th style="text-align: center">StartDate</th>
-									<th style="text-align: center">EndDate</th>
-									<th style="text-align: center">Active</th>
+									<th scope="col">#</th>
+									<th scope="col">Name</th>
+									<th scope="col">Price</th>
+									<th scope="col">StartDate</th>
+									<th scope="col">EndDate</th>
+									<th scope="col">Active</th>
 								</tr>
 							</thead>
 							<tbody id="myTable">
 								<?php 
 									foreach ($assignments as $assignment) {
-										print "\r\n                         <tr class=\"";
-										//print ($total > 0) ? "danger" : "";
-										print  "\">\r\n";
-											print "                             <td>" . $assignment["AssetID"] . "</td>\r\n";
+										print "\r\n                         <tr onclick=\"window.location='\\edit.php?id=" . $ClientID . "&aid=" . $assignment["AssignmentID"] . "';\">\r\n";
+											print "                             <th scope=\"row\">" . $assignment["AssetID"] . "</th>\r\n";
 											print "                             <td>" . $assignment["Name"] . "</td>\r\n";
 											print "                             <td>" . $assignment["Price"] . "</td>\r\n";
 											print "                             <td>" . $assignment["StartDate"] . "</td>\r\n";
 											print "                             <td>" . $assignment["EndDate"] . "</td>\r\n";
-											print "                             <td>" . $assignment["Active"] . "</td>\r\n";
+											print "                             <td>" . ($assignment["Active"] ? "Yes" : "No") . "</td>\r\n";
 										print "                         </tr>\r\n";
 									}
 									
@@ -322,11 +373,49 @@
 							</tbody>
 						</table>
 					</div>
+					<?php if(count($assignments) == 0) print "There's nothing here :(<br>" ?>
+					<br /><a class="btn btn-primary" data-toggle="modal" data-target="#addAssignment">Assign Asset</a>
+
+					<br><br>
+					<h3 class="text-center"><strong>Payments</strong></h3>
+					<div class="table-responsive">
+						<table class="table table-hover ">
+							<thead>
+								<tr>
+									<th scope="col">PaymentID</th>
+									<th scope="col">Amount</th>
+									<th scope="col">Date Received</th>
+								</tr>
+							</thead>
+							<tbody id="myTable">
+								<?php 
+									foreach ($payments as $payment) {
+										print "\r\n                         <tr onclick=\"window.location='\\edit.php?id=" . $ClientID . "&pid=" . $payment["PaymentID"] . "';\">\r\n";
+											print "                             <th scope=\"row\">" . $payment["PaymentID"] . "</th>\r\n";
+											print "                             <td>" . $payment["Amount"] . "</td>\r\n";
+											print "                             <td>" . $payment["Date"] . "</td>\r\n";
+										print "                         </tr>\r\n";
+									}
+									
+								?>
+							</tbody>
+						</table>
+					</div>
+					<?php if(count($payments) == 0) print "There's nothing here :(<br>" ?>
+					<br /><a class="btn btn-primary" data-toggle="modal" data-target="#addPayment">Add Payment</a>
 				</div>
+
+				
+			</div>
+
+			<br />
+			<div class="text-center">
+				<a class="btn btn-default" href="view.php">Back</a><br /><br />
+				<a class="btn btn-danger" data-toggle="modal" data-target="#deleteClient">Delete Client</a><br /><br />
 			</div>
         </div> 
 
-		<div class="modal fade" id="myModal" role="dialog">
+		<div class="modal fade" id="deleteClient" role="dialog">
 			<div class="modal-dialog">
 				<!-- Modal content-->
 				<div class="modal-content">
@@ -348,7 +437,240 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="modal fade" id="addAssignment" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<form class="form-horizontal" action="/client/assign.php" method="get">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h2 class="modal-title"><strong>Assign Asset</strong></h2>
+						</div>
+						<div class="modal-body">
+
+							<input required type="hidden" name="action" value="add">
+							<input required type="hidden" name="cid" value="<?php echo $ClientID; ?>">
+							
+
+							<div class="form-group">
+								<label class="control-label col-sm-2">Asset</label>
+								<div class="col-sm-10">
+									<select required name="Asset" class="form-control">
+										<?php
+
+											if(count($assets) > 0){
+
+												echo "								<option selected value=-1>--Select--</option>\r\n";
+
+												foreach ($assets as $asset) {
+													echo "								<option value=" . $asset["AssetID"] . ">" . $asset["Name"] . "</option>\r\n";
+												}
+
+											}
+
+										?>
+									</select>
+									<span class="help-block">
+										<?php 
+											if(count($assets) == 0)
+												print "No unassigned assets!";
+										?>
+									</span>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-sm-2">Start Date</label>
+								<div class="col-sm-10">
+									<input required type="date" name="StartDate" class="form-control">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-sm-2">End Date</label>
+								<div class="col-sm-10">
+									<input type="date" name="EndDate" class="form-control">
+								</div>
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<div class="form-group">
+								<label class="control-label col-sm-2"></label>
+								<div class="col-sm-10">
+									<input type="submit" class="btn btn-primary" value="Add">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+							
+							
+						</div>
+						
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="addPayment" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<form class="form-horizontal" action="/client/payment.php" method="get">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h2 class="modal-title"><strong>Add Payment</strong></h2>
+						</div>
+						<div class="modal-body">
+						
+							<input required type="hidden" name="action" value="add">
+							<input required type="hidden" name="cid" value="<?php echo $ClientID; ?>">
+
+							<div class="form-group">
+								<label class="control-label col-sm-2">Payment Amount</label>
+								<div class="col-sm-10">
+									<input required type="number" step="any" min=0 name="Amount" class="form-control">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-sm-2">Date Received</label>
+								<div class="col-sm-10">
+									<input required type="date" name="Date" class="form-control">
+								</div>
+							</div>
+
+						</div>
+						<div class="modal-footer">
+
+							<div class="form-group">
+								<label class="control-label col-sm-2"></label>
+								<div class="col-sm-10">
+									<input type="submit" class="btn btn-primary" value="Add">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="editAssignment" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<form class="form-horizontal" action="/client/assign.php" method="get">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h2 class="modal-title"><strong>Edit Assignment</strong></h2>
+						</div>
+						<div class="modal-body">
+							
+							<input required type="hidden" name="action" value="update">
+							<input required type="hidden" name="aid" value="<?php echo $_GET["aid"]; ?>">
+							<input required type="hidden" name="cid" value="<?php echo $ClientID; ?>">
+							
+							<div class="form-group">
+								<label class="control-label col-sm-2">Asset</label>
+								<div class="col-sm-10">
+									<div class="form-control">
+										<?php echo $assignments[$_GET["aid"]]["Name"]; ?>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-sm-2">Start Date</label>
+								<div class="col-sm-10">
+									<input required type="date" name="StartDate" class="form-control" value="<?php echo $assignments[$_GET["aid"]]["StartDate"]; ?>">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-sm-2">End Date</label>
+								<div class="col-sm-10">
+									<input type="date" name="EndDate" class="form-control" value="<?php echo $assignments[$_GET["aid"]]["EndDate"]; ?>">
+								</div>
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<div class="form-group">
+								<label class="control-label col-sm-2"></label>
+								<div class="col-sm-10">
+									<input type="submit" class="btn btn-primary" value="Update">
+									<a class="btn btn-danger" data-toggle="modal" data-target="#deleteAssignment">Delete Assignment</a>
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+							
+							
+						</div>
+						
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="deleteAssignment" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h2 class="modal-title"><strong>Are you sure?</strong></h2>
+					</div>
+					<div class="modal-body">
+						<h4>
+							This will unassign <strong><?php echo $assignments[$_GET["aid"]]["Name"]; ?></strong> from <strong><?php echo $FullName; ?></strong>
+							<br><br>
+							Monthly Due will be re-calculated.
+						</h4>
+					</div>
+					<div class="modal-footer">
+						<a class="btn btn-danger" href="assign.php?action=delete&aid=<?php echo $_GET["aid"]; ?>&cid=<?php echo $ClientID; ?>">Unassign</a>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="deletePayment" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h2 class="modal-title"><strong>Remove Payment</strong></h2>
+					</div>
+					<div class="modal-body"> 
+						This will remove record of the payment made on <strong><?php echo $payments[$_GET["pid"]]["Date"]; ?></strong> in the amount of <strong>$<?php echo $payments[$_GET["pid"]]["Amount"]; ?></strong>.
+						<br><br>
+						This will not update <strong><?php echo $FullName; ?></strong>'s balance.
+						<br><br><br>
+						<strong>This cannot be undone.</strong>
+						
+					</div>
+					<div class="modal-footer">
+						<a class="btn btn-danger" href="payment.php?action=delete&pid=<?php echo $_GET["pid"]; ?>&cid=<?php echo $ClientID; ?>">Delete</a>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
     </body>
+	<?php 
+		if (isset($_GET["aid"])) {
+			print "<script type=\"text/javascript\"> $('#editAssignment').modal('show');</script>";
+		}
+
+		if (isset($_GET["pid"])) {
+			print "<script type=\"text/javascript\"> $('#deletePayment').modal('show');</script>";
+		}
+	?>
+
 </html>
 
 

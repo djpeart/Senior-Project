@@ -7,6 +7,23 @@
         
 	}
 
+	//print date_diff(date_create("2019-10-1"), date("Y-m-d"));
+
+	$date1 = date_create("2019-10-15");
+	$date2 = date_create(date("Y-m-d"));
+
+	//difference between two dates
+	$diff = date_diff(date_create("2019-10-15"),date_create(date("Y-m-d")))->format("%a");
+
+	if ($diff > 10) {
+		print "higher";
+	} else {
+		print "lower";
+	}
+	//count days
+
+	$abc = $client["DueDate"] < date("Y-m-d");
+    ($abc) ? print "hello" : print "goodbye";
 ?>
 
 <!DOCTYPE html>

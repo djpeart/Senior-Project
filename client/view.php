@@ -47,7 +47,7 @@
 			<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 			<title>View Client</title>
 			<link rel="stylesheet" href="/css/bootstrap.css">
-            <style type="text/css">body{ font: 14px sans-serif;  text-align: center;}</style>
+            <style type="text/css">body{ font: 14px sans-serif;}</style>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		</head>
@@ -79,32 +79,56 @@
                 </div>
             </div>
         </nav>
-           
-            <h1>Accounts Receivable</h1>
-            Add Amount due
-            Subtract the amount instead of add
-            <br><br><input class="form-control" id="myInput" type="text" placeholder="Search.."><br>
+           <div class="text-center">
+                <h1>Accounts Receivable</h1>
+            </div>
+            
+            <br><br>
+            <div class="row">
+
+                <div class="col-md-2">
+                    <a class="btn btn-primary btn-block" href="add.php">Add a client</a>
+                </div>
+                <div class="col-md-10">
+                    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+                </div>
+            </div><br />
                 <div class="table-responsive">
-                    <table class="table table-striped ">
+                    <table class="table table-hover ">
                         <thead>
                             <tr>
-                                <th style="text-align: center">ClientID</th>
-                                <th style="text-align: center">Name</th>
-                                <th style="text-align: center">Phone Number</th>
-                                <th style="text-align: center">Address</th>
-                                <th style="text-align: center">MonthlyPrice</th>
-                                <th style="text-align: center">Balance</th>
-                                <th style="text-align: center">Due Date</th>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Phone Number</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">MonthlyPrice</th>
+                                <th scope="col">Balance</th>
+                                <th scope="col">Due Date</th>
                             </tr>
                         </thead>
                         <tbody id="myTable">
                             <?php 
                                 foreach ($clients as $client) {
-                                    print "\r\n                         <tr class=\"";
-                                    //print ($total > 0) ? "danger" : "";
+
+                                    print "\r\n                         <tr onclick=\"window.location='\\edit.php?id=" . $client["ClientID"] . "';\" class=\"";
+
+                                    $diff = date_diff(date_create($client["DueDate"]),date_create(date("Y-m-d")))->format("%a");
+                                    if ($client["DueDate"] > date("Y-m-d")) 
+                                        $diff = -$diff;
+                                    
+                                    if ($client["Balance"] > 0) {
+                                        if ($diff >= 0)
+                                            print "danger";
+                                        else if ($diff >= -10)
+                                            print "warning";
+                                    } else if (($client["Balance"] == 0) && ($MonthlyPrice > 0)) {
+                                        print "success";
+                                    }
+                                    
+
                                     print  "\">\r\n";
-                                        print "                             <td>" . $client["ClientID"] . "</td>\r\n";
-                                        print "                             <td><a class=\"display: block\" href=\"edit.php?id=" . $client["ClientID"] . "\">" . $client["FullName"] . "</a></td>\r\n";
+                                        print "                             <th scope=\"row\">" . $client["ClientID"] . "</th>\r\n";
+                                        print "                             <td>" . $client["FullName"] . "</a></td>\r\n";
                                         print "                             <td>" . $client["PhoneNumber"] . "</td>\r\n";
                                         print "                             <td>" . $client["Street"] . " " . $client["City"] . " " . $client["State"] . " " . $client["ZIP"] . "</td>\r\n";
                                         print "                             <td>" . $client["MonthlyPrice"] . "</td>\r\n";
@@ -117,8 +141,6 @@
                         </tbody>
                     </table>
                 </div>
-             <a class="btn btn-primary btn-block" href="add.php">Add a client</a>
-            <a class="btn btn-primary btn-block" href="payment.php">Make Payment</a>
         </div>
 
 
