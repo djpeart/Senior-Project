@@ -599,6 +599,42 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="modal fade" id="editDueDate" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<form class="form-horizontal" action="/client/duedate.php" method="get">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h2 class="modal-title"><strong>Change Due Date</strong></h2>
+						</div>
+						<div class="modal-body">
+						
+							<input required type="hidden" name="cid" value="<?php echo $ClientID; ?>">
+
+							<div class="form-group">
+								<label class="control-label col-sm-2">Due Date</label>
+								<div class="col-sm-10">
+									<input required type="date" name="Date" class="form-control" value="<?php echo $DueDate;?>">
+								</div>
+							</div>
+
+						</div>
+						<div class="modal-footer">
+
+							<div class="form-group">
+								<label class="control-label col-sm-2"></label>
+								<div class="col-sm-10">
+									<input type="submit" class="btn btn-primary" value="Save">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 		
 		<div class="modal fade" id="addPayment" role="dialog">
 			<div class="modal-dialog">
