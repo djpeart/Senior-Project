@@ -86,8 +86,9 @@
             <br><br>
             <div class="row">
 
-                <div class="col-md-2">
-                    <a class="btn btn-primary btn-block" href="add.php">Add a client</a>
+                <div class="col-md-2 text-center">
+                    <?php //<a class="btn btn-primary btn-block" href="add.php">Add a client</a> ?>
+                    <a class="btn btn-primary btn-block" data-toggle="modal" data-target="#addClient">Add Client</a>
                 </div>
                 <div class="col-md-10">
                     <input class="form-control" id="myInput" type="text" placeholder="Search..">
@@ -143,6 +144,81 @@
                 </div>
         </div>
 
+        <div class="modal fade" id="addClient" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<form class="form-horizontal" action="/client/clientrecord.php" method="get">
+
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h2 class="modal-title"><strong>Add Client</strong></h2>
+						</div>
+
+						<div class="modal-body">
+
+                            <input required type="hidden" name="action" value="add">
+							
+							<div class="form-group">
+								<label class="control-label col-sm-2">Full Name</label>
+								<div class="col-sm-10">
+									<input required type="text" name="FullName" class="form-control">
+								</div>
+							</div> 
+
+							<div class="form-group">
+								<label class="control-label col-sm-2">Phone Number</label>
+								<div class="col-sm-10">
+									<input required type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="PhoneNumber" placeholder="012-345-6789" class="form-control">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-sm-2">Street</label>
+								<div class="col-sm-10">
+									<input required type="text" name="Street" class="form-control">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-sm-2">City</label>
+								<div class="col-sm-10">
+									<input required type="text" name="City" class="form-control">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-sm-2">State</label>
+								<div class="col-sm-10">
+									<input required type="text" name="State" class="form-control">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-sm-2">ZIP</label>
+								<div class="col-sm-10">
+									<input required type="text" name="ZIP" class="form-control">
+								</div>
+							</div>
+
+						</div>
+
+						<div class="modal-footer">
+
+							<div class="form-group">
+								<label class="control-label col-sm-2"></label>
+								<div class="col-sm-10">
+									<input type="submit" class="btn btn-primary" value="Add Client">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
 
         <script>
             $(document).ready(function(){

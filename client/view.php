@@ -8,18 +8,8 @@
 		exit;
     }
 
-	//include $_SERVER['DOCUMENT_ROOT'] . '/log/logActions.php';
-
-    // Include config file
     require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
 
-	
-    // Define variables and initialize with empty values
-	$FullName = $PhoneNumber = $Street = $City = $State = $ZIP = $Balance = $ClientID = "";
-	$FullName_err = $PhoneNumber_err = $Street_err = $City_err = $State_err = $ZIP_err = $Balance_err  = "";
-
-
-	// Processing form data when form is submitted
 	if($_SERVER["REQUEST_METHOD"] == "GET"){
 		
 		$sql = "SELECT ClientID, FullName, PhoneNumber, Street, City, State, ZIP, MonthlyPrice, Balance, DueDate FROM clients WHERE ClientID = ?";
@@ -129,91 +119,7 @@
 		
 
 
-		//mysqli_close($acclink);
-	}
-
-	if($_SERVER["REQUEST_METHOD"] == "POST"){
-
-		// Check if nFullName is empty
-		if(empty(trim($_POST["FullName"]))){
-			$FullName_err = "Please the full name.";
-		} else{
-			$FullName = trim($_POST["FullName"]);
-		}
-
-		// Check if nPhoneNumber is empty
-		if(empty(trim($_POST["PhoneNumber"]))){
-			$PhoneNumber_err = "Please enter the phone number.";
-		} else{
-			$PhoneNumber = trim($_POST["PhoneNumber"]);
-		}
-		
-		// Check if nStreet is empty
-		if(empty(trim($_POST["Street"]))){
-			$Street_err = "Please enter the street address.";
-		} else{
-			$Street = trim($_POST["Street"]);
-		}
-		
-		// Check if nCity is empty
-		if(empty(trim($_POST["City"]))){
-			$City_err = "Please enter the city.";
-		} else{
-			$City = trim($_POST["City"]);
-		}
-		
-		// Check if nState is empty
-		if(empty(trim($_POST["State"]))){
-			$State_err = "Please enter the state.";
-		} else{
-			$State = trim($_POST["State"]);
-		}
-		
-		// Check if nZIP is empty
-		if(empty(trim($_POST["ZIP"]))){
-			$ZIP_err = "Please enter the ZIP code.";
-		} else{
-			$ZIP = trim($_POST["ZIP"]);
-		}
-				
-		if(empty($_POST["ClientID"])){
-			echo "Didn't receive ClientID, please go back and try again";
-		} else {
-			$ClientID = $_POST["ClientID"];
-		}
-
-		// Validate entries are in
-		if(empty($FullName_err) && empty($PhoneNumber_err) && empty($Street_err) && empty($City_err) && empty($State_err) && empty($ZIP_err)){
-			// Prepare a select statement
-			$sql = "UPDATE clients SET FullName = ?, PhoneNumber = ?, Street = ?, City = ?, State = ?, ZIP = ? WHERE ClientID = ?";
-			
-			if($stmt = mysqli_prepare($acclink, $sql)){ //This is the line that gives me the error
-				// Bind variables to the prepared statement as parameters
-				mysqli_stmt_bind_param($stmt, "sssssii", $param_FullName, $param_PhoneNumber, $param_Street, $param_City, $param_State, $param_ZIP, $param_ClientID);
-			
-
-				// Set parameters
-				$param_FullName = $FullName;
-				$param_PhoneNumber = $PhoneNumber;
-				$param_Street = $Street;
-				$param_City = $City;
-				$param_State = $State;
-				$param_ZIP = $ZIP;
-				$param_ClientID = $ClientID;   
-
-				// Attempt to execute the prepared statement
-				if(mysqli_stmt_execute($stmt)){
-					echo "Successfully saved the record.";
-					header("location: /client/view.php?id=" . $ClientID);
-				} else{
-					echo "Oops! Something went wrong. Please try again later.";
-				}
-			}
-			
-			// Close statement
-			mysqli_stmt_close($stmt);
-			//mysqli_close($acclink);
-		} 
+		mysqli_close($acclink);
 	}
 
 ?>
@@ -425,62 +331,58 @@
 			<div class="modal-dialog">
 				<!-- Modal content-->
 				<div class="modal-content">
-					<form class="form-horizontal" action="/client/view.php?id=<?php echo $ClientID; ?>" method="post">
+					<form class="form-horizontal" action="/client/clientrecord.php" method="get">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
 							<h2 class="modal-title"><strong>Client Details</strong></h2>
 						</div>
 						<div class="modal-body">
+
+							<input required type="hidden" name="action" value="edit">
 							
-							<div class="form-group <?php echo (!empty($FullName_err)) ? 'has-error' : ''; ?>">
+							<div class="form-group">
 								<label class="control-label col-sm-2">Full Name</label>
 								<div class="col-sm-10">
 									<input type="text" name="FullName" class="form-control" value="<?php echo $FullName; ?>">
-									<span class="help-block"><?php echo $FullName_err; ?></span>
 								</div>
 							</div> 
 
-							<div class="form-group <?php echo (!empty($PhoneNumber_err)) ? 'has-error' : ''; ?>">
+							<div class="form-group">
 								<label class="control-label col-sm-2">Phone Number</label>
 								<div class="col-sm-10">
 									<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="PhoneNumber" class="form-control" value="<?php echo $PhoneNumber; ?>">
-									<span class="help-block"><?php echo $PhoneNumber_err; ?></span>
 								</div>
 							</div>
 							
-							<div class="form-group <?php echo (!empty($Street_err)) ? 'has-error' : ''; ?>">
+							<div class="form-group">
 								<label class="control-label col-sm-2">Street</label>
 								<div class="col-sm-10">
 									<input type="text" name="Street" class="form-control" value="<?php echo $Street; ?>">
-									<span class="help-block"><?php echo $Street_err; ?></span>
 								</div>
 							</div>
 
-							<div class="form-group <?php echo (!empty($City_err)) ? 'has-error' : ''; ?>">
+							<div class="form-group">
 								<label class="control-label col-sm-2">City</label>
 								<div class="col-sm-10">
 									<input type="text" name="City" class="form-control" value="<?php echo $City; ?>">
-									<span class="help-block"><?php echo $City_err; ?></span>
 								</div>
 							</div>
 
-							<div class="form-group <?php echo (!empty($State_err)) ? 'has-error' : ''; ?>">
+							<div class="form-group">
 								<label class="control-label col-sm-2">State</label>
 								<div class="col-sm-10">
 									<input type="text" name="State" class="form-control" value="<?php echo $State; ?>">
-									<span class="help-block"><?php echo $State_err; ?></span>
 								</div>
 							</div>
 
-							<div class="form-group <?php echo (!empty($ZIP_err)) ? 'has-error' : ''; ?>">
+							<div class="form-group">
 								<label class="control-label col-sm-2">ZIP</label>
 								<div class="col-sm-10">
 									<input type="text" name="ZIP" class="form-control" value="<?php echo $ZIP; ?>">
-									<span class="help-block"><?php echo $ZIP_err; ?></span>
 								</div>
 							</div>
 
-							<input type="hidden" name="ClientID" value="<?php echo $ClientID; ?>">
+							<input type="hidden" name="cid" value="<?php echo $ClientID; ?>">
 
 						</div>
 						<div class="modal-footer">
