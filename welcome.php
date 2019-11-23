@@ -30,7 +30,7 @@
 					</div>
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="#">Welcome</a></li>
-						<li><a href="/client/view.php">Clients</a></li>
+						<li><a href="/client">Clients</a></li>
 						<li><a href="/asset/view.php">Assets</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">

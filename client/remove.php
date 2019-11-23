@@ -35,7 +35,7 @@
 
 			// Attempt to execute the prepared statement
 			if(mysqli_stmt_execute($stmt)){
-				header("location: /client/view.php");
+				header("location: /client");
 				//logprint("deleted client" . $ClientID);
 			} else{
 				alert("alert-warning","Error!", "An error has occured and your change has not been saved.");

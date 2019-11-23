@@ -29,7 +29,7 @@
     mysqli_close($acclink);
     
     if (isset($_GET["id"]))
-        header("location: /client/edit.php?id=" . $_GET["id"]);
+        header("location: /client/view.php?id=" . $_GET["id"]);
     else
-        header("location: /client/view.php");
+        header("location: /client");
 ?>

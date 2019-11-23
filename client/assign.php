@@ -79,5 +79,5 @@
         mysqli_close($acclink);
     }
 
-    header("location: /client/edit.php?id=" . $_GET["cid"]);
+    header("location: /client/view.php?id=" . $_GET["cid"]);
 ?>

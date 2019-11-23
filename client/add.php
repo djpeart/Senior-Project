@@ -122,7 +122,7 @@
 					</div>
 					<ul class="nav navbar-nav">
 						<li><a href="/welcome.php">Welcome</a></li>
-						<li><a href="/client/view.php">Clients</a></li>
+						<li><a href="/client">Clients</a></li>
 						<li><a href="/asset/view.php">Assets</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
@@ -189,7 +189,7 @@
 				<label class="control-label col-sm-2"></label>
 					<div class="col-sm-10">
 						<input type="submit" class="btn btn-primary " value="Submit">
-						<a class="btn btn-default" href="view.php">Back</a>
+						<a class="btn btn-default" href="/client">Back</a>
 					</div>
 				</div>
 			</form>
