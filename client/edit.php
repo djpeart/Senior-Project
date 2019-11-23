@@ -189,7 +189,7 @@
 			
 			if($stmt = mysqli_prepare($acclink, $sql)){ //This is the line that gives me the error
 				// Bind variables to the prepared statement as parameters
-				mysqli_stmt_bind_param($stmt, "sssssidi", $param_FullName, $param_PhoneNumber, $param_Street, $param_City, $param_State, $param_ZIP, $param_ClientID);
+				mysqli_stmt_bind_param($stmt, "sssssii", $param_FullName, $param_PhoneNumber, $param_Street, $param_City, $param_State, $param_ZIP, $param_ClientID);
 			
 
 				// Set parameters
@@ -204,7 +204,7 @@
 				// Attempt to execute the prepared statement
 				if(mysqli_stmt_execute($stmt)){
 					echo "Successfully saved the record.";
-					//logprint("added client" . $FullName);
+					header("location: /client/edit.php?id=" . $ClientID);
 				} else{
 					echo "Oops! Something went wrong. Please try again later.";
 				}
@@ -222,7 +222,7 @@
 	<html lang="en">
 		<head>
 			<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-			<title>Edit Client</title>
+			<title>View Client</title>
 			<link rel="stylesheet" href="/css/bootstrap.css">
 			<style type="text/css">body{ font: 14px sans-serif; }</style>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -258,92 +258,57 @@
 			</nav>
 
 			<div class="text-center">
-				<h1>Client View</h1>
+				<h1><strong><?php echo $FullName; ?></strong></h1>
 			</div>
 
 			<div class="row">
 				<div class="col-md-6">
 
-					<h3 class="text-center"><strong>Account Status</strong></h3>
-					<div class="col-sm-offset-2">
-						<strong>Due Date: </strong> <?php echo $DueDate; echo ($DaysTillDue > 0) ? " (" . abs($DaysTillDue) . " days ago)" : " (" . abs($DaysTillDue) . " days from now)";?><br>
-						<strong>Montly Due: </strong> 		$<?php echo $MonthlyPrice; ?><br>
-						<strong>Amount Paid: </strong> 		$<?php echo $Balance; ?><br>
-						<strong>Balance: </strong> $<?php echo $MonthlyPrice - $Balance; ?><br>
+					<h3 class="text-center"><strong>Details</strong></h3>
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col"></th>
+									<th scope="col"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row">Name</th>
+									<td><?php echo $FullName; ?></td>
+								</tr>
+								<tr>
+									<th scope="row">Phone Number</th>
+									<td><?php echo $PhoneNumber; ?></td>
+								</tr>
+								<tr>
+									<th scope="row">Address</th>
+									<td><?php echo $PhoneNumber; ?></td>
+								</tr>
+								<tr>
+									<th scope="row">Street</th>
+									<td><?php echo $Street; ?></td>
+								</tr>
+								<tr>
+									<th scope="row">City</th>
+									<td><?php echo $City; ?></td>
+								</tr>
+								<tr>
+									<th scope="row">State</th>
+									<td><?php echo $State; ?></td>
+								</tr>
+								<tr>
+									<th scope="row">ZIP</th>
+									<td><?php echo $ZIP; ?></td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
-
+					<a class="btn btn-primary" data-toggle="modal" data-target="#editClient">Edit Client Details</a>
 					<br />
-
-					<h3 class="text-center"><strong>Client Details</strong></h3>
-					<form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-
-						<div class="form-group <?php echo (!empty($FullName_err)) ? 'has-error' : ''; ?>">
-							<label class="control-label col-sm-2">Full Name</label>
-							<div class="col-sm-10">
-								<input type="text" name="FullName" class="form-control" value="<?php echo $FullName; ?>">
-								<span class="help-block"><?php echo $FullName_err; ?></span>
-							</div>
-						</div> 
-
-						<div class="form-group <?php echo (!empty($PhoneNumber_err)) ? 'has-error' : ''; ?>">
-							<label class="control-label col-sm-2">Phone Number</label>
-							<div class="col-sm-10">
-								<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="PhoneNumber" class="form-control" value="<?php echo $PhoneNumber; ?>">
-								<span class="help-block"><?php echo $PhoneNumber_err; ?></span>
-							</div>
-						</div>
-						
-						<div class="form-group <?php echo (!empty($Street_err)) ? 'has-error' : ''; ?>">
-							<label class="control-label col-sm-2">Street</label>
-							<div class="col-sm-10">
-								<input type="text" name="Street" class="form-control" value="<?php echo $Street; ?>">
-								<span class="help-block"><?php echo $Street_err; ?></span>
-							</div>
-						</div>
-
-						<div class="form-group <?php echo (!empty($City_err)) ? 'has-error' : ''; ?>">
-							<label class="control-label col-sm-2">City</label>
-							<div class="col-sm-10">
-								<input type="text" name="City" class="form-control" value="<?php echo $City; ?>">
-								<span class="help-block"><?php echo $City_err; ?></span>
-							</div>
-						</div>
-
-						<div class="form-group <?php echo (!empty($State_err)) ? 'has-error' : ''; ?>">
-							<label class="control-label col-sm-2">State</label>
-							<div class="col-sm-10">
-								<input type="text" name="State" class="form-control" value="<?php echo $State; ?>">
-								<span class="help-block"><?php echo $State_err; ?></span>
-							</div>
-						</div>
-
-						<div class="form-group <?php echo (!empty($ZIP_err)) ? 'has-error' : ''; ?>">
-							<label class="control-label col-sm-2">ZIP</label>
-							<div class="col-sm-10">
-								<input type="text" name="ZIP" class="form-control" value="<?php echo $ZIP; ?>">
-								<span class="help-block"><?php echo $ZIP_err; ?></span>
-							</div>
-						</div>
-
-						<div class="form-group">
-						<label class="control-label col-sm-2"></label>
-							<div class="col-sm-10">
-								<input type="submit" class="btn btn-primary" value="Save Changes">
-							</div>
-						</div>
-
-						<input type="hidden" name="ClientID" value="<?php echo $ClientID; ?>">
-
-					</form>
-					<br />
-				
 					
-
-				</div>
-				<div class="col-md-6">
-
-					
-					<h3 class="text-center"><strong>Client's Assets</strong></h3>
+					<h3 class="text-center"><strong>Assets</strong></h3>
 					<div class="table-responsive">
 						<table class="table table-hover ">
 							<thead>
@@ -376,7 +341,48 @@
 					<?php if(count($assignments) == 0) print "There's nothing here :(<br>" ?>
 					<br /><a class="btn btn-primary" data-toggle="modal" data-target="#addAssignment">Assign Asset</a>
 
-					<br><br>
+					<br />
+				</div>
+				<div class="col-md-6">
+
+					<h3 class="text-center"><strong>Account Status</strong></h3>
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col"></th>
+									<th scope="col"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row">Due Date</th>
+									<td><?php echo $DueDate; echo ($DaysTillDue > 0) ? " (" . abs($DaysTillDue) . " days ago)" : " (" . abs($DaysTillDue) . " days from now)"; ?></td>
+								</tr>
+								<tr>
+									<th scope="row">Monthly Due</th>
+									<td>$<?php echo $MonthlyPrice; ?></td>
+								</tr>
+								<tr>
+									<th scope="row">Amount Paid</th>
+									<td>$<?php echo $Balance; ?></td>
+								</tr>
+								<tr>
+									<th scope="row">Balance</th>
+									<td>$<?php echo $MonthlyPrice - $Balance; echo (($MonthlyPrice - $Balance) < 0) ? " (Overpay)" : ""; ?></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<br />
+					<a class="btn btn-primary" data-toggle="modal" data-target="#editDueDate">Change Due Date</a>
+					<a class="btn btn-info" href="update.php?id=<?php echo $ClientID; ?>">Update Balances</a>
+
+					<br />
+					
+
+
 					<h3 class="text-center"><strong>Payments</strong></h3>
 					<div class="table-responsive">
 						<table class="table table-hover ">
@@ -411,9 +417,89 @@
 			<br />
 			<div class="text-center">
 				<a class="btn btn-default" href="view.php">Back</a><br /><br />
-				<a class="btn btn-danger" data-toggle="modal" data-target="#deleteClient">Delete Client</a><br /><br />
+				<?php //<a class="btn btn-danger" data-toggle="modal" data-target="#deleteClient">Delete Client</a><br /><br /> ?>
 			</div>
         </div> 
+
+		<div class="modal fade" id="editClient" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<form class="form-horizontal" action="/client/edit.php?id=<?php echo $ClientID; ?>" method="post">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h2 class="modal-title"><strong>Client Details</strong></h2>
+						</div>
+						<div class="modal-body">
+							
+							<div class="form-group <?php echo (!empty($FullName_err)) ? 'has-error' : ''; ?>">
+								<label class="control-label col-sm-2">Full Name</label>
+								<div class="col-sm-10">
+									<input type="text" name="FullName" class="form-control" value="<?php echo $FullName; ?>">
+									<span class="help-block"><?php echo $FullName_err; ?></span>
+								</div>
+							</div> 
+
+							<div class="form-group <?php echo (!empty($PhoneNumber_err)) ? 'has-error' : ''; ?>">
+								<label class="control-label col-sm-2">Phone Number</label>
+								<div class="col-sm-10">
+									<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="PhoneNumber" class="form-control" value="<?php echo $PhoneNumber; ?>">
+									<span class="help-block"><?php echo $PhoneNumber_err; ?></span>
+								</div>
+							</div>
+							
+							<div class="form-group <?php echo (!empty($Street_err)) ? 'has-error' : ''; ?>">
+								<label class="control-label col-sm-2">Street</label>
+								<div class="col-sm-10">
+									<input type="text" name="Street" class="form-control" value="<?php echo $Street; ?>">
+									<span class="help-block"><?php echo $Street_err; ?></span>
+								</div>
+							</div>
+
+							<div class="form-group <?php echo (!empty($City_err)) ? 'has-error' : ''; ?>">
+								<label class="control-label col-sm-2">City</label>
+								<div class="col-sm-10">
+									<input type="text" name="City" class="form-control" value="<?php echo $City; ?>">
+									<span class="help-block"><?php echo $City_err; ?></span>
+								</div>
+							</div>
+
+							<div class="form-group <?php echo (!empty($State_err)) ? 'has-error' : ''; ?>">
+								<label class="control-label col-sm-2">State</label>
+								<div class="col-sm-10">
+									<input type="text" name="State" class="form-control" value="<?php echo $State; ?>">
+									<span class="help-block"><?php echo $State_err; ?></span>
+								</div>
+							</div>
+
+							<div class="form-group <?php echo (!empty($ZIP_err)) ? 'has-error' : ''; ?>">
+								<label class="control-label col-sm-2">ZIP</label>
+								<div class="col-sm-10">
+									<input type="text" name="ZIP" class="form-control" value="<?php echo $ZIP; ?>">
+									<span class="help-block"><?php echo $ZIP_err; ?></span>
+								</div>
+							</div>
+
+							<input type="hidden" name="ClientID" value="<?php echo $ClientID; ?>">
+
+						</div>
+						<div class="modal-footer">
+							<div class="form-group">
+								<label class="control-label col-sm-2"></label>
+								<div class="col-sm-10">
+									<input type="submit" class="btn btn-primary" value="Save Changes">
+									<a class="btn btn-danger" data-toggle="modal" data-target="#deleteClient">Delete Client</a>
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+							
+							
+						</div>
+						
+					</form>
+				</div>
+			</div>
+		</div>
 
 		<div class="modal fade" id="deleteClient" role="dialog">
 			<div class="modal-dialog">
@@ -437,6 +523,8 @@
 				</div>
 			</div>
 		</div>
+
+		
 
 		<div class="modal fade" id="addAssignment" role="dialog">
 			<div class="modal-dialog">
@@ -659,6 +747,7 @@
 				</div>
 			</div>
 		</div>
+
 
     </body>
 	<?php 

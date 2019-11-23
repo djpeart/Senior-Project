@@ -101,7 +101,7 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Phone Number</th>
                                 <th scope="col">Address</th>
-                                <th scope="col">MonthlyPrice</th>
+                                <th scope="col">Monthly Due</th>
                                 <th scope="col">Balance</th>
                                 <th scope="col">Due Date</th>
                             </tr>
@@ -121,7 +121,7 @@
                                             print "danger";
                                         else if ($diff >= -10)
                                             print "warning";
-                                    } else if (($client["Balance"] == 0) && ($MonthlyPrice > 0)) {
+                                    } else if (($client["Balance"] <= 0) && ($client["MonthlyPrice"] > 0)) {
                                         print "success";
                                     }
                                     
@@ -131,8 +131,8 @@
                                         print "                             <td>" . $client["FullName"] . "</a></td>\r\n";
                                         print "                             <td>" . $client["PhoneNumber"] . "</td>\r\n";
                                         print "                             <td>" . $client["Street"] . " " . $client["City"] . " " . $client["State"] . " " . $client["ZIP"] . "</td>\r\n";
-                                        print "                             <td>" . $client["MonthlyPrice"] . "</td>\r\n";
-                                        print "                             <td>" . $client["Balance"] . "</td>\r\n";
+                                        print "                             <td>$" . $client["MonthlyPrice"] . "</td>\r\n";
+                                        print "                             <td>$" . $client["Balance"] . "</td>\r\n";
                                         print "                             <td>" . $client["DueDate"] . "</td>\r\n";
                                     print "                         </tr>\r\n";
                                 }
