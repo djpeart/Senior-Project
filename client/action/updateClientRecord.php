@@ -79,9 +79,33 @@
 				mysqli_stmt_close($stmt);
 
 			}
+
 		} 
-		// Close connection
-		//mysqli_close($acclink);
+
+		if ($_GET["action"] == "delete" && isset($_GET["cid"])) {
+
+			$sql = "DELETE from clients where ClientID = ?";
+	
+			if($stmt = mysqli_prepare($acclink, $sql)){ 
+				// Bind variables to the prepared statement as parameters
+				mysqli_stmt_bind_param($stmt, "i", $param_ClientID);
+
+				// Set parameters
+				$param_ClientID = $_GET["cid"];           
+
+				// Attempt to execute the prepared statement
+				if(mysqli_stmt_execute($stmt)){
+					header("location: /client");
+				} else{
+					echo "Oops! Something went wrong. Please try again later.";
+				}
+			}
+				
+			// Close statement
+			mysqli_stmt_close($stmt);
+		}
+
+		mysqli_close($acclink);
     }
     
 
