@@ -283,7 +283,7 @@
 
 					<br />
 					<a class="btn btn-primary" data-toggle="modal" data-target="#editDueDate">Change Due Date</a>
-					<a class="btn btn-info" href="update.php?id=<?php echo $ClientID; ?>">Update Balances</a>
+					<a class="btn btn-info" href="runBilling.php?id=<?php echo $ClientID; ?>">Update Balances</a>
 
 					<br />
 					
@@ -331,7 +331,7 @@
 			<div class="modal-dialog">
 				<!-- Modal content-->
 				<div class="modal-content">
-					<form class="form-horizontal" action="/client/clientrecord.php" method="get">
+					<form class="form-horizontal" action="/client/updateClientRecord.php" method="get">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
 							<h2 class="modal-title"><strong>Client Details</strong></h2>
@@ -419,7 +419,7 @@
 						</h4>
 					</div>
 					<div class="modal-footer">
-						<a class="btn btn-danger" href="remove.php?id=<?php echo $ClientID; ?>">Delete</a>
+						<a class="btn btn-danger" href="deleteClient.php?id=<?php echo $ClientID; ?>">Delete</a>
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					</div>
 				</div>
@@ -432,7 +432,7 @@
 			<div class="modal-dialog">
 				<!-- Modal content-->
 				<div class="modal-content">
-					<form class="form-horizontal" action="/client/assign.php" method="get">
+					<form class="form-horizontal" action="/client/updateAssignment.php" method="get">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
 							<h2 class="modal-title"><strong>Assign Asset</strong></h2>
@@ -506,7 +506,7 @@
 			<div class="modal-dialog">
 				<!-- Modal content-->
 				<div class="modal-content">
-					<form class="form-horizontal" action="/client/duedate.php" method="get">
+					<form class="form-horizontal" action="/client/updateDueDate.php" method="get">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
 							<h2 class="modal-title"><strong>Change Due Date</strong></h2>
@@ -542,7 +542,7 @@
 			<div class="modal-dialog">
 				<!-- Modal content-->
 				<div class="modal-content">
-					<form class="form-horizontal" action="/client/payment.php" method="get">
+					<form class="form-horizontal" action="/client/updatePayment.php" method="get">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
 							<h2 class="modal-title"><strong>Add Payment</strong></h2>
@@ -586,7 +586,7 @@
 			<div class="modal-dialog">
 				<!-- Modal content-->
 				<div class="modal-content">
-					<form class="form-horizontal" action="/client/assign.php" method="get">
+					<form class="form-horizontal" action="/client/updateAssignment.php" method="get">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
 							<h2 class="modal-title"><strong>Edit Assignment</strong></h2>
@@ -655,7 +655,7 @@
 						</h4>
 					</div>
 					<div class="modal-footer">
-						<a class="btn btn-danger" href="assign.php?action=delete&aid=<?php echo $_GET["aid"]; ?>&cid=<?php echo $ClientID; ?>">Unassign</a>
+						<a class="btn btn-danger" href="updateAssignment.php?action=delete&aid=<?php echo $_GET["aid"]; ?>&cid=<?php echo $ClientID; ?>">Unassign</a>
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					</div>
 				</div>
@@ -679,7 +679,7 @@
 						
 					</div>
 					<div class="modal-footer">
-						<a class="btn btn-danger" href="payment.php?action=delete&pid=<?php echo $_GET["pid"]; ?>&cid=<?php echo $ClientID; ?>">Delete</a>
+						<a class="btn btn-danger" href="updatePayment.php?action=delete&pid=<?php echo $_GET["pid"]; ?>&cid=<?php echo $ClientID; ?>">Delete</a>
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					</div>
 				</div>
