@@ -418,7 +418,7 @@
 						</h4>
 					</div>
 					<div class="modal-footer">
-						<a class="btn btn-danger" href="/client/action/deleteClient.php?id=<?php echo $ClientID; ?>">Delete</a>
+						<a class="btn btn-danger" href="/client/action/updateClientRecord.php?action=delete&cid=<?php echo $ClientID; ?>">Delete</a>
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					</div>
 				</div>

@@ -10,7 +10,6 @@
 
     $clients = array();
     
-    // Include config file
     require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/accounting.php'; 
     $sql = "SELECT ClientID, FullName, PhoneNumber, Street, City, State, ZIP, MonthlyPrice, MonthlyPrice-Balance, DueDate FROM clients";
     if($stmt = mysqli_prepare($acclink, $sql)){
@@ -93,54 +92,55 @@
                     <input class="form-control" id="myInput" type="text" placeholder="Search..">
                 </div>
             </div><br />
-                <div class="table-responsive">
-                    <table class="table table-hover ">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Phone Number</th>
-                                <th scope="col">Address</th>
-                                <th scope="col">Monthly Due</th>
-                                <th scope="col">Balance</th>
-                                <th scope="col">Due Date</th>
-                            </tr>
-                        </thead>
-                        <tbody id="myTable">
-                            <?php 
-                                foreach ($clients as $client) {
+            
+            <div class="table-responsive">
+                <table class="table table-hover ">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Monthly Due</th>
+                            <th scope="col">Balance</th>
+                            <th scope="col">Due Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTable">
+                        <?php 
+                            foreach ($clients as $client) {
 
-                                    print "\r\n                         <tr onclick=\"window.location='view.php?id=" . $client["ClientID"] . "';\" class=\"";
+                                print "\r\n                         <tr onclick=\"window.location='view.php?id=" . $client["ClientID"] . "';\" class=\"";
 
-                                    $diff = date_diff(date_create($client["DueDate"]),date_create(date("Y-m-d")))->format("%a");
-                                    if ($client["DueDate"] > date("Y-m-d")) 
-                                        $diff = -$diff;
-                                    
-                                    if ($client["Balance"] > 0) {
-                                        if ($diff >= 0)
-                                            print "danger";
-                                        else if ($diff >= -10)
-                                            print "warning";
-                                    } else if (($client["Balance"] <= 0) && ($client["MonthlyPrice"] > 0)) {
-                                        print "success";
-                                    }
-                                    
-
-                                    print  "\">\r\n";
-                                        print "                             <th scope=\"row\">" . $client["ClientID"] . "</th>\r\n";
-                                        print "                             <td>" . $client["FullName"] . "</a></td>\r\n";
-                                        print "                             <td>" . $client["PhoneNumber"] . "</td>\r\n";
-                                        print "                             <td>" . $client["Street"] . " " . $client["City"] . " " . $client["State"] . " " . $client["ZIP"] . "</td>\r\n";
-                                        print "                             <td>$" . $client["MonthlyPrice"] . "</td>\r\n";
-                                        print "                             <td>$" . $client["Balance"] . "</td>\r\n";
-                                        print "                             <td>" . $client["DueDate"] . "</td>\r\n";
-                                    print "                         </tr>\r\n";
+                                $diff = date_diff(date_create($client["DueDate"]),date_create(date("Y-m-d")))->format("%a");
+                                if ($client["DueDate"] > date("Y-m-d")) 
+                                    $diff = -$diff;
+                                
+                                if ($client["Balance"] > 0) {
+                                    if ($diff >= 0)
+                                        print "danger";
+                                    else if ($diff >= -10)
+                                        print "warning";
+                                } else if (($client["Balance"] <= 0) && ($client["MonthlyPrice"] > 0)) {
+                                    print "success";
                                 }
                                 
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
+
+                                print  "\">\r\n";
+                                    print "                             <th scope=\"row\">" . $client["ClientID"] . "</th>\r\n";
+                                    print "                             <td>" . $client["FullName"] . "</a></td>\r\n";
+                                    print "                             <td>" . $client["PhoneNumber"] . "</td>\r\n";
+                                    print "                             <td>" . $client["Street"] . " " . $client["City"] . " " . $client["State"] . " " . $client["ZIP"] . "</td>\r\n";
+                                    print "                             <td>$" . $client["MonthlyPrice"] . "</td>\r\n";
+                                    print "                             <td>$" . $client["Balance"] . "</td>\r\n";
+                                    print "                             <td>" . $client["DueDate"] . "</td>\r\n";
+                                print "                         </tr>\r\n";
+                            }
+                            
+                        ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="modal fade" id="addClient" role="dialog">
