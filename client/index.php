@@ -87,7 +87,6 @@
             <div class="row">
 
                 <div class="col-md-2 text-center">
-                    <?php //<a class="btn btn-primary btn-block" href="add.php">Add a client</a> ?>
                     <a class="btn btn-primary btn-block" data-toggle="modal" data-target="#addClient">Add Client</a>
                 </div>
                 <div class="col-md-10">
@@ -148,7 +147,7 @@
 			<div class="modal-dialog">
 				<!-- Modal content-->
 				<div class="modal-content">
-					<form class="form-horizontal" action="/client/updateClientRecord.php" method="get">
+					<form class="form-horizontal" action="/client/action/updateClientRecord.php" method="get">
 
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
