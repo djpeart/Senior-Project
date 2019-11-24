@@ -99,40 +99,43 @@
 		<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 		<title>Register</title>
 		<link rel="stylesheet" href="/css/bootstrap.css">
-		<style type="text/css">
-			body{ font: 14px sans-serif; }
-			.wrapper{ width: 350px; padding: 20px; margin:0 auto }
-		</style>
+		<style type="text/css">body{ font: 14px sans-serif; }</style>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 	</head>
 	<body>
-		<div class="wrapper">
-			<h2>Sign Up</h2>
-			<p>Fill this form to request an account.</p>
-			<p>Please note that you will be able to sign in, but you won't have access to anything yet.</p>
-			<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-			<div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-				<label>Username</label>
-				<input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
-				<span class="help-block"><?php echo $username_err; ?></span>
-			</div> 
-			<div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-				<label>Password</label>
-				<input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
-				<span class="help-block"><?php echo $password_err; ?></span>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4"></div>
+				
+				<div class="col-md-4" >
+					<h2>Sign Up</h2>
+					<p>Fill this form to request an account.</p>
+					<p>Please note that you will be able to sign in, but you won't have access to anything yet.</p>
+					<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+					<div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
+						<label>Username</label>
+						<input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
+						<span class="help-block"><?php echo $username_err; ?></span>
+					</div> 
+					<div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+						<label>Password</label>
+						<input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
+						<span class="help-block"><?php echo $password_err; ?></span>
+					</div>
+					<div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
+						<label>Confirm Password</label>
+						<input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>">
+						<span class="help-block"><?php echo $confirm_password_err; ?></span>
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-primary" value="Submit">
+						<input type="reset" class="btn btn-default" value="Clear">
+					</div>
+					<p>Once you've made your account, <a href="login.php">login here</a>.</p>
+					</form>
+				</div>
 			</div>
-			<div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
-				<label>Confirm Password</label>
-				<input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>">
-				<span class="help-block"><?php echo $confirm_password_err; ?></span>
-			</div>
-			<div class="form-group">
-				<input type="submit" class="btn btn-primary" value="Submit">
-				<input type="reset" class="btn btn-default" value="Clear">
-			</div>
-			<p>Once you've made your account, <a href="login.php">login here</a>.</p>
-			</form>
 		</div> 
 	</body>
 </html>

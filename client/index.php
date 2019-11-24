@@ -80,7 +80,7 @@
             </nav>
             
            <div class="text-center">
-                <h1>Accounts Receivable</h1>
+                <h1>Clients View</h1>
             </div>
             
             <br><br>
