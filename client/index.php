@@ -67,7 +67,7 @@
                     </div>
                     <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">
-                            <li><a href="/welcome.php">Welcome</a></li>
+                            <li><a href="/">Welcome</a></li>
                             <li class="active"><a href="/client">Clients</a></li>
                             <li><a href="/asset">Assets</a></li>
                         </ul>

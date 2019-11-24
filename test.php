@@ -38,6 +38,7 @@
 		</head>
 	<body>
 
+		<a href="/">clicky</a>
 	
         <div class="container">
 			<div class="row">

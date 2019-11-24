@@ -6,7 +6,7 @@
 	// Check if the user is already logged in, if yes then redirect him to welcome page
 	include $_SERVER['DOCUMENT_ROOT'] . '/account/accountActions.php';
 	if( isLoggedIn() ){
-		header("location: /welcome.php");
+		header("location: /");
 		exit;
 	}
 
@@ -69,7 +69,7 @@
 								$_SESSION["permlevel"] = $permlevel;
 
 								// Redirect user to welcome page
-								header('location: /welcome.php');
+								header('location: /');
 							} else{
 								// Display an error message if password is not valid
 								$password_err = "The password you entered was not valid.";
@@ -113,21 +113,21 @@
 					<h2>Login</h2>
 					<p>Please fill in your credentials to login.</p>
 					<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-					<div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-						<label>Username</label>
-						<input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
-						<span class="help-block"><?php echo $username_err; ?></span>
-					</div> 
-					<div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-						<label>Password</label>
-						<input type="password" name="password" class="form-control">
-						<span class="help-block"><?php echo $password_err; ?></span>
-					</div>
-					<div class="form-group">
-						<input type="submit" class="btn btn-primary" value="Login">
-					</div>
-					<p>Want to see my project? <a href="register.php">Request access</a>.</p>
-					<?php //echo $_SERVER['DOCUMENT_ROOT'];?>
+						<div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
+							<label>Username</label>
+							<input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
+							<span class="help-block"><?php echo $username_err; ?></span>
+						</div> 
+						<div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+							<label>Password</label>
+							<input type="password" name="password" class="form-control">
+							<span class="help-block"><?php echo $password_err; ?></span>
+						</div>
+						<div class="form-group">
+							<input type="submit" class="btn btn-primary" value="Login">
+							<a class="btn btn-default" href="/">Back</a><br /><br />
+						</div>
+						<p>Want to see my project? <a href="register.php">Request access</a>.</p>
 					</form>
 				</div>
 

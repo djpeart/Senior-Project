@@ -130,7 +130,7 @@
 					</div>
 					<div class="form-group">
 						<input type="submit" class="btn btn-primary" value="Submit">
-						<input type="reset" class="btn btn-default" value="Clear">
+						<a class="btn btn-default" href="/">Back</a><br /><br />
 					</div>
 					<p>Once you've made your account, <a href="login.php">login here</a>.</p>
 					</form>
