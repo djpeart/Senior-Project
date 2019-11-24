@@ -50,21 +50,28 @@
         <?php requirePermissionLevel(1); ?>
         <div class="container">
             <br><nav class="navbar navbar-inverse">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<div class="navbar-brand" href="">Dan's Senior Project</div>
-					</div>
-					<ul class="nav navbar-nav">
-						<li><a href="/welcome.php">Welcome</a></li>
-						<li><a href="/client">Clients</a></li>
-						<li class="active"><a href="/asset">Assets</a></li>
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="/account/reset-password.php"><span class="glyphicon glyphicon-user"></span> Change Password</a></li>
-						<li><a href="/account/logout.php"><span class="glyphicon glyphicon-log-in"></span> Sign Out</a></li>
-					</ul>
-				</div>
-			</nav>
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>                        
+                        </button>
+                        <div class="navbar-brand" href="">Dan's Senior Project</div>
+                    </div>
+                    <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                            <li><a href="/welcome.php">Welcome</a></li>
+                            <li><a href="/client">Clients</a></li>
+                            <li class="active"><a href="/asset">Assets</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="/account/reset-password.php"><span class="glyphicon glyphicon-user"></span> Change Password</a></li>
+                            <li><a href="/account/logout.php"><span class="glyphicon glyphicon-log-in"></span> Sign Out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
 
             
             <div class="text-center">
