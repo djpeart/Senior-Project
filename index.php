@@ -15,10 +15,10 @@
 		<head>
 			<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 			<title>Welcome!</title>
-			<link rel="stylesheet" href="/css/bootstrap.css">
-			<style type="text/css">body{ font: 14px sans-serif; text-align: center; }</style>
+			<style type="text/css">body{ font: 14px sans-serif;}</style>
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		</head>
 	<body>
 		
@@ -42,12 +42,10 @@
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
 							<?php
-								if ($_SESSION["loggedin"]) {
+								if ( isLoggedIn() ) {
 									print "<li><a href=\"/account/reset-password.php\"><span class=\"glyphicon glyphicon-user\"></span> Change Password</a></li>\r\n"
 										. "<li><a href=\"/account/logout.php\"><span class=\"glyphicon glyphicon-log-in\"></span> Sign Out</a></li>";
-								}
-
-								if ( !($_SESSION["loggedin"]) || empty($_SESSION["loggedin"]) ) {
+								} else {
 									print "<li><a href=\"/account/register.php\"><span class=\"glyphicon glyphicon-user\"></span>Register</a></li>\r\n"
 										. "<li><a href=\"/account/login.php\"><span class=\"glyphicon glyphicon-log-in\"></span>Sign In</a></li>";
 								}

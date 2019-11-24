@@ -9,8 +9,6 @@
 		header("location: /");
 		exit;
 	}
-
-	//include $_SERVER['DOCUMENT_ROOT'] . '/log/logActions.php';
 	
 	// Include config file
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/databases/login.php';
@@ -98,10 +96,10 @@
 	<head>
 		<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 		<title>Login</title>
-		<link rel="stylesheet" href="/css/bootstrap.css">
-		<style type="text/css">body{ font: 14px sans-serif; }</style>
+		<style type="text/css">body{ font: 14px sans-serif;}</style>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 	</head>
 	<body>
 		<div class="container">

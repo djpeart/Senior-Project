@@ -1,4 +1,7 @@
 <?php 
+
+    include $_SERVER['DOCUMENT_ROOT'] . '/alerts.php';
+
     function isLoggedIn() {
         return (isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == true);
     }
@@ -26,7 +29,7 @@
     function requirePermissionLevel($n) {
         updatePermissions();
         if ($_SESSION["permlevel"] <$n) {
-            print "<pre class=\"alert-warning\"><h1> You do not have permission to view this content</h1></pre>";
+            alert("alert-warning","Error!","You do not have permission to view this content");
             exit;
         }
     }
