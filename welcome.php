@@ -31,7 +31,7 @@
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="#">Welcome</a></li>
 						<li><a href="/client">Clients</a></li>
-						<li><a href="/asset/view.php">Assets</a></li>
+						<li><a href="/asset">Assets</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="/account/reset-password.php"><span class="glyphicon glyphicon-user"></span> Change Password</a></li>

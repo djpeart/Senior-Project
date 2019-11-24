@@ -153,7 +153,7 @@
 					<ul class="nav navbar-nav">
 							<li><a href="/welcome.php">Welcome</a></li>
 							<li class="active"><a href="/client">Clients</a></li>
-							<li><a href="/asset/view.php">Assets</a></li>
+							<li><a href="/asset">Assets</a></li>
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li><a href="/account/reset-password.php"><span class="glyphicon glyphicon-user"></span> Change Password</a></li>
@@ -686,17 +686,17 @@
 		</div>
 
 
-    </body>
-	<?php 
-		if (isset($_GET["aid"])) {
-			print "<script type=\"text/javascript\"> $('#editAssignment').modal('show');</script>";
-		}
+    
+		<?php 
+			if (isset($_GET["aid"])) {
+				print "<script type=\"text/javascript\"> $('#editAssignment').modal('show');</script>";
+			}
 
-		if (isset($_GET["pid"])) {
-			print "<script type=\"text/javascript\"> $('#deletePayment').modal('show');</script>";
-		}
-	?>
-
+			if (isset($_GET["pid"])) {
+				print "<script type=\"text/javascript\"> $('#deletePayment').modal('show');</script>";
+			}
+		?>
+	</body>
 </html>
 
 
