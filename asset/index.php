@@ -203,7 +203,7 @@
 			<div class="modal-dialog">
 				<!-- Modal content-->
 				<div class="modal-content">
-					<form class="form-horizontal" action="/asset/action/updateClientRecord.php" method="get">
+					<form class="form-horizontal" action="/asset/action/updateAssetRecord.php" method="get">
 
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
