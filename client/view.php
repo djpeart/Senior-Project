@@ -412,7 +412,7 @@
 					</div>
 					<div class="modal-body">
 						<h4>
-							This will peremenenantly remove <strong><?php echo $FullName; ?></strong> from the system.
+							This will permanently remove <strong><?php echo $FullName; ?></strong> from the system.
 							<br><br>
 							<strong>This cannot be undone.</strong>
 						</h4>
