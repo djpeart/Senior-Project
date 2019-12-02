@@ -142,19 +142,19 @@
                         <div class="modal-body">
 
                             <input type="hidden" name="action" value="edit">
-                            <input type="hidden" name="aid" value="<?php echo $assets[$_GET["aid"]]["AssetID"]; ?>">
+                            <input type="hidden" name="aid" value="<?php echo isset($_GET["aid"]) ? $assets[$_GET["aid"]]["AssetID"] : ""; ?>">
                                 
                             <div class="form-group">
                                 <label class="control-label col-sm-2">Name</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="Name" class="form-control" value="<?php echo $assets[$_GET["aid"]]["Name"]; ?>">
+                                    <input type="text" name="Name" class="form-control" value="<?php echo isset($_GET["aid"]) ? $assets[$_GET["aid"]]["Name"] : ""; ?>">
                                 </div> 
                             </div> 
 
                             <div class="form-group">
                                 <label class="control-label col-sm-2">Price Per Month</label>
                                 <div class="col-sm-10">
-                                    <input type="number" step="any" min=0 name="Price" class="form-control" value="<?php echo $assets[$_GET["aid"]]["Price"]; ?>">
+                                    <input type="number" step="any" min=0 name="Price" class="form-control" value="<?php echo isset($_GET["aid"]) ? $assets[$_GET["aid"]]["Price"] : ""; ?>">
                                 </div> 
                             </div>
 
