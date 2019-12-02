@@ -46,8 +46,8 @@
 									print "<li><a href=\"/account/reset-password.php\"><span class=\"glyphicon glyphicon-user\"></span> Change Password</a></li>\r\n"
 										. "<li><a href=\"/account/logout.php\"><span class=\"glyphicon glyphicon-log-in\"></span> Sign Out</a></li>";
 								} else {
-									print "<li><a href=\"/account/register.php\"><span class=\"glyphicon glyphicon-user\"></span>Register</a></li>\r\n"
-										. "<li><a href=\"/account/login.php\"><span class=\"glyphicon glyphicon-log-in\"></span>Sign In</a></li>";
+									print "<li><a href=\"/account/register.php\"><span class=\"glyphicon glyphicon-user\"></span> Register</a></li>\r\n"
+										. "<li><a href=\"/account/login.php\"><span class=\"glyphicon glyphicon-log-in\"></span> Sign In</a></li>";
 								}
 								
 								
@@ -58,12 +58,56 @@
             </nav>
 
 			<div class="jumbotron">
-				<h1><h1>Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Welcome to my Senior Project site.</h1></h1>
-				<p>Bootstrap is the most popular HTML, CSS, and JS framework for developing
-				responsive, mobile-first projects on the web.</p>
+
+				<h2>Hi<?php echo (isset($_SESSION["username"])) ? ", <b>" . htmlspecialchars($_SESSION["username"]) . "</b>" : "" ?>. My Name is Dan Peart.</h2>
+				<h1>Welcome to my Senior Project site.</h1><br />
+
 			</div>
-				<p>This is some text.</p>
-				<p>This is another text.</p>
+
+			<h2><b>Who are you?</b></h2>
+			<h4>
+				<p>
+					I am a senior at Waynesburg University studying Computer Science.
+				</p>
+			</h4>
+
+			<h2><b>What's this site?</b></h2>
+			<h4>
+				<p>
+					For my senior project, I decided to try my hand at something different. I wanted to make something useful. That's where this site came from.
+				</p>
+				<p>
+					This site is meant to be used by a small business that rents things out to customers. 
+				</p>
+			</h4>
+
+			<h2><b>What can it do?</b></h2>
+			<h4>
+				<p>
+					This website has the following features:
+
+					<ul>
+						<li></li>
+						<li>Access the system from any device with a modern web browser that supports PHP</li>
+						<li>Log in and view what the user has been permissioned to view</li>
+						<li>Perform data entry, edit records, and view records for customer information, incoming payments, and assets.</li>
+						<li>Check account balances, amounts due</li>
+					</ul>
+				</p>
+
+				<p>If you'd like to see how it works, feel free to check out my <a href="https://github.com/djpeart/Senior-Project">Github page</a>
+			</h4>
+
+			<h2><b>Why'd you make this?</b></h2>
+			<h4>
+				<p>
+					a wbsite
+				</p>
+			</h4>
+
+			
+			
+
 			</div>
 		</div>
 
