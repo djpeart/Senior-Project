@@ -47,7 +47,6 @@
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		</head>
 	<body>
-        <?php requirePermissionLevel(1); ?>
         <div class="container">
             <br><nav class="navbar navbar-inverse">
                 <div class="container-fluid">
@@ -78,6 +77,8 @@
                 <h1>Asset View</h1>
             </div>
 
+            <?php requirePermissionLevel(1); ?>
+            
             <br><br>
             <div class="row">
 
