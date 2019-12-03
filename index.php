@@ -49,8 +49,6 @@
 									print "<li><a href=\"/account/register.php\"><span class=\"glyphicon glyphicon-user\"></span> Register</a></li>\r\n"
 										. "<li><a href=\"/account/login.php\"><span class=\"glyphicon glyphicon-log-in\"></span> Sign In</a></li>";
 								}
-								
-								
 							?>
                         </ul>
                     </div>
@@ -74,10 +72,17 @@
 			<h2><b>What's this site?</b></h2>
 			<h4>
 				<p>
+					This site is meant to be used by a small business that rents things out to customers. It keeps track of customers and the buisness's assets, keeps track of who has what, and gets their total bills.
+				</p>
+			</h4>
+
+			<h2><b>Why'd you make this?</b></h2>
+			<h4>
+				<p>
 					For my senior project, I decided to try my hand at something different. I wanted to make something useful. That's where this site came from.
 				</p>
 				<p>
-					This site is meant to be used by a small business that rents things out to customers. 
+					I didn't really know much about PHP or web development at first, so I learned a lot in the creation of this site.
 				</p>
 			</h4>
 
@@ -87,30 +92,20 @@
 					This website has the following features:
 
 					<ul>
-						<li></li>
-						<li>Access the system from any device with a modern web browser that supports PHP</li>
+						<li>Access the system from any device with a modern web browser (its mobile friendly!)</li>
 						<li>Log in and view what the user has been permissioned to view</li>
-						<li>Perform data entry, edit records, and view records for customer information, incoming payments, and assets.</li>
-						<li>Check account balances, amounts due</li>
+						<li>Create and update records for customer information, payments, and assets.</li>
+						<li>See it all in an easy to read format</li>
 					</ul>
 				</p>
 
 				<p>If you'd like to see how it works, feel free to check out my <a href="https://github.com/djpeart/Senior-Project">Github page</a>
 			</h4>
 
-			<h2><b>Why'd you make this?</b></h2>
-			<h4>
-				<p>
-					a wbsite
-				</p>
-			</h4>
+			<br /><br /><br /><br /><br />
 
 			
-			
-
 			</div>
 		</div>
-
-		
 	</body>
 </html>
