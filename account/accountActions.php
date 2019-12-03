@@ -1,6 +1,6 @@
 <?php 
 
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/alerts.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/account/alerts.php';
 
     function isLoggedIn() {
         return (isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == true);
