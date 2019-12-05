@@ -561,7 +561,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-2">Date Received</label>
 								<div class="col-sm-10">
-									<input required type="date" name="Date" class="form-control">
+									<input required type="date" name="Date" class="form-control" value="<?php echo date("Y-m-d")?>">
 								</div>
 							</div>
 
