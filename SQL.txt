@@ -1,0 +1,57 @@
+delimiter //
+
+CREATE PROCEDURE bill ()
+	BEGIN
+		UPDATE clients SET Balance = Balance - MonthlyPrice, DueDate = DueDate + INTERVAL 1 MONTH WHERE Balance >= MonthlyPrice AND DueDate <= NOW();
+	END//
+	
+CREATE EVENT bill_daily
+	ON SCHEDULE EVERY 1 DAY
+	STARTS '2019-10-28 01:00:00'
+	DO CALL bill();//
+
+
+CREATE PROCEDURE updateMonthlyCosts()
+	BEGIN
+		UPDATE clients SET MonthlyPrice=0;
+		UPDATE clients INNER JOIN (SELECT assignments.ClientID, SUM(Price) as Total FROM assignments INNER JOIN assets ON assignments.AssetID = assets.AssetID AND Active = 1 GROUP BY assignments.ClientID) AS src ON src.ClientID=clients.ClientID SET clients.MonthlyPrice = Total;
+	END//
+	
+
+CREATE TRIGGER gmp_au AFTER UPDATE ON assignments
+	FOR EACH ROW
+	BEGIN 
+		call updateMonthlyCosts(); 
+	END;//
+	
+CREATE TRIGGER gmp_ai AFTER INSERT ON assignments
+	FOR EACH ROW
+	BEGIN 
+		call updateMonthlyCosts(); 
+	END;//
+	
+CREATE TRIGGER gmp_ad AFTER DELETE ON assignments
+	FOR EACH ROW
+	BEGIN 
+		call updateMonthlyCosts(); 
+	END;//
+	
+CREATE TRIGGER amp_au AFTER UPDATE ON assets
+	FOR EACH ROW
+	BEGIN 
+		call updateMonthlyCosts(); 
+	END;//
+	
+CREATE TRIGGER amp_ai AFTER INSERT ON assets
+	FOR EACH ROW
+	BEGIN 
+		call updateMonthlyCosts(); 
+	END;//
+	
+CREATE TRIGGER amp_ad AFTER DELETE ON assets
+	FOR EACH ROW
+	BEGIN 
+		call updateMonthlyCosts(); 
+	END;//
+	
+delimiter ;
