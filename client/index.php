@@ -120,7 +120,7 @@
                                 if ($client["Balance"] > 0) {
                                     if ($diff >= 0)
                                         print "danger";
-                                    else if ($diff >= -10)
+                                    else if ($diff >= -7)
                                         print "warning";
                                 } else if (($client["Balance"] <= 0) && ($client["MonthlyPrice"] > 0)) {
                                     print "success";
