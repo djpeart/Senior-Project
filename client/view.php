@@ -189,10 +189,6 @@
 									<td><?php echo $PhoneNumber; ?></td>
 								</tr>
 								<tr>
-									<th scope="row">Address</th>
-									<td><?php echo $PhoneNumber; ?></td>
-								</tr>
-								<tr>
 									<th scope="row">Street</th>
 									<td><?php echo $Street; ?></td>
 								</tr>
