@@ -190,7 +190,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-2">State</label>
 								<div class="col-sm-10">
-									<input required type="text" name="State" class="form-control">
+									<input required type="text" pattern="[a-zA-Z]{2}" placeholder="PA" name="State" class="form-control">
 								</div>
 							</div>
 
