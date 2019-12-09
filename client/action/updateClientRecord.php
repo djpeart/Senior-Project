@@ -1,7 +1,7 @@
 <?php  ini_set('display_errors',1); error_reporting(E_ALL);
     session_start();
 
-	include $_SERVER['DOCUMENT_ROOT'] . '/alerts.php';
+	include $_SERVER['DOCUMENT_ROOT'] . '/account/alerts.php';
 	// Check if the user is already logged in, if yes then redirect him to welcome page
 	include $_SERVER['DOCUMENT_ROOT'] . '/account/accountActions.php';
 	if( !isLoggedIn() ){
@@ -41,7 +41,7 @@
 					if(mysqli_stmt_execute($stmt)){
 						header("location: /client");
 					} else{
-						echo "Oops! Something went wrong. Please try again later.";
+						echo "Oops! Something went wrong. Please try again later. Error in addition.";
 					}
 				}
 				
