@@ -29,7 +29,7 @@
     function requirePermissionLevel($n) {
         updatePermissions();
         if ($_SESSION["permlevel"] <$n) {
-            alert("alert-warning","Error!","You do not have permission to view this content");
+            print("You do not have permission to view this content");
             exit;
         }
     }

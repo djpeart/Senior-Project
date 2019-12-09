@@ -76,7 +76,7 @@
             </div>
 
             <?php if ($_SESSION["permlevel"] < 3) {
-                alert("alert-warning","Error!","You do not have permission to view this content");
+                print("You do not have permission to view this content");
                  exit;
             } ?>
             
